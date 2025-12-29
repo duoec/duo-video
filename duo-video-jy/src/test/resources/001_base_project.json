@@ -1,0 +1,245 @@
+{
+  "id": 296653948753219560,
+  "projectName": "001_base_project",
+  "scripts": [
+    {
+      "segments": [
+        {
+          "id": 296653948753219565,
+          "time": {
+            "start": 0,
+            "duration": 3000
+          },
+          "materialId": 535010997887571096,
+          "type": "image",
+          "layoutIndex": 1000,
+          "refs": {},
+          "speed": 100,
+          "zoom": {
+            "x": 7500,
+            "y": 7500
+          },
+          "point": {
+            "x": 0,
+            "y": -1112
+          },
+          "rotate": -90,
+          "visible": true,
+          "horizontal": true,
+          "vertical": true
+        },
+        {
+          "id": 296653948753219560,
+          "time": {
+            "start": 0,
+            "duration": 3000
+          },
+          "materialId": 535010997887571021,
+          "materialStart": 10000,
+          "type": "video",
+          "layoutIndex": 1000,
+          "refs": {},
+          "speed": 100,
+          "zoom": {
+            "x": 10000,
+            "y": 10000
+          },
+          "rotate": 90,
+          "visible": true,
+          "horizontal": true,
+          "vertical": true,
+          "volume": -100
+        },
+        {
+          "id": 296653948753219568,
+          "time": {
+            "start": 0,
+            "duration": 3000
+          },
+          "materialId": 535010997887571025,
+          "materialStart": 10000,
+          "type": "audio",
+          "layoutIndex": 1000,
+          "refs": {},
+          "speed": 100,
+          "visible": true,
+          "volume": -50
+        },
+        {
+          "id": 296653948753219561,
+          "time": {
+            "start": 3000,
+            "duration": 5000
+          },
+          "materialId": 535010997887571046,
+          "materialStart": 10000,
+          "type": "video",
+          "layoutIndex": 1000,
+          "refs": {},
+          "speed": 100,
+          "zoom": {
+            "x": 10000,
+            "y": 10000
+          },
+          "rotate": 0,
+          "visible": true,
+          "volume": 0
+        },
+        {
+          "id": 296653948753219562,
+          "time": {
+            "start": 10,
+            "duration": 1990
+          },
+          "materialId": 535010997887571047,
+          "materialStart": 0,
+          "type": "subtitle",
+          "layoutIndex": 1000,
+          "refs": {},
+          "speed": 100,
+          "point": {
+            "x": 0,
+            "y": -1000
+          },
+          "rotate": 0
+        },
+        {
+          "id": 296653948753219563,
+          "time": {
+            "start": 2001,
+            "duration": 999
+          },
+          "materialId": 535010997887571048,
+          "materialStart": 0,
+          "type": "subtitle",
+          "layoutIndex": 1000,
+          "refs": {},
+          "point": {
+            "x": 0,
+            "y": -800
+          },
+          "rotate": 0
+        },
+        {
+          "id": 296653948753219503,
+          "time": {
+            "start": 0,
+            "duration": 2000
+          },
+          "materialId": 535010997887571000,
+          "type": "text",
+          "layoutIndex": 1000,
+          "zoom": {
+            "x": 5000,
+            "y": 5000
+          },
+          "point": {
+            "x": 0,
+            "y": 1400
+          }
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "id": 535010997887571096,
+      "url": "https://video-ai-yk.oss-cn-shanghai.aliyuncs.com/403/MaterialManagement/c71d0cbc8a3b3f25b3ae7cd99bbc70e0.png",
+      "type": "image"
+    },
+    {
+      "id": 535010997887571046,
+      "url": "https://video-ai-yk.oss-cn-shanghai.aliyuncs.com/535/material/62734cc60797db93bbacaa25507a2f45_low.MOV",
+      "type": "video",
+      "time": {
+        "start": 0,
+        "duration": 14264
+      }
+    },
+    {
+      "id": 535010997887571021,
+      "url": "https://video-ai-yk.oss-cn-shanghai.aliyuncs.com/463/MaterialManagement/8a1243d1098951010b479d3f3f76003b_low.MP4",
+      "type": "video",
+      "time": {
+        "start": 0,
+        "duration": 86586
+      }
+    },
+    {
+      "id": 535010997887571025,
+      "url": "https://video-ai-yk.oss-cn-shanghai.aliyuncs.com/ai/bgm/ce0524c8efaddf985c36335b5658041c.mp3",
+      "type": "audio",
+      "time": {
+        "start": 170,
+        "duration": 126869
+      }
+    },
+    {
+      "id": 535010997887571047,
+      "type": "text",
+      "text": "测试中文字幕",
+      "textType": "subtitle",
+      "style": {
+        "fontSize": 14,
+        "bold": false,
+        "italic": false,
+        "textAlign": 1,
+        "fontName": "微软雅黑",
+        "fillColor": "#FFFFFF",
+        "strokeColor": "#FF0000",
+        "strokeWidth": 10
+      },
+      "words": [
+        {
+          "index": 2,
+          "length": 2,
+          "fontSize": 16,
+          "fillColor": "#00FFFF",
+          "strokeColor": "#0000FF",
+          "strokeWidth": 20
+        },
+        {
+          "index": 3,
+          "length": 2,
+          "fontSize": 18,
+          "fillColor": "#FFFF00",
+          "backgroundColor": "#FF0000"
+        }
+      ]
+    },
+    {
+      "id": 535010997887571048,
+      "type": "text",
+      "text": "你真好呀",
+      "textType": "subtitle",
+      "style": {
+        "fontSize": 16,
+        "bold": true,
+        "italic": true,
+        "textAlign": 1,
+        "fontName": "抖音美好体",
+        "fillColor": "#FFFFFF",
+        "strokeColor": "#FF0000",
+        "strokeWidth": 10
+      },
+      "words": [
+        {
+          "index": 1,
+          "length": 2,
+          "flowerId": 7398455339340827941
+        }
+      ]
+    },
+    {
+      "id": 535010997887571000,
+      "type": "textTemplate",
+      "texts": ["非常棒"],
+      "resourceId": 7513478828573003033
+    }
+  ],
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "createTime": 1765260501,
+  "updateTime": 1765260501
+}

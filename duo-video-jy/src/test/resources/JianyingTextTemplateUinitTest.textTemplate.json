@@ -1,0 +1,193 @@
+{
+  "id" : "418cfabe-1808-449a-9c82-a0925a7580a0",
+  "type" : "text_template",
+  "name" : "运动教程-很棒2",
+  "path" : "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/text_template/7311954538750151999",
+  "platform" : "all",
+  "resources" : [ {
+    "panel" : "default",
+    "path" : "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/default/7311557529761303860",
+    "resource_id" : "7311557529761303860",
+    "source_platform" : 1
+  }, {
+    "panel" : "sticker",
+    "path" : "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/sticker/6724920136056181256",
+    "resource_id" : "6724920136056181256",
+    "source_platform" : 0
+  }, {
+    "panel" : "default",
+    "path" : "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/default/7311252046001278227",
+    "resource_id" : "7311252046001278227",
+    "source_platform" : 1
+  }, {
+    "panel" : "sticker",
+    "path" : "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/sticker/6764189482871689742",
+    "resource_id" : "6764189482871689742",
+    "source_platform" : 0
+  }, {
+    "panel" : "sticker",
+    "path" : "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/sticker/6887482184844710413",
+    "resource_id" : "6887482184844710413",
+    "source_platform" : 0
+  }, {
+    "panel" : "fonts",
+    "path" : "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/fonts/庞门正道标题体.ttf",
+    "resource_id" : "7265611148060267045",
+    "source_platform" : 0
+  }, {
+    "panel" : "flower",
+    "path" : "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/flower/7311952196956917033",
+    "resource_id" : "7311952196956917033",
+    "source_platform" : 1
+  }, {
+    "panel" : "text",
+    "path" : "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/text/7043778124760224292",
+    "resource_id" : "7043778124760224292",
+    "source_platform" : 0
+  } ],
+  "version" : "1.0.0",
+  "preRendered" : false,
+  "aiEmoji" : false,
+  "lyricEffect" : false,
+  "unevenAnimation" : false,
+  "dynamicBuild" : false,
+  "aigc_config" : {
+    "model" : "",
+    "prompt" : "",
+    "seed" : 0,
+    "font_item" : {
+      "id" : "A097A1BF-5A02-42D2-992E-18F489E1B84D",
+      "path" : "",
+      "title" : "",
+      "category_id" : "",
+      "category_name" : "",
+      "effect_id" : "",
+      "file_uri" : "",
+      "request_id" : "",
+      "resource_id" : "",
+      "source_platform" : 0,
+      "team_id" : ""
+    }
+  },
+  "aigc_type" : "none",
+  "category_id" : "10577",
+  "category_name" : "10577",
+  "check_flag" : 7,
+  "effect_id" : "7311954538750151999",
+  "formula_id" : "",
+  "is_3d" : false,
+  "is_pre_rendered" : false,
+  "non_text_info_resources" : [ {
+    "name" : "47339986-3BEB-422D-9610-76CE664B179A",
+    "type" : "sticker",
+    "attach_info" : {
+      "clip" : {
+        "alpha" : 1.0,
+        "flip" : {
+          "horizontal" : false,
+          "vertical" : false
+        },
+        "rotation" : 0.0,
+        "scale" : {
+          "x" : 0.195091977715492,
+          "y" : 0.195091187953949
+        },
+        "transform" : {
+          "x" : -236.444091796875,
+          "y" : 38.731155395507805
+        }
+      },
+      "duration" : 2000000,
+      "original_size_height" : 540.0,
+      "original_size_width" : 442.0,
+      "start_time" : 0
+    },
+    "shape_param" : {
+      "points" : [ ],
+      "shape_type" : 0
+    }
+  }, {
+    "name" : "CC36BFBA-4A33-4B85-B532-4D9B325DF5EC",
+    "type" : "sticker",
+    "attach_info" : {
+      "clip" : {
+        "alpha" : 1.0,
+        "flip" : {
+          "horizontal" : false,
+          "vertical" : false
+        },
+        "rotation" : 0.0,
+        "scale" : {
+          "x" : 0.912343204021454,
+          "y" : 0.885956704616547
+        },
+        "transform" : {
+          "x" : 18.823638916015625,
+          "y" : -76.28270721435547
+        }
+      },
+      "duration" : 2000000,
+      "original_size_height" : 120.0,
+      "original_size_width" : 540.0,
+      "start_time" : 0
+    },
+    "shape_param" : {
+      "points" : [ ],
+      "shape_type" : 0
+    }
+  } ],
+  "request_id" : "20251218184455BAFF581973DBA0345200",
+  "resource_id" : "7311954538750151999",
+  "source_platform" : 1,
+  "text_info_resources" : [ {
+    "attach_info" : {
+      "clip" : {
+        "alpha" : 1.0,
+        "flip" : {
+          "horizontal" : false,
+          "vertical" : false
+        },
+        "rotation" : -8.755011558532715,
+        "scale" : {
+          "x" : 2.858286380767822,
+          "y" : 2.85828709602356
+        },
+        "transform" : {
+          "x" : 37.375152587890625,
+          "y" : -6.822769165039062
+        }
+      },
+      "duration" : 2000000,
+      "original_size_height" : 87.5,
+      "original_size_width" : 211.9402618408203,
+      "start_time" : 0
+    },
+    "extra_material_refs" : [ "fc6bd32f-fcfb-4e45-8eb3-14cbcb479a5b", "5933fab1-9cbe-4bf7-aadf-2b4d1e96647a" ],
+    "text_material_id" : ""
+  } ],
+  "text_template_preset_resource_id" : "",
+  "text_to_audio_ids" : [ ],
+  "material_text_ranges" : [ ],
+  "is_uneven_animation" : false,
+  "origin_word_info" : {
+    "words" : [ ],
+    "text" : "",
+    "end_time" : 0,
+    "keyword_ranges" : [ ],
+    "start_time" : 0
+  },
+  "merge_content" : "",
+  "is_lyric_effect" : false,
+  "is_ai_emoji" : false,
+  "text_template_resource_type" : "text_template",
+  "lyric_group_id" : "",
+  "is_dynamic_build" : false,
+  "current_word_info" : {
+    "words" : [ ],
+    "text" : "",
+    "end_time" : 0,
+    "keyword_ranges" : [ ],
+    "start_time" : 0
+  },
+  "third_resource_id" : ""
+}
