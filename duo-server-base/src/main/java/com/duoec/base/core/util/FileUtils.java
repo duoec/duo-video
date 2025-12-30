@@ -12,9 +12,20 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
 
 public class FileUtils {
     private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
+
+    private static final Set<String> IMAGE_FILES = Set.of(
+            "jpg", "png", "jpeg", "heic", "gif"
+    );
+
+    private static final Set<String> VIDEO_FILE_TYPE = Set.of(
+            "mp4",
+            "mov",
+            "avi"
+    );
 
     public static String getFileName(String url) {
         if (url == null) {
@@ -159,5 +170,24 @@ public class FileUtils {
             }
             file.delete();
         }
+    }
+
+
+    public static boolean isImageFile(String fileName) {
+        int index = fileName.lastIndexOf(DuoServerConsts.DOT_STR);
+        if (index == -1) {
+            return false;
+        }
+        String suffix = fileName.substring(index + 1).toLowerCase();
+        return IMAGE_FILES.contains(suffix);
+    }
+
+    public static boolean isVideoFile(String fileName) {
+        int index = fileName.lastIndexOf(DuoServerConsts.DOT_STR);
+        if (index == -1) {
+            return false;
+        }
+        String suffix = fileName.substring(index + 1).toLowerCase();
+        return VIDEO_FILE_TYPE.contains(suffix);
     }
 }

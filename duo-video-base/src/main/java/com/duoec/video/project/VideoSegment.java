@@ -44,7 +44,7 @@ public class VideoSegment implements Serializable {
     private Map<Long, String> refs;
 
     /**
-     * 变速
+     * 变速，单位：百分之一。100表示1倍速
      */
     private Integer speed;
 

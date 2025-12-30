@@ -7,7 +7,8 @@ import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.BaseMaterial;
 
 public class BaseMaterialBuilder<T extends BaseMaterial, E extends BaseMaterialBuilder> {
-    protected VideoProjectBuilder videoProjectBuilder;
+    protected ProjectBuilder projectBuilder;
+    protected ProjectScriptBuilder scriptBuilder;
     protected VideoScript script;
 
     protected T material;
@@ -16,6 +17,8 @@ public class BaseMaterialBuilder<T extends BaseMaterial, E extends BaseMaterialB
     protected VideoPoint videoPoint;
     protected int rotate;
     protected Long materialStart;
+    protected Integer layoutIndex;
+    protected Integer speed;
 
     /**
      * 设置位置坐标
@@ -46,18 +49,42 @@ public class BaseMaterialBuilder<T extends BaseMaterial, E extends BaseMaterialB
     }
 
     /**
-     * 返回到VideoProjectBuilder
+     * 设置展示层级
+     * @param layoutIndex 层级，越大越前
      */
-    public VideoProjectBuilder back() {
+    public E setLayoutIndex(Integer layoutIndex) {
+        this.layoutIndex = layoutIndex;
+        return (E) this;
+    }
+
+    /**
+     * 设置播放速度
+     * @param speed 速度，单位：百分之一。100表示正常1倍速
+     */
+    public E setSpeed(Integer speed) {
+        this.speed = speed;
+        return (E) this;
+    }
+
+    /**
+     * 返回到ProjectScriptBuilder
+     */
+    public ProjectScriptBuilder back() {
         segment.setTime(videoTime);
         segment.setPoint(videoPoint);
         segment.setRotate(rotate);
+        if (layoutIndex != null) {
+            segment.setLayoutIndex(layoutIndex);
+        }
         if (materialStart != null) {
             segment.setMaterialStart(materialStart);
         }
+        if (speed != null) {
+            segment.setSpeed(speed);
+        }
         script.getSegments().add(segment);
 
-        videoProjectBuilder.getProject().getMaterials().add(material);
-        return videoProjectBuilder;
+        projectBuilder.getProject().getMaterials().add(material);
+        return scriptBuilder;
     }
 }

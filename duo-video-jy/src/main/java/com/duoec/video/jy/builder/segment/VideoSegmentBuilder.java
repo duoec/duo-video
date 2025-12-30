@@ -44,14 +44,41 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
 
         Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(state, Track.TYPE_VIDEO, "视频", segmentTime.getStart(), segmentTime.getEndTime());
         Segment segment = getSegment(videoSegment, video);
-        videoTrack.getSegments().add(segment);
+
+        // 绿幕背景
+        Segment newSegment = getGreenBackgroundSegment(state, videoScript, videoSegment, material, segment);
+        if (newSegment != segment) {
+
+
+        }
+
+        List<Effect> effects =  newSegment != segment ?
+                // 复合片段
+                : state.getJianyingProject().getMaterials().getEffects();
 
         // LUT
         List<Effect> lutEffectList = buildLut(state, videoScript, videoSegment, material);
         if (!CollectionUtils.isEmpty(lutEffectList)) {
-            lutEffectList.forEach(effect -> segment.getExtraMaterialRefs().add(effect.getId()));
+            lutEffectList.forEach(effect -> {
+                segment.getExtraMaterialRefs().add(effect.getId());
+                effects.add(effect);
+            });
         }
 
+        videoTrack.getSegments().add(newSegment);
         return segment;
+    }
+
+    private Segment getGreenBackgroundSegment(JianyingProjectBuildState state, VideoScript videoScript, VideoSegment videoSegment, VideoMaterial material, Segment segment) {
+        BaseVisibleMediaMaterial.GreenBackground greenBackground = material.getGreenBackground();
+        if (greenBackground == null) {
+            // 没有绿幕
+            return segment;
+        }
+
+        // 复合片段
+
+
+        return null;
     }
 }

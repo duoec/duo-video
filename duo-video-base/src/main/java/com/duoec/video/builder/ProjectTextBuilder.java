@@ -1,38 +1,29 @@
 package com.duoec.video.builder;
 
 import com.duoec.base.core.util.SnowflakeIdUtils;
-import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.project.VideoPoint;
-import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.TextMaterial;
 import com.duoec.video.project.material.TextStyle;
 
-import java.util.List;
-
-public class VideoProjectTextBuilder extends BaseMaterialBuilder<TextMaterial, VideoProjectTextBuilder> {
+public class ProjectTextBuilder extends BaseMaterialBuilder<TextMaterial, ProjectTextBuilder> {
     private TextStyle style;
 
-    private VideoProjectTextBuilder(VideoProjectBuilder videoProjectBuilder, int scriptIndex) {
-        this.videoProjectBuilder = videoProjectBuilder;
-
-        List<VideoScript> scripts = videoProjectBuilder.getProject().getScripts();
-        if (scripts.size() <= scriptIndex) {
-            throw new DuoServiceException("分镜索引号错误：scriptIndex=" + scriptIndex);
-        }
-
-        script = scripts.get(scriptIndex);
+    private ProjectTextBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
+        this.projectBuilder = projectBuilder;
+        this.scriptBuilder = scriptBuilder;
+        this.script = scriptBuilder.getScript();
     }
 
-    public static VideoProjectTextBuilder getBuilder(VideoProjectBuilder videoProjectBuilder, int scriptIndex) {
-        return new VideoProjectTextBuilder(videoProjectBuilder, scriptIndex);
+    public static ProjectTextBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
+        return new ProjectTextBuilder(projectBuilder, scriptBuilder);
     }
 
     /**
      * 设置为字幕
      */
-    public VideoProjectTextBuilder setAsSubtitle(boolean isSubtitle) {
+    public ProjectTextBuilder setAsSubtitle(boolean isSubtitle) {
         material.setType(isSubtitle ? "subtitle" : "text");
         return this;
     }
@@ -40,7 +31,7 @@ public class VideoProjectTextBuilder extends BaseMaterialBuilder<TextMaterial, V
     /**
      * 设置公共样式
      */
-    public VideoProjectTextBuilder setStyle(TextStyle style) {
+    public ProjectTextBuilder setStyle(TextStyle style) {
         this.style = style;
         return this;
     }
@@ -51,7 +42,7 @@ public class VideoProjectTextBuilder extends BaseMaterialBuilder<TextMaterial, V
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public VideoProjectTextBuilder add(String text, long start, long duration) {
+    public ProjectTextBuilder add(String text, long start, long duration) {
         material = new TextMaterial();
         material.setId(SnowflakeIdUtils.nextTmpId());
         material.setText(text);

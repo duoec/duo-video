@@ -172,7 +172,11 @@
         "duration": 86586
       },
       "greenBackground": {
-
+        "materialId": 535010997887571022,
+        "baseBackgroundColor": "#508921ff",
+        "strength": 60,
+        "edgeFeather": 20,
+        "edgeCleanup": 30
       }
     },
     {
@@ -247,6 +251,11 @@
         "非常棒"
       ],
       "resourceId": 7513478828573003033
+    },
+    {
+      "id": 535010997887571022,
+      "url": "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png",
+      "type": "image"
     }
   ],
   "width": 1080,

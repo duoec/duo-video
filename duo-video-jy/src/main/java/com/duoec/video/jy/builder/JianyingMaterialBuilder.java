@@ -73,14 +73,15 @@ public class JianyingMaterialBuilder {
             return;
         }
 
-        if (StringUtils.hasLength(material.getUrl())) {
+        String url = material.getUrl();
+        if (StringUtils.hasLength(url)) {
             // 下载主素材
             Long taskId = state.getVideoProject().getId();
 
-            String fileSuffix = FileUtils.getFileSuffix(material.getUrl());
+            String fileSuffix = FileUtils.getFileSuffix(url);
             File file = new File(JianyingResourceUtils.JY_RS_DIR, material.getType() + DuoServerConsts.OBLIQUE_LINE_STR + material.getId() + fileSuffix);
             if (!file.exists()) {
-                JianyingBuilder.storageService.asyncDownload(taskId, material.getUrl(), file);
+                JianyingBuilder.storageService.asyncDownload(taskId, url, file);
             }
             materialFileMap.put(material, file);
         }

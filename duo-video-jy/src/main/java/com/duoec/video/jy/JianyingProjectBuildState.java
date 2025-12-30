@@ -88,9 +88,6 @@ public class JianyingProjectBuildState {
         } else {
             this.materialMap = new HashMap<>();
         }
-
-        // 初始化各素材基本信息
-        initMaterial(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -104,10 +101,6 @@ public class JianyingProjectBuildState {
 
     public VideoProject getVideoProject() {
         return videoProject;
-    }
-
-    private void initMaterial(JianyingProjectBuildState state) {
-
     }
 
     public File getProjectDir() {

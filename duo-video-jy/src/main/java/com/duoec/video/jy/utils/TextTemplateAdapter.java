@@ -133,8 +133,7 @@ public class TextTemplateAdapter {
                 effect = objectMapper.treeToValue(root.get("effect"), Effect.class);
             }
 
-            return new TextTemplateDto(text, textTemplate, effect);
-
+            return new TextTemplateDto(text, textTemplate, effect, root.get("version").asText());
         } catch (Exception e) {
             logger.error("解析jy_text_template_adapter JSON输出失败", e);
             return null;

@@ -48,7 +48,6 @@ public abstract class BaseVisibleMediaMaterialBuilder<T extends BaseVisibleMedia
         // 加载资源
         JianyingResourceUtils.downloadResources(state.getProjectLocalResourceDir(), lutResource.getResources());
 
-        List<Effect> effects = state.getJianyingProject().getMaterials().getEffects();
         Effect effect = JsonUtils.toObject(lutResource.getMainConfig(), Effect.class)
                 .setId(UuidUtils.next())
                 .setValue(Optional.ofNullable(lut.getStrength()).orElse(100) / 100.0)
@@ -67,11 +66,9 @@ public abstract class BaseVisibleMediaMaterialBuilder<T extends BaseVisibleMedia
                     .setValue(Optional.ofNullable(lut.getSkinToneCorrection()).orElse(0) / 100.0)
                     .setPath(effectPath)
                     .setLumiHubPath(effectPath);
-            effects.add(skinToneEffect);
             effectList.add(skinToneEffect);
         }
 
-        effects.add(effect);
         effectList.add(effect);
 
         return effectList;

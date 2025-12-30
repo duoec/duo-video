@@ -1,9 +1,7 @@
 package com.duoec.video.builder;
 
 import com.duoec.base.core.util.SnowflakeIdUtils;
-import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.project.VideoPoint;
-import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.TextTemplateMaterial;
@@ -11,20 +9,15 @@ import com.duoec.video.project.material.TextTemplateMaterial;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoProjectTextTemplateBuilder extends BaseMaterialBuilder<TextTemplateMaterial, VideoProjectTextTemplateBuilder> {
-    private VideoProjectTextTemplateBuilder(VideoProjectBuilder videoProjectBuilder, int scriptIndex) {
-        this.videoProjectBuilder = videoProjectBuilder;
-
-        List<VideoScript> scripts = videoProjectBuilder.getProject().getScripts();
-        if (scripts.size() <= scriptIndex) {
-            throw new DuoServiceException("分镜索引号错误：scriptIndex=" + scriptIndex);
-        }
-
-        script = scripts.get(scriptIndex);
+public class ProjectTextTemplateBuilder extends BaseMaterialBuilder<TextTemplateMaterial, ProjectTextTemplateBuilder> {
+    private ProjectTextTemplateBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
+        this.projectBuilder = projectBuilder;
+        this.scriptBuilder = scriptBuilder;
+        this.script = scriptBuilder.getScript();
     }
 
-    public static VideoProjectTextTemplateBuilder getBuilder(VideoProjectBuilder videoProjectBuilder, int scriptIndex) {
-        return new VideoProjectTextTemplateBuilder(videoProjectBuilder, scriptIndex);
+    public static ProjectTextTemplateBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
+        return new ProjectTextTemplateBuilder(projectBuilder, scriptBuilder);
     }
 
     /**
@@ -34,7 +27,7 @@ public class VideoProjectTextTemplateBuilder extends BaseMaterialBuilder<TextTem
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public VideoProjectTextTemplateBuilder add(long textTemplateResourceId, String text, long start, long duration) {
+    public ProjectTextTemplateBuilder add(long textTemplateResourceId, String text, long start, long duration) {
         List<String> texts = new ArrayList<>();
         texts.add(text);
         return add(textTemplateResourceId, texts, start, duration);
@@ -47,7 +40,7 @@ public class VideoProjectTextTemplateBuilder extends BaseMaterialBuilder<TextTem
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public VideoProjectTextTemplateBuilder add(long textTemplateResourceId, List<String> texts, long start, long duration) {
+    public ProjectTextTemplateBuilder add(long textTemplateResourceId, List<String> texts, long start, long duration) {
         material = new TextTemplateMaterial();
         material.setId(SnowflakeIdUtils.nextTmpId());
         material.setTexts(texts);
