@@ -8,11 +8,6 @@ public enum MaterialTypeEnum {
     VIDEO_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_VIDEO),
 
     /**
-     * 绿幕视频素材
-     */
-    GREEN_BG_VIDEO_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_GREEN_BG_VIDEO),
-
-    /**
      * 图片素材
      */
     IMAGE_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_IMAGE),
@@ -44,7 +39,6 @@ public enum MaterialTypeEnum {
     ;
 
     public static final String MATERIAL_TYPE_VIDEO = "video";
-    public static final String MATERIAL_TYPE_GREEN_BG_VIDEO = "greenBgVideo";
     public static final String MATERIAL_TYPE_IMAGE = "image";
     public static final String MATERIAL_TYPE_AUDIO = "audio";
     public static final String MATERIAL_TYPE_TEXT = "text";

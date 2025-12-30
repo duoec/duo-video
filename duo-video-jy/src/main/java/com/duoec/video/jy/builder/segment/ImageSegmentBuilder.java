@@ -14,7 +14,7 @@ import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.ImageMaterial;
 import com.duoec.video.project.material.MaterialTypeEnum;
 
-public class ImageSegmentBuilder extends BaseSegmentBuilder<ImageMaterial> {
+public class ImageSegmentBuilder extends BaseVisibleMediaMaterialBuilder<ImageMaterial> {
     @Override
     public MaterialTypeEnum getMaterialType() {
         return MaterialTypeEnum.IMAGE_MATERIAL;

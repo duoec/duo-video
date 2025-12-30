@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class LutMaterial extends BaseMaterial {
-    /**
-     * Lut文件地址
-     */
-    private String lutUrl;
+    @Override
+    public String getType() {
+        return MaterialTypeEnum.MATERIAL_TYPE_LUT;
+    }
 }

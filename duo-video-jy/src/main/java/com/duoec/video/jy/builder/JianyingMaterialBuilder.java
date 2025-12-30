@@ -2,6 +2,7 @@ package com.duoec.video.jy.builder;
 
 import com.duoec.base.core.DuoServerConsts;
 import com.duoec.base.core.util.FileUtils;
+import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.jy.JianyingBuilder;
 import com.duoec.video.jy.JianyingProjectBuildState;
 import com.duoec.video.jy.dto.TimeRange;
@@ -16,20 +17,25 @@ import com.duoec.video.project.material.*;
 import com.duoec.video.utils.ExiftoolUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.assertj.core.util.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class JianyingMaterialBuilder {
     private static final Logger logger = LoggerFactory.getLogger(JianyingMaterialBuilder.class);
 
     public static void build(JianyingProjectBuildState state) {
-        Map<Long, List<VideoSegment>> segmentMap = Maps.newHashMap();
+        Long taskId = state.getVideoProject().getId();
+
+        Map<BaseMaterial, File> materialFileMap = Maps.newHashMap();
         Optional.ofNullable(state.getVideoProject().getScripts()).orElse(Lists.newArrayList())
                 .stream()
                 .filter(script -> !CollectionUtils.isEmpty(script.getSegments()))
@@ -38,57 +44,53 @@ public class JianyingMaterialBuilder {
                             .stream()
                             .filter(segment -> Optional.ofNullable(segment.getVisible()).orElse(true))
                             .forEach(segment -> {
-                                BaseMaterial material = state.getMaterial(segment.getMaterialId());
-                                if (material == null) {
-                                    return;
-                                }
-                                if (material instanceof BaseVisibleMediaMaterial || material instanceof AudioMaterial) {
-                                    // 需要计算尺寸、时长
-                                    segmentMap.computeIfAbsent(segment.getMaterialId(), materialId -> Lists.newArrayList()).add(segment);
-
-                                    if (material instanceof VideoGreenBackgroundMaterial videoGreenBackgroundMaterial) {
-                                        segmentMap.computeIfAbsent(videoGreenBackgroundMaterial.getBackgroundMaterialId(), materialId -> Lists.newArrayList()).add(segment);
-                                    }
-                                }
+                                downloadMaterials(state, segment.getMaterialId(), materialFileMap);
                             });
                 });
 
-        if (segmentMap.isEmpty()) {
-            logger.warn("没有需要处理的素材");
-            return;
-        }
-
-        Long taskId = state.getVideoProject().getId();
-        Map<Long, File> fileMap = Maps.newHashMap();
-        segmentMap.keySet().forEach(materialId -> {
-            BaseMaterial material = state.getMaterial(materialId);
-            if (material == null) {
-                logger.warn("无法找到素材，materialId={}", materialId);
-                return;
-            }
-            String fileSuffix = FileUtils.getFileSuffix(material.getUrl());
-            File file = new File(JianyingResourceUtils.JY_RS_DIR, material.getType() + DuoServerConsts.OBLIQUE_LINE_STR + materialId + fileSuffix);
-            fileMap.put(materialId, file);
-            JianyingBuilder.storageService.asyncDownload(taskId, material.getUrl(), file);
-        });
-
         JianyingBuilder.storageService.waitAsyncDownloadTask(taskId);
-        fileMap.forEach((materialId, file) -> {
+        materialFileMap.forEach((material, file) -> {
             if (!file.exists()) {
-                return;
-            }
-            BaseMaterial material = state.getMaterial(materialId);
-            if (material == null) {
-                return;
+                throw new DuoServiceException("[" + material.getId() + "]素材文件下载失败！");
             }
             material.setLocalFile(file);
 
-            // 设置视频元
-            setMaterialMeta(material, file);
+            if (material instanceof BaseVisibleMediaMaterial || material instanceof AudioMaterial) {
+                material.setLocalFile(file);
 
-            // 添加到剪映本地
-            addJianYingLocal(state, material, file);
+                // 设置视频元
+                setMaterialMeta(material, file);
+
+                // 添加到剪映本地
+                addJianYingLocal(state, material, file);
+            }
         });
+    }
+
+    private static void downloadMaterials(JianyingProjectBuildState state, Long materialId, Map<BaseMaterial, File> materialFileMap) {
+        BaseMaterial material = state.getMaterial(materialId);
+        if (material == null) {
+            return;
+        }
+
+        if (StringUtils.hasLength(material.getUrl())) {
+            // 下载主素材
+            Long taskId = state.getVideoProject().getId();
+
+            String fileSuffix = FileUtils.getFileSuffix(material.getUrl());
+            File file = new File(JianyingResourceUtils.JY_RS_DIR, material.getType() + DuoServerConsts.OBLIQUE_LINE_STR + material.getId() + fileSuffix);
+            if (!file.exists()) {
+                JianyingBuilder.storageService.asyncDownload(taskId, material.getUrl(), file);
+            }
+            materialFileMap.put(material, file);
+        }
+
+        if (material instanceof VideoMaterial videoMaterial) {
+            VideoMaterial.GreenBackground greenBackground = videoMaterial.getGreenBackground();
+            if (greenBackground != null && greenBackground.getMaterialId() != null) {
+                downloadMaterials(state, greenBackground.getMaterialId(), materialFileMap);
+            }
+        }
     }
 
     private static void addJianYingLocal(JianyingProjectBuildState state, BaseMaterial material, File file) {

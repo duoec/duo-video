@@ -2,6 +2,7 @@ package com.duoec.video.jy.builder.segment;
 
 import com.duoec.video.jy.JianyingProjectBuildState;
 import com.duoec.video.jy.builder.JianyingTrackBuilder;
+import com.duoec.video.jy.dto.info.Effect;
 import com.duoec.video.jy.dto.info.Segment;
 import com.duoec.video.jy.dto.info.Track;
 import com.duoec.video.jy.dto.info.Video;
@@ -11,10 +12,15 @@ import com.duoec.video.jy.utils.UuidUtils;
 import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
+import com.duoec.video.project.material.BaseVisibleMediaMaterial;
 import com.duoec.video.project.material.MaterialTypeEnum;
 import com.duoec.video.project.material.VideoMaterial;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
-public class VideoSegmentBuilder extends BaseSegmentBuilder<VideoMaterial> {
+import java.util.List;
+
+public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMaterial> {
     @Override
     public MaterialTypeEnum getMaterialType() {
         return MaterialTypeEnum.VIDEO_MATERIAL;
@@ -39,6 +45,12 @@ public class VideoSegmentBuilder extends BaseSegmentBuilder<VideoMaterial> {
         Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(state, Track.TYPE_VIDEO, "视频", segmentTime.getStart(), segmentTime.getEndTime());
         Segment segment = getSegment(videoSegment, video);
         videoTrack.getSegments().add(segment);
+
+        // LUT
+        List<Effect> lutEffectList = buildLut(state, videoScript, videoSegment, material);
+        if (!CollectionUtils.isEmpty(lutEffectList)) {
+            lutEffectList.forEach(effect -> segment.getExtraMaterialRefs().add(effect.getId()));
+        }
 
         return segment;
     }

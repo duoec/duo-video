@@ -14,9 +14,4 @@ public class VideoMaterial extends BaseVisibleMediaMaterial {
      * 素材总时长，单位：毫秒
      */
     private Long duration;
-
-    @Override
-    public String getType() {
-        return MaterialTypeEnum.MATERIAL_TYPE_VIDEO;
-    }
 }

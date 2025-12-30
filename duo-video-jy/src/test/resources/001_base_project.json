@@ -38,7 +38,8 @@
           "materialStart": 10000,
           "type": "video",
           "layoutIndex": 1000,
-          "refs": {},
+          "refs": {
+          },
           "speed": 100,
           "zoom": {
             "x": 10000,
@@ -75,7 +76,8 @@
           "materialStart": 10000,
           "type": "video",
           "layoutIndex": 1000,
-          "refs": {},
+          "refs": {
+          },
           "speed": 100,
           "zoom": {
             "x": 10000,
@@ -144,30 +146,38 @@
   "materials": [
     {
       "id": 535010997887571096,
-      "url": "https://video-ai-yk.oss-cn-shanghai.aliyuncs.com/403/MaterialManagement/c71d0cbc8a3b3f25b3ae7cd99bbc70e0.png",
+      "url": "https://api.duoec.com/public/image/535010997887571096.png",
       "type": "image"
     },
     {
       "id": 535010997887571046,
-      "url": "https://video-ai-yk.oss-cn-shanghai.aliyuncs.com/535/material/62734cc60797db93bbacaa25507a2f45_low.MOV",
+      "url": "https://api.duoec.com/public/video/535010997887571046.mov",
       "type": "video",
       "time": {
         "start": 0,
         "duration": 14264
+      },
+      "lut": {
+        "url": "https://api.duoec.com/public/jianying/lut/C0307.cube",
+        "strength": 50,
+        "skinToneCorrection": 60
       }
     },
     {
       "id": 535010997887571021,
-      "url": "https://video-ai-yk.oss-cn-shanghai.aliyuncs.com/463/MaterialManagement/8a1243d1098951010b479d3f3f76003b_low.MP4",
+      "url": "https://api.duoec.com/public/video/535010997887571021.mp4",
       "type": "video",
       "time": {
         "start": 0,
         "duration": 86586
+      },
+      "greenBackground": {
+
       }
     },
     {
       "id": 535010997887571025,
-      "url": "https://video-ai-yk.oss-cn-shanghai.aliyuncs.com/ai/bgm/ce0524c8efaddf985c36335b5658041c.mp3",
+      "url": "https://api.duoec.com/public/audio/535010997887571025.mp3",
       "type": "audio",
       "time": {
         "start": 170,
@@ -233,7 +243,9 @@
     {
       "id": 535010997887571000,
       "type": "textTemplate",
-      "texts": ["非常棒"],
+      "texts": [
+        "非常棒"
+      ],
       "resourceId": 7513478828573003033
     }
   ],

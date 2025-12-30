@@ -24,10 +24,6 @@ import java.io.Serializable;
                 name = MaterialTypeEnum.MATERIAL_TYPE_IMAGE
         ),
         @JsonSubTypes.Type(
-                value = VideoGreenBackgroundMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_GREEN_BG_VIDEO
-        ),
-        @JsonSubTypes.Type(
                 value = TextMaterial.class,
                 name = MaterialTypeEnum.MATERIAL_TYPE_TEXT
         ),

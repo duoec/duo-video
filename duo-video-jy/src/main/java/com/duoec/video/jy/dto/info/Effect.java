@@ -4,75 +4,84 @@ import com.duoec.video.jy.dto.TimeRange;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Effect extends BaseMaterial {
     @JsonProperty("adjust_params")
-    public List<AdjustParam> adjustParams;
+    private List<AdjustParam> adjustParams;
 
     @JsonProperty("algorithm_artifact_path")
-    public String algorithmArtifactPath;
+    private String algorithmArtifactPath;
 
     @JsonProperty("apply_target_type")
-    public Integer applyTargetType;
+    private Integer applyTargetType;
 
     @JsonProperty("bloom_params")
-    public Object bloomParams;
+    private Object bloomParams;
 
     @JsonProperty("category_id")
-    public String categoryId;
+    private String categoryId;
 
     @JsonProperty("category_name")
-    public String categoryName;
+    private String categoryName;
 
     @JsonProperty("color_match_info")
-    public ColorMatchInfo colorMatchInfo;
+    private ColorMatchInfo colorMatchInfo;
 
     @JsonProperty("effect_id")
-    public String effectId;
+    private String effectId;
+
+    @JsonProperty("multi_language_current")
+    private String multiLanguageCurrent;
 
     @JsonProperty("enable_skin_tone_correction")
-    public Boolean enableSkinToneCorrection;
+    private Boolean enableSkinToneCorrection;
 
     @JsonProperty("exclusion_group")
-    public List<Object> exclusionGroup;
+    private List<Object> exclusionGroup;
 
     @JsonProperty("face_adjust_params")
-    public List<Object> faceAdjustParams;
+    private List<Object> faceAdjustParams;
 
     @JsonProperty("formula_id")
-    public String formulaId;
+    private String formulaId;
 
     @JsonProperty("intensity_key")
+    private String intensityKey;
 
-    public String intensityKey;
-
-    public String name;
+    private String name;
 
     @JsonProperty("panel_id")
-    public String panelId;
+    private String panelId;
 
-    public String path;
+    private String path;
 
-    public String platform;
+    private String platform;
 
     @JsonProperty("request_id")
-    public String requestId;
+    private String requestId;
 
     @JsonProperty("resource_id")
-    public String resourceId;
+    private String resourceId;
 
     @JsonProperty("source_platform")
-    public Integer sourcePlatform;
+    private Integer sourcePlatform;
 
     @JsonProperty("sub_type")
-    public String subType;
+    private String subType;
+
+    @JsonProperty("lumi_hub_path")
+    private String lumiHubPath;
 
     @JsonProperty("time_range")
-    public TimeRange timeRange;
+    private TimeRange timeRange;
 
-    public Double value;
+    private Double value;
 
-    public String version;
+    private String version;
+
+    @JsonProperty("beauty_face_auto_retouch_info")
+    private Object beautyFaceAutoRetouchInfo;
 
     public List<AdjustParam> getAdjustParams() {
         return adjustParams;
@@ -297,6 +306,33 @@ public class Effect extends BaseMaterial {
 
     public Effect setVersion(String version) {
         this.version = version;
+        return this;
+    }
+
+    public String getLumiHubPath() {
+        return lumiHubPath;
+    }
+
+    public Effect setLumiHubPath(String lumiHubPath) {
+        this.lumiHubPath = lumiHubPath;
+        return this;
+    }
+
+    public String getMultiLanguageCurrent() {
+        return multiLanguageCurrent;
+    }
+
+    public Effect setMultiLanguageCurrent(String multiLanguageCurrent) {
+        this.multiLanguageCurrent = multiLanguageCurrent;
+        return this;
+    }
+
+    public Object getBeautyFaceAutoRetouchInfo() {
+        return beautyFaceAutoRetouchInfo;
+    }
+
+    public Effect setBeautyFaceAutoRetouchInfo(Object beautyFaceAutoRetouchInfo) {
+        this.beautyFaceAutoRetouchInfo = beautyFaceAutoRetouchInfo;
         return this;
     }
 }

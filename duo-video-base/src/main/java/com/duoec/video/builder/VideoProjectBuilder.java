@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VideoProjectBuilder {
-    private VideoProject project;
+    private final VideoProject project;
 
     private VideoProjectBuilder(long projectId, String projectName) {
         VideoScript videoScript = new VideoScript();

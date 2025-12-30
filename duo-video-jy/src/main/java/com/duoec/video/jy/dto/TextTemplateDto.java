@@ -12,4 +12,5 @@ public class TextTemplateDto {
     Text text;
     TextTemplate textTemplate;
     Effect effect;
+    String version;
 }

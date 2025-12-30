@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 public class JianyingResourceUtils {
     private static final Logger logger = LoggerFactory.getLogger(JianyingResourceUtils.class);
@@ -84,6 +85,10 @@ public class JianyingResourceUtils {
             }
         }
         return dir;
+    }
+
+    public static String getFontUrl(String fontName) {
+        return FONT_MAP.get(Optional.ofNullable(fontName).orElse(DEFAULT_FONT_NAME));
     }
 
     public static File getFontFile(String fontName) {
