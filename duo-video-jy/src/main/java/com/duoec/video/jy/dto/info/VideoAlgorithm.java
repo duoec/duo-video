@@ -33,6 +33,15 @@ public class VideoAlgorithm implements Serializable {
     @JsonProperty("time_range")
     public TimeRange timeRange;
 
+    @JsonProperty("story_video_modify_video_config")
+    public StoryVideoModifyVideoConfig storyVideoModifyVideoConfig;
+
+    @JsonProperty("ai_background_configs")
+    public List<Object> aiBackgroundConfigs;
+
+    @JsonProperty("ai_in_painting_config")
+    public List<Object> aiInPaintingConfig;
+
     public List<Algorithm> getAlgorithms() {
         return algorithms;
     }
@@ -93,6 +102,51 @@ public class VideoAlgorithm implements Serializable {
 
     public VideoAlgorithm setTimeRange(TimeRange timeRange) {
         this.timeRange = timeRange;
+        return this;
+    }
+
+    public StoryVideoModifyVideoConfig getStoryVideoModifyVideoConfig() {
+        return storyVideoModifyVideoConfig;
+    }
+
+    public VideoAlgorithm setStoryVideoModifyVideoConfig(StoryVideoModifyVideoConfig storyVideoModifyVideoConfig) {
+        this.storyVideoModifyVideoConfig = storyVideoModifyVideoConfig;
+        return this;
+    }
+
+    public List<Object> getAiBackgroundConfigs() {
+        return aiBackgroundConfigs;
+    }
+
+    public VideoAlgorithm setAiBackgroundConfigs(List<Object> aiBackgroundConfigs) {
+        this.aiBackgroundConfigs = aiBackgroundConfigs;
+        return this;
+    }
+
+    public List<Object> getAiInPaintingConfig() {
+        return aiInPaintingConfig;
+    }
+
+    public VideoAlgorithm setAiInPaintingConfig(List<Object> aiInPaintingConfig) {
+        this.aiInPaintingConfig = aiInPaintingConfig;
+        return this;
+    }
+
+    public Object getComplementFrameConfig() {
+        return complementFrameConfig;
+    }
+
+    public VideoAlgorithm setComplementFrameConfig(Object complementFrameConfig) {
+        this.complementFrameConfig = complementFrameConfig;
+        return this;
+    }
+
+    public List<GameplayConfig> getGameplayConfigs() {
+        return gameplayConfigs;
+    }
+
+    public VideoAlgorithm setGameplayConfigs(List<GameplayConfig> gameplayConfigs) {
+        this.gameplayConfigs = gameplayConfigs;
         return this;
     }
 }

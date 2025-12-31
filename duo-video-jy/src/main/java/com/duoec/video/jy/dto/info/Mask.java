@@ -19,8 +19,6 @@ public class Mask extends BaseResource {
     @JsonProperty("resource_type")
     private String resourceType;
 
-    private String type;
-
     @Override
     public Mask setId(String id) {
         super.setId(id);
@@ -85,10 +83,6 @@ public class Mask extends BaseResource {
     public Mask setResourceType(String resourceType) {
         this.resourceType = resourceType;
         return this;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public Mask setType(String type) {

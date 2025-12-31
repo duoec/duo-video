@@ -53,7 +53,6 @@ public class JianyingMaterialBuilder {
             if (!file.exists()) {
                 throw new DuoServiceException("[" + material.getId() + "]素材文件下载失败！");
             }
-            material.setLocalFile(file);
 
             if (material instanceof BaseVisibleMediaMaterial || material instanceof AudioMaterial) {
                 material.setLocalFile(file);
@@ -83,6 +82,7 @@ public class JianyingMaterialBuilder {
             if (!file.exists()) {
                 JianyingBuilder.storageService.asyncDownload(taskId, url, file);
             }
+            material.setLocalFile(file);
             materialFileMap.put(material, file);
         }
 

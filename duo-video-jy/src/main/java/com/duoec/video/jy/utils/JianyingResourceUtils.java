@@ -26,6 +26,7 @@ public class JianyingResourceUtils {
     public static final String LOCAL_RESOURCE_PATH = "##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##/Resources/local/";
     public static final String RS_NAME_TEXT_TEMPLATE = "text_template";
     public static final String RS_NAME_IMAGE = "image";
+    public static final String RS_NAME_EFFECT = "effect";
     public static final String RS_NAME_AUDIO = "audio";
     public static final String RS_NAME_VIDEO = "video";
     public static final String RS_NAME_FONTS = "fonts";
@@ -72,6 +73,7 @@ public class JianyingResourceUtils {
         initDir(JY_RS_DIR, RS_NAME_VIDEO);
         initDir(JY_RS_DIR, RS_NAME_AUDIO);
         initDir(JY_RS_DIR, RS_NAME_IMAGE);
+        initDir(JY_RS_DIR, RS_NAME_EFFECT);
         initDir(JY_RS_DIR, RS_NAME_TEXT_TEMPLATE);
     }
 
@@ -130,7 +132,7 @@ public class JianyingResourceUtils {
      * @return 本地目录占位符地址
      */
     public static String copyToLocalResources(JianyingProjectBuildState state, File file, String type) {
-        if (!file.exists()) {
+        if (file == null || !file.exists()) {
             throw new DuoServiceException("需要复制的文件不存在: " + file.getAbsolutePath());
         }
         String fileName = UrlUtils.decode(file.getName());
@@ -155,6 +157,9 @@ public class JianyingResourceUtils {
             // 从服务端下载
             String url = BASE_JY_RESOURCE_URL + "jianying/rs/" + rid;
             JianyingBuilder.storageService.download(url, resourceConfigFile);
+        }
+        if (!resourceConfigFile.exists()) {
+            throw new DuoServiceException("加载剪映资源失败：" + rid);
         }
         return FileUtils.readJson(resourceConfigFile, JyResource.class);
     }

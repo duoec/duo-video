@@ -75,6 +75,26 @@ public class JianYingProjectInfo implements Serializable {
 
     public Integer version;
 
+    @JsonProperty("uneven_animation_template_info")
+    public UnevenAnimationTemplateInfo unevenAnimationTemplateInfo;
+
+    @JsonProperty("smart_ads_info")
+    public SmartAdsInfo smartAdsInfo;
+
+    public String path;
+
+    @JsonProperty("lyrics_effects")
+    public List<Object> lyricsEffects;
+
+    @JsonProperty("draft_type")
+    public String draftType;
+
+    @JsonProperty("function_assistant_info")
+    public FunctionAssistantInfo functionAssistantInfo;
+
+    @JsonProperty("is_drop_frame_timecode")
+    public Boolean isDropFrameTimecode;
+
     public CanvasConfig getCanvasConfig() {
         return canvasConfig;
     }
@@ -315,6 +335,69 @@ public class JianYingProjectInfo implements Serializable {
 
     public JianYingProjectInfo setVersion(Integer version) {
         this.version = version;
+        return this;
+    }
+
+    public UnevenAnimationTemplateInfo getUnevenAnimationTemplateInfo() {
+        return unevenAnimationTemplateInfo;
+    }
+
+    public JianYingProjectInfo setUnevenAnimationTemplateInfo(UnevenAnimationTemplateInfo unevenAnimationTemplateInfo) {
+        this.unevenAnimationTemplateInfo = unevenAnimationTemplateInfo;
+        return this;
+    }
+
+    public SmartAdsInfo getSmartAdsInfo() {
+        return smartAdsInfo;
+    }
+
+    public JianYingProjectInfo setSmartAdsInfo(SmartAdsInfo smartAdsInfo) {
+        this.smartAdsInfo = smartAdsInfo;
+        return this;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public JianYingProjectInfo setPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public List<Object> getLyricsEffects() {
+        return lyricsEffects;
+    }
+
+    public JianYingProjectInfo setLyricsEffects(List<Object> lyricsEffects) {
+        this.lyricsEffects = lyricsEffects;
+        return this;
+    }
+
+    public String getDraftType() {
+        return draftType;
+    }
+
+    public JianYingProjectInfo setDraftType(String draftType) {
+        this.draftType = draftType;
+        return this;
+    }
+
+    public FunctionAssistantInfo getFunctionAssistantInfo() {
+        return functionAssistantInfo;
+    }
+
+    public JianYingProjectInfo setFunctionAssistantInfo(FunctionAssistantInfo functionAssistantInfo) {
+        this.functionAssistantInfo = functionAssistantInfo;
+        return this;
+    }
+
+    public Boolean getIsDropFrameTimecode() {
+        return isDropFrameTimecode;
+    }
+
+    public JianYingProjectInfo setIsDropFrameTimecode(Boolean isDropFrameTimecode) {
+        this.isDropFrameTimecode = isDropFrameTimecode;
         return this;
     }
 }

@@ -28,6 +28,18 @@ public class Draft implements Serializable {
 
     private String type;
 
+    @JsonProperty("draft_cover_path")
+    private String draftCoverPath;
+
+    @JsonProperty("draft_config_path")
+    private String draftConfigPath;
+
+    @JsonProperty("combination_type")
+    private String combinationType;
+
+    @JsonProperty("draft_file_path")
+    private String draftFilePath;
+
     public String getCategoryId() {
         return categoryId;
     }
@@ -106,6 +118,42 @@ public class Draft implements Serializable {
 
     public Draft setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    public String getDraftCoverPath() {
+        return draftCoverPath;
+    }
+
+    public Draft setDraftCoverPath(String draftCoverPath) {
+        this.draftCoverPath = draftCoverPath;
+        return this;
+    }
+
+    public String getDraftConfigPath() {
+        return draftConfigPath;
+    }
+
+    public Draft setDraftConfigPath(String draftConfigPath) {
+        this.draftConfigPath = draftConfigPath;
+        return this;
+    }
+
+    public String getCombinationType() {
+        return combinationType;
+    }
+
+    public Draft setCombinationType(String combinationType) {
+        this.combinationType = combinationType;
+        return this;
+    }
+
+    public String getDraftFilePath() {
+        return draftFilePath;
+    }
+
+    public Draft setDraftFilePath(String draftFilePath) {
+        this.draftFilePath = draftFilePath;
         return this;
     }
 }

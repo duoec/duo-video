@@ -67,6 +67,21 @@ public class Config implements Serializable {
     @JsonProperty("subtitle_keywords_config")
     public SubtitleKeywordsConfig subtitleKeywordsConfig;
 
+    @JsonProperty("use_float_render")
+    public Boolean useFloatRender;
+
+    @JsonProperty("multi_language_list")
+    public List<Object> multiLanguageList;
+
+    @JsonProperty("multi_language_main")
+    public String multiLanguageMain;
+
+    @JsonProperty("multi_language_mode")
+    public String multiLanguageMode;
+
+    @JsonProperty("multi_language_current")
+    public String multiLanguageCurrent;
+
     public Integer getAdjustMaxIndex() {
         return adjustMaxIndex;
     }
@@ -244,6 +259,51 @@ public class Config implements Serializable {
 
     public Config setSubtitleKeywordsConfig(SubtitleKeywordsConfig subtitleKeywordsConfig) {
         this.subtitleKeywordsConfig = subtitleKeywordsConfig;
+        return this;
+    }
+
+    public Boolean getUseFloatRender() {
+        return useFloatRender;
+    }
+
+    public Config setUseFloatRender(Boolean useFloatRender) {
+        this.useFloatRender = useFloatRender;
+        return this;
+    }
+
+    public List<Object> getMultiLanguageList() {
+        return multiLanguageList;
+    }
+
+    public Config setMultiLanguageList(List<Object> multiLanguageList) {
+        this.multiLanguageList = multiLanguageList;
+        return this;
+    }
+
+    public String getMultiLanguageMain() {
+        return multiLanguageMain;
+    }
+
+    public Config setMultiLanguageMain(String multiLanguageMain) {
+        this.multiLanguageMain = multiLanguageMain;
+        return this;
+    }
+
+    public String getMultiLanguageMode() {
+        return multiLanguageMode;
+    }
+
+    public Config setMultiLanguageMode(String multiLanguageMode) {
+        this.multiLanguageMode = multiLanguageMode;
+        return this;
+    }
+
+    public String getMultiLanguageCurrent() {
+        return multiLanguageCurrent;
+    }
+
+    public Config setMultiLanguageCurrent(String multiLanguageCurrent) {
+        this.multiLanguageCurrent = multiLanguageCurrent;
         return this;
     }
 }

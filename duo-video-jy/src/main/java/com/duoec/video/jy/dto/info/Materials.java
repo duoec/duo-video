@@ -126,6 +126,36 @@ public class Materials implements Serializable {
     @JsonProperty("time_marks")
     public List<TimeMark> timeMarks;
 
+    @JsonProperty("video_radius")
+    public List<Object> videoRadius;
+
+    @JsonProperty("video_shadows")
+    public List<Object> videoShadows;
+
+    @JsonProperty("video_strokes")
+    public List<Object> videoStrokes;
+
+    @JsonProperty("hsl_curves")
+    public List<Object> hslCurves;
+
+    @JsonProperty("manual_beautys")
+    public List<Object> manualBeautys;
+
+    @JsonProperty("multi_language_refs")
+    public List<Object> multiLanguageRefs;
+
+    @JsonProperty("audio_pannings")
+    public List<Object> audioPannings;
+
+    @JsonProperty("placeholder_infos")
+    public List<Placeholder> placeholderInfos;
+
+    @JsonProperty("audio_pitch_shifts")
+    public List<Object> audioPitchShifts;
+
+    @JsonProperty("digital_human_model_dressing")
+    public List<Object> digitalHumanModelDressing;
+
     public List<Object> getAudioBalances() {
         return audioBalances;
     }
@@ -528,6 +558,96 @@ public class Materials implements Serializable {
 
     public Materials setCommonMask(List<CommonMask> commonMask) {
         this.commonMask = commonMask;
+        return this;
+    }
+
+    public List<Object> getVideoRadius() {
+        return videoRadius;
+    }
+
+    public Materials setVideoRadius(List<Object> videoRadius) {
+        this.videoRadius = videoRadius;
+        return this;
+    }
+
+    public List<Object> getVideoShadows() {
+        return videoShadows;
+    }
+
+    public Materials setVideoShadows(List<Object> videoShadows) {
+        this.videoShadows = videoShadows;
+        return this;
+    }
+
+    public List<Object> getVideoStrokes() {
+        return videoStrokes;
+    }
+
+    public Materials setVideoStrokes(List<Object> videoStrokes) {
+        this.videoStrokes = videoStrokes;
+        return this;
+    }
+
+    public List<Object> getHslCurves() {
+        return hslCurves;
+    }
+
+    public Materials setHslCurves(List<Object> hslCurves) {
+        this.hslCurves = hslCurves;
+        return this;
+    }
+
+    public List<Object> getManualBeautys() {
+        return manualBeautys;
+    }
+
+    public Materials setManualBeautys(List<Object> manualBeautys) {
+        this.manualBeautys = manualBeautys;
+        return this;
+    }
+
+    public List<Object> getMultiLanguageRefs() {
+        return multiLanguageRefs;
+    }
+
+    public Materials setMultiLanguageRefs(List<Object> multiLanguageRefs) {
+        this.multiLanguageRefs = multiLanguageRefs;
+        return this;
+    }
+
+    public List<Object> getAudioPannings() {
+        return audioPannings;
+    }
+
+    public Materials setAudioPannings(List<Object> audioPannings) {
+        this.audioPannings = audioPannings;
+        return this;
+    }
+
+    public List<Placeholder> getPlaceholderInfos() {
+        return placeholderInfos;
+    }
+
+    public Materials setPlaceholderInfos(List<Placeholder> placeholderInfos) {
+        this.placeholderInfos = placeholderInfos;
+        return this;
+    }
+
+    public List<Object> getAudioPitchShifts() {
+        return audioPitchShifts;
+    }
+
+    public Materials setAudioPitchShifts(List<Object> audioPitchShifts) {
+        this.audioPitchShifts = audioPitchShifts;
+        return this;
+    }
+
+    public List<Object> getDigitalHumanModelDressing() {
+        return digitalHumanModelDressing;
+    }
+
+    public Materials setDigitalHumanModelDressing(List<Object> digitalHumanModelDressing) {
+        this.digitalHumanModelDressing = digitalHumanModelDressing;
         return this;
     }
 }

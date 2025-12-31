@@ -11,6 +11,7 @@ import com.duoec.video.project.VideoPoint;
 import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoSegment;
+import com.duoec.video.project.material.BaseMaterial;
 import com.duoec.video.project.material.BaseVisibleMediaMaterial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,10 @@ public class JianyingSegmentBuilder {
             return;
         }
 
+        setSegmentCommonAttributes(state, videoSegment, segment, material);
+    }
+
+    public static void setSegmentCommonAttributes(JianyingProjectBuildState state, VideoSegment videoSegment, Segment segment, BaseMaterial material) {
         VideoProject videoProject = state.getVideoProject();
         Clip segmentClip = segment.getClip();
 
@@ -87,8 +92,10 @@ public class JianyingSegmentBuilder {
 
         boolean horizontal = Optional.ofNullable(videoSegment.getHorizontal()).orElse(false);
         boolean vertical = Optional.ofNullable(videoSegment.getVertical()).orElse(false);
-        segmentClip.setFlip(new Flip().setVertical(vertical) // 垂直镜像
-                .setHorizontal(horizontal) // 水平镜像
+        segmentClip.setFlip(
+                new Flip()
+                        .setVertical(vertical) // 垂直镜像
+                        .setHorizontal(horizontal) // 水平镜像
         );
 
         // 增益音量

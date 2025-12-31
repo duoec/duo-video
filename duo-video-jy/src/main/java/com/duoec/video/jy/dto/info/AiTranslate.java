@@ -3,15 +3,11 @@ package com.duoec.video.jy.dto.info;
 import com.duoec.video.jy.dto.TimeRange;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
-public class AiTranslate implements Serializable {
+public class AiTranslate extends BaseMaterial {
     @JsonProperty("actual_time_range")
     private TimeRange actualTimeRange;
 
     private Boolean enable;
-
-    private String id;
 
     @JsonProperty("is_from_ai_translate_tool")
     private Boolean isFromAiTranslateTool;
@@ -27,8 +23,6 @@ public class AiTranslate implements Serializable {
 
     @JsonProperty("time_range")
     private TimeRange timeRange;
-
-    private String type;
 
     public TimeRange getActualTimeRange() {
         return actualTimeRange;
@@ -46,10 +40,6 @@ public class AiTranslate implements Serializable {
     public AiTranslate setEnable(Boolean enable) {
         this.enable = enable;
         return this;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public AiTranslate setId(String id) {
@@ -100,10 +90,6 @@ public class AiTranslate implements Serializable {
     public AiTranslate setTimeRange(TimeRange timeRange) {
         this.timeRange = timeRange;
         return this;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public AiTranslate setType(String type) {

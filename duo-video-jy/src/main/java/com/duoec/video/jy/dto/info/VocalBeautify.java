@@ -3,23 +3,17 @@ package com.duoec.video.jy.dto.info;
 import com.duoec.video.jy.dto.TimeRange;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
-public class VocalBeautify implements Serializable {
+public class VocalBeautify extends BaseMaterial {
     @JsonProperty("ambient_sound_level")
     private Integer ambientSoundLevel;
 
     private Boolean enable;
-
-    private String id;
 
     @JsonProperty("production_path")
     private String productionPath;
 
     @JsonProperty("time_range")
     private TimeRange timeRange;
-
-    private String type;
 
     @JsonProperty("voice_change_mode")
     private Object voiceChangeMode;
@@ -40,10 +34,6 @@ public class VocalBeautify implements Serializable {
     public VocalBeautify setEnable(Boolean enable) {
         this.enable = enable;
         return this;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public VocalBeautify setId(String id) {
@@ -67,10 +57,6 @@ public class VocalBeautify implements Serializable {
     public VocalBeautify setTimeRange(TimeRange timeRange) {
         this.timeRange = timeRange;
         return this;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public VocalBeautify setType(String type) {

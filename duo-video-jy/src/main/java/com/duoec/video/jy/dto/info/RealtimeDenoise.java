@@ -22,8 +22,6 @@ public class RealtimeDenoise extends BaseResource {
     @JsonProperty("sami_version")
     private String samiVersion;
 
-    private String type;
-
     @Override
     public RealtimeDenoise setId(String id) {
         super.setId(id);
@@ -88,10 +86,6 @@ public class RealtimeDenoise extends BaseResource {
     public RealtimeDenoise setSamiVersion(String samiVersion) {
         this.samiVersion = samiVersion;
         return this;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public RealtimeDenoise setType(String type) {

@@ -1,16 +1,10 @@
 package com.duoec.video.jy.dto;
 
-import java.io.Serializable;
+import com.duoec.video.jy.dto.info.BaseMaterial;
 
-public class BaseResource implements Serializable {
-
-    private String id;
+public class BaseResource extends BaseMaterial {
 
     private String path;
-
-    public String getId() {
-        return id;
-    }
 
     public BaseResource setId(String id) {
         this.id = id;

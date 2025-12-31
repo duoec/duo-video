@@ -3,6 +3,8 @@ package com.duoec.video.jy.dto.info;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class Video extends BaseMaterial {
 
     @JsonProperty("aigc_history_id")
@@ -142,6 +144,30 @@ public class Video extends BaseMaterial {
     public VideoAlgorithm videoAlgorithm;
 
     public Integer width;
+
+    @JsonProperty("beauty_face_auto_preset_infos")
+    public List<Object> beautyFaceAutoPresetInfos;
+
+    @JsonProperty("beauty_body_preset_id")
+    public String beautyBodyPresetId;
+
+    @JsonProperty("local_material_from")
+    public String localMaterialFrom;
+
+    @JsonProperty("live_photo_cover_path")
+    public String livePhotoCoverPath;
+
+    @JsonProperty("beauty_face_auto_preset")
+    public BeautyFaceAutoPreset beautyFaceAutoPreset;
+
+    @JsonProperty("beauty_face_preset_infos")
+    public List<Object> beautyFacePresetInfos;
+
+    @JsonProperty("has_sound_separated")
+    public Boolean hasSoundSeparated;
+
+    @JsonProperty("live_photo_timestamp")
+    public Integer livePhotoTimestamp;
 
     public String getAigcType() {
         return aigcType;
@@ -573,6 +599,78 @@ public class Video extends BaseMaterial {
 
     public Video setTextEditOverdub(Boolean textEditOverdub) {
         this.textEditOverdub = textEditOverdub;
+        return this;
+    }
+
+    public List<Object> getBeautyFaceAutoPresetInfos() {
+        return beautyFaceAutoPresetInfos;
+    }
+
+    public Video setBeautyFaceAutoPresetInfos(List<Object> beautyFaceAutoPresetInfos) {
+        this.beautyFaceAutoPresetInfos = beautyFaceAutoPresetInfos;
+        return this;
+    }
+
+    public String getBeautyBodyPresetId() {
+        return beautyBodyPresetId;
+    }
+
+    public Video setBeautyBodyPresetId(String beautyBodyPresetId) {
+        this.beautyBodyPresetId = beautyBodyPresetId;
+        return this;
+    }
+
+    public String getLocalMaterialFrom() {
+        return localMaterialFrom;
+    }
+
+    public Video setLocalMaterialFrom(String localMaterialFrom) {
+        this.localMaterialFrom = localMaterialFrom;
+        return this;
+    }
+
+    public String getLivePhotoCoverPath() {
+        return livePhotoCoverPath;
+    }
+
+    public Video setLivePhotoCoverPath(String livePhotoCoverPath) {
+        this.livePhotoCoverPath = livePhotoCoverPath;
+        return this;
+    }
+
+    public BeautyFaceAutoPreset getBeautyFaceAutoPreset() {
+        return beautyFaceAutoPreset;
+    }
+
+    public Video setBeautyFaceAutoPreset(BeautyFaceAutoPreset beautyFaceAutoPreset) {
+        this.beautyFaceAutoPreset = beautyFaceAutoPreset;
+        return this;
+    }
+
+    public List<Object> getBeautyFacePresetInfos() {
+        return beautyFacePresetInfos;
+    }
+
+    public Video setBeautyFacePresetInfos(List<Object> beautyFacePresetInfos) {
+        this.beautyFacePresetInfos = beautyFacePresetInfos;
+        return this;
+    }
+
+    public Boolean getHasSoundSeparated() {
+        return hasSoundSeparated;
+    }
+
+    public Video setHasSoundSeparated(Boolean hasSoundSeparated) {
+        this.hasSoundSeparated = hasSoundSeparated;
+        return this;
+    }
+
+    public Integer getLivePhotoTimestamp() {
+        return livePhotoTimestamp;
+    }
+
+    public Video setLivePhotoTimestamp(Integer livePhotoTimestamp) {
+        this.livePhotoTimestamp = livePhotoTimestamp;
         return this;
     }
 }

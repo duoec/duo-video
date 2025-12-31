@@ -3,20 +3,14 @@ package com.duoec.video.jy.dto.info;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
-public class Speed implements Serializable {
+public class Speed extends BaseMaterial {
 
     @JsonProperty("curve_speed")
     public CurveSpeed curveSpeed;
 
-    public String id;
-
     public Integer mode;
 
     public Double speed;
-
-    public String type;
 
     public CurveSpeed getCurveSpeed() {
         return curveSpeed;
@@ -25,10 +19,6 @@ public class Speed implements Serializable {
     public Speed setCurveSpeed(CurveSpeed curveSpeed) {
         this.curveSpeed = curveSpeed;
         return this;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public Speed setId(String id) {
@@ -52,10 +42,6 @@ public class Speed implements Serializable {
     public Speed setSpeed(Double speed) {
         this.speed = speed;
         return this;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public Speed setType(String type) {

@@ -4,6 +4,7 @@ import com.duoec.base.core.util.FileUtils;
 import com.duoec.base.core.util.JsonUtils;
 import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.jy.dto.info.JianYingProjectInfo;
+import com.duoec.video.jy.dto.info.Segment;
 import com.duoec.video.jy.dto.info.Track;
 import com.duoec.video.jy.dto.meta.JianYingProjectMeta;
 import com.duoec.video.jy.utils.JianyingResourceUtils;
@@ -11,6 +12,7 @@ import com.duoec.video.jy.utils.JianyingUtils;
 import com.duoec.video.jy.utils.UuidUtils;
 import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.material.BaseMaterial;
+import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -36,6 +38,12 @@ public class JianyingProjectBuildState {
 
     private final Map<Long, BaseMaterial> materialMap;
 
+    /**
+     * 组合表
+     * 有些组合全局仅需要做一次即可，比较绿幕
+     */
+    private final Map<String, Segment> combinationSegmentMap = Maps.newHashMap();
+
     private final File projectDir;
     private final File projectLocalResourceDir;
 
@@ -49,26 +57,20 @@ public class JianyingProjectBuildState {
         }
         this.videoProject = videoProject;
 
-        jianYingProjectMeta = JianyingUtils.getDefaultProjectMeta()
-                .setDraftId(UuidUtils.next());
+        jianYingProjectMeta = JianyingUtils.getDefaultProjectMeta().setDraftId(UuidUtils.next());
         jianYingProject = JianyingUtils.getDefaultProjectInfo();
 
         if (this.jianYingProject == null) {
             throw new DuoServiceException("初始化剪映工程失败！");
         }
 
-        jianYingProject.setId(UuidUtils.next())
-                .setName(projectId.toString())
-                .setDuration(videoProject.getDuration() * JianyingUtils.LONG_1000);
-        jianYingProject.getCanvasConfig()
-                .setHeight(videoProject.getHeight())
-                .setWidth(videoProject.getWidth());
+        jianYingProject.setId(UuidUtils.next()).setName(projectId.toString()).setDuration(videoProject.getDuration() * JianyingUtils.LONG_1000);
+        jianYingProject.getCanvasConfig().setHeight(videoProject.getHeight()).setWidth(videoProject.getWidth());
 
         boolean test = Optional.ofNullable(videoProject.getTest()).orElse(false);
 
         String projectDirName = StringUtils.hasLength(videoProject.getProjectName()) ? videoProject.getProjectName() : videoProject.getId().toString();
-        this.projectDir = test ?
-                new File(DEBUG_JY_DRAFT_DIR + projectDirName) : // 测试时，直接写入剪映草稿目录
+        this.projectDir = test ? new File(DEBUG_JY_DRAFT_DIR + projectDirName) : // 测试时，直接写入剪映草稿目录
                 new File(JianyingResourceUtils.JY_PROJECT_DIR, projectId.toString());
 
         if (test && this.projectDir.exists()) {
@@ -81,10 +83,7 @@ public class JianyingProjectBuildState {
         FileUtils.mkdirs(projectLocalResourceDir);
 
         if (this.videoProject.getMaterials() != null) {
-            this.materialMap = this.videoProject.getMaterials()
-                    .stream()
-                    .filter(material -> material.getId() != null && material.getId() > 0)
-                    .collect(Collectors.toMap(BaseMaterial::getId, Function.identity()));
+            this.materialMap = this.videoProject.getMaterials().stream().filter(material -> material.getId() != null && material.getId() > 0).collect(Collectors.toMap(BaseMaterial::getId, Function.identity()));
         } else {
             this.materialMap = new HashMap<>();
         }
@@ -126,13 +125,16 @@ public class JianyingProjectBuildState {
             }
         });
 
-        FileUtils.writeFile(
-                JsonUtils.toJsonString(jianYingProject).getBytes(StandardCharsets.UTF_8),
-                new File(this.projectDir, "draft_info.json")
-        );
-        FileUtils.writeFile(
-                JsonUtils.toJsonString(jianYingProjectMeta).getBytes(StandardCharsets.UTF_8),
-                new File(this.projectDir, "draft_meta_info.json")
-        );
+        FileUtils.writeFile(JsonUtils.toJsonString(jianYingProject).getBytes(StandardCharsets.UTF_8), new File(this.projectDir, "draft_info.json"));
+        FileUtils.writeFile(JsonUtils.toJsonString(jianYingProjectMeta).getBytes(StandardCharsets.UTF_8), new File(this.projectDir, "draft_meta_info.json"));
+    }
+
+    /**
+     * 获取复合片段
+     * @param combinationId 复合片段的ID，一般由组合的ID串成
+     * @param fun 如果缓存中不存在，则执行此方法生成
+     */
+    public Segment getCombinationSegment(String combinationId, Function<String, Segment> fun) {
+        return combinationSegmentMap.computeIfAbsent(combinationId, fun);
     }
 }

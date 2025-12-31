@@ -3,15 +3,11 @@ package com.duoec.video.jy.dto.info;
 import com.duoec.video.jy.dto.TimeRange;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
-public class Loudness implements Serializable {
+public class Loudness extends BaseMaterial {
     private Boolean enable;
 
     @JsonProperty("file_id")
     private String fileId;
-
-    private String id;
 
     @JsonProperty("loudness_param")
     private LoudnessParam loudnessParam;
@@ -38,10 +34,6 @@ public class Loudness implements Serializable {
     public Loudness setFileId(String fileId) {
         this.fileId = fileId;
         return this;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public Loudness setId(String id) {

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
 
-public class VideoTracking implements Serializable {
+public class VideoTracking extends BaseMaterial {
     private VideoTrackingConfig config;
 
     @JsonProperty("enable_scale")
@@ -13,8 +13,6 @@ public class VideoTracking implements Serializable {
 
     @JsonProperty("enable_video_tracking")
     private Boolean enableVideoTracking = false;
-
-    private String id;
 
     @JsonProperty("map_path")
     private String mapPath;
@@ -29,8 +27,6 @@ public class VideoTracking implements Serializable {
 
     @JsonProperty("tracking_time_range")
     private Integer trackingTimeRange = 0;
-
-    private String type;
 
     private String version = "";
 
@@ -59,10 +55,6 @@ public class VideoTracking implements Serializable {
     public VideoTracking setEnableVideoTracking(Boolean enableVideoTracking) {
         this.enableVideoTracking = enableVideoTracking;
         return this;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public VideoTracking setId(String id) {
@@ -113,10 +105,6 @@ public class VideoTracking implements Serializable {
     public VideoTracking setTrackingTimeRange(Integer trackingTimeRange) {
         this.trackingTimeRange = trackingTimeRange;
         return this;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public VideoTracking setType(String type) {

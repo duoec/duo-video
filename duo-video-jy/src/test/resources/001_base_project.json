@@ -7,7 +7,7 @@
         {
           "id": 296653948753219565,
           "time": {
-            "start": 0,
+            "start": 3000,
             "duration": 3000
           },
           "materialId": 535010997887571096,
@@ -21,7 +21,7 @@
           },
           "point": {
             "x": 0,
-            "y": -1112
+            "y": -1512
           },
           "rotate": -90,
           "visible": true,
@@ -49,13 +49,13 @@
           "visible": true,
           "horizontal": true,
           "vertical": true,
-          "volume": -100
+          "volume": 0
         },
         {
           "id": 296653948753219568,
           "time": {
             "start": 0,
-            "duration": 3000
+            "duration": 8000
           },
           "materialId": 535010997887571025,
           "materialStart": 10000,
@@ -85,7 +85,7 @@
           },
           "rotate": 0,
           "visible": true,
-          "volume": 0
+          "volume": -100
         },
         {
           "id": 296653948753219562,
@@ -173,10 +173,10 @@
       },
       "greenBackground": {
         "materialId": 535010997887571022,
-        "baseBackgroundColor": "#508921ff",
-        "strength": 60,
-        "edgeFeather": 20,
-        "edgeCleanup": 30
+        "baseBackgroundColor": "#4e8a1fff",
+        "strength": 20,
+        "edgeFeather": 10,
+        "edgeCleanup": 10
       }
     },
     {

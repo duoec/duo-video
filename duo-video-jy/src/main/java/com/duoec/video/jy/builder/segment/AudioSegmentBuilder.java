@@ -33,7 +33,7 @@ public class AudioSegmentBuilder extends BaseSegmentBuilder<AudioMaterial> {
                 .setDuration(materialTime.getDuration() * JianyingUtils.LONG_1000);
         state.getJianyingProject().getMaterials().getAudios().add(audio);
 
-        Track audioTrack = JianyingTrackBuilder.getOrCreateTrack(state, Track.TYPE_AUDIO, "音频", segmentTime.getStart(), segmentTime.getEndTime());
+        Track audioTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_AUDIO, "音频", segmentTime.getStart(), segmentTime.getEndTime());
         Segment segment = getSegment(videoSegment, audio);
         audioTrack.getSegments().add(segment);
 

@@ -4,6 +4,7 @@ import com.duoec.base.core.DuoServerConsts;
 import com.duoec.base.core.util.NumberUtils;
 import com.duoec.video.jy.JianyingProjectBuildState;
 import com.duoec.video.jy.dto.TimeRange;
+import com.duoec.video.jy.dto.info.JianYingProjectInfo;
 import com.duoec.video.jy.dto.info.Segment;
 import com.duoec.video.jy.dto.info.Track;
 import com.duoec.video.jy.utils.JianyingUtils;
@@ -26,6 +27,7 @@ public class JianyingTrackBuilder {
     private static final String[] TRACK_LAYOUTS = new String[]{
             "音频",
 
+            "绿幕背景",
             "视频",
             "图片",
 
@@ -46,8 +48,8 @@ public class JianyingTrackBuilder {
     /**
      * 获取或创建一个不层叠的track，如果有层叠则重新创建一个以 {trackName}-{序号}的track
      */
-    public static Track getOrCreateTrack(JianyingProjectBuildState state, String type, String trackName, long start, long end) {
-        List<Track> tracks = Optional.ofNullable(state.getJianyingProject().getTracks()).orElse(Lists.newArrayList());
+    public static Track getOrCreateTrack(JianYingProjectInfo projectInfo, String type, String trackName, long start, long end) {
+        List<Track> tracks = Optional.ofNullable(projectInfo.getTracks()).orElse(Lists.newArrayList());
         Track track = tracks.stream()
                 .filter(t -> type.equals(t.getType()) && trackName.equals(t.getName()))
                 .findFirst()
@@ -56,7 +58,7 @@ public class JianyingTrackBuilder {
         if (track == null) {
             // 新建
             Track newTrack = getDefaultTrack(type, trackName)
-                    .setDuoLayoutIndex(getTraceLayout(state, trackName));
+                    .setDuoLayoutIndex(getTraceLayout(projectInfo, trackName));
             tracks.add(newTrack);
             logger.debug("创建轨道：{}", trackName);
             return newTrack;
@@ -86,10 +88,10 @@ public class JianyingTrackBuilder {
             num = 1;
             newTrackName = trackName + DuoServerConsts.MIDDLE_LINE_STR + num;
         }
-        return getOrCreateTrack(state, type, newTrackName, start, end);
+        return getOrCreateTrack(projectInfo, type, newTrackName, start, end);
     }
 
-    public static int getTraceLayout(JianyingProjectBuildState state, String trackName) {
+    public static int getTraceLayout(JianYingProjectInfo projectInfo, String trackName) {
         int index = trackName.lastIndexOf(DuoServerConsts.MIDDLE_LINE_STR);
         String groupName = trackName;
         int num = 0;
@@ -103,7 +105,7 @@ public class JianyingTrackBuilder {
 
         return TRACK_LAYOUT_INDEX.computeIfAbsent(groupName, name -> {
             logger.warn("未配置轨道：{}", name);
-            return state.getJianyingProject().getTracks().stream().mapToInt(Track::getDuoLayoutIndex).max().orElse(0) + 10;
+            return projectInfo.getTracks().stream().mapToInt(Track::getDuoLayoutIndex).max().orElse(0) + 10;
         }) + num;
     }
 

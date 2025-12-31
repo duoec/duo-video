@@ -19,6 +19,8 @@ public abstract class BaseSegmentBuilder<T extends BaseMaterial> implements Segm
         return JianyingUtils.getDefaultSegment()
                 .setId(UuidUtils.next())
                 .setMaterialId(material.getId())
+                .setRenderIndex(2)
+                .setTrackRenderIndex(2)
                 .setSourceTimeRange(
                         new TimeRange()
                                 .setStart(materialStart * JianyingUtils.LONG_1000)

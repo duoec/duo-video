@@ -16,17 +16,7 @@
       "content": "",
       "composition": ""
     },
-    "tracks": [
-      {
-        "type": "video",
-        "name": "",
-        "segments": [],
-        "id": "",
-        "flag": 2,
-        "attribute": 0,
-        "is_default_name": true
-      }
-    ],
+    "tracks": [],
     "canvas_config": {
       "height": 1080,
       "ratio": "original",

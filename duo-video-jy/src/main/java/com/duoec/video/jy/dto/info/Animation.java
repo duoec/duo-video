@@ -32,8 +32,6 @@ public class Animation extends BaseResource {
 
     private Integer start;
 
-    private String type;
-
     public Object getAnimAdjustParams() {
         return animAdjustParams;
     }
@@ -131,10 +129,6 @@ public class Animation extends BaseResource {
     public Animation setStart(Integer start) {
         this.start = start;
         return this;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public Animation setType(String type) {
