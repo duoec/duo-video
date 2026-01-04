@@ -13,9 +13,19 @@ public enum MaterialTypeEnum {
     IMAGE_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_IMAGE),
 
     /**
+     * 贴纸
+     */
+    STICKER_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_STICKER),
+
+    /**
      * 音频
      */
     AUDIO_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_AUDIO),
+
+    /**
+     * 特效音
+     */
+    SOUND_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_SOUND),
 
     /**
      * 文本
@@ -40,7 +50,9 @@ public enum MaterialTypeEnum {
 
     public static final String MATERIAL_TYPE_VIDEO = "video";
     public static final String MATERIAL_TYPE_IMAGE = "image";
+    public static final String MATERIAL_TYPE_STICKER = "sticker";
     public static final String MATERIAL_TYPE_AUDIO = "audio";
+    public static final String MATERIAL_TYPE_SOUND = "sound";
     public static final String MATERIAL_TYPE_TEXT = "text";
     public static final String MATERIAL_TYPE_SUBTITLE = "subtitle";
     public static final String MATERIAL_TYPE_TEXT_TEMPLATE = "textTemplate";

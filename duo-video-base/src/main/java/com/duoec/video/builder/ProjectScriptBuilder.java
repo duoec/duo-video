@@ -80,6 +80,42 @@ public class ProjectScriptBuilder {
     }
 
     /**
+     * 获取贴纸Builder
+     */
+    public ProjectStickerBuilder getProjectStickerBuilder() {
+        return ProjectStickerBuilder.getBuilder(projectBuilder, this);
+    }
+
+    /**
+     * 添加贴纸
+     * @param stickerResourceId 贴纸ID
+     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
+     * @param duration 展示时长，单位：毫秒
+     */
+    public ProjectStickerBuilder addStickerAndGetBuilder(long stickerResourceId, long start, long duration) {
+        return getProjectStickerBuilder()
+                .add(stickerResourceId, start, duration);
+    }
+
+    /**
+     * 获取特效音Builder
+     */
+    public ProjectSoundBuilder getProjectSoundBuilder() {
+        return ProjectSoundBuilder.getBuilder(projectBuilder, this);
+    }
+
+    /**
+     * 添加特效音
+     * @param soundResourceId 特效音ID
+     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
+     * @param duration 展示时长，单位：毫秒
+     */
+    public ProjectSoundBuilder addSoundAndGetBuilder(long soundResourceId, long start, long duration) {
+        return getProjectSoundBuilder()
+                .add(soundResourceId, start, duration);
+    }
+
+    /**
      * 获取文本Builder
      */
     public ProjectTextBuilder getProjectTextBuilder() {

@@ -92,4 +92,9 @@ public class JyResource implements Serializable {
      */
     @JsonIgnore
     private Map<String, String> resourceMap;
+
+    /**
+     * 时长，单位：毫秒
+     */
+    private Long duration;
 }

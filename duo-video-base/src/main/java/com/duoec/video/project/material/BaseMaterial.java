@@ -42,6 +42,14 @@ import java.io.Serializable;
         @JsonSubTypes.Type(
                 value = AudioMaterial.class,
                 name = MaterialTypeEnum.MATERIAL_TYPE_AUDIO
+        ),
+        @JsonSubTypes.Type(
+                value = SoundMaterial.class,
+                name = MaterialTypeEnum.MATERIAL_TYPE_SOUND
+        ),
+        @JsonSubTypes.Type(
+                value = StickerMaterial.class,
+                name = MaterialTypeEnum.MATERIAL_TYPE_STICKER
         )
 })
 public class BaseMaterial implements Serializable {

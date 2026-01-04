@@ -139,6 +139,24 @@
             "x": 0,
             "y": 1400
           }
+        },
+        {
+          "id": 296653948753219506,
+          "time": {
+            "start": 1000,
+            "duration": 3000
+          },
+          "materialId": 535010997887571001,
+          "type": "sound"
+        },
+        {
+          "id": 296653948753219507,
+          "time": {
+            "start": 1500,
+            "duration": 3000
+          },
+          "materialId": 535010997887571002,
+          "type": "sticker"
         }
       ]
     }
@@ -256,6 +274,16 @@
       "id": 535010997887571022,
       "url": "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png",
       "type": "image"
+    },
+    {
+      "id": 535010997887571001,
+      "resourceId": 6896683103100603655,
+      "type": "sound"
+    },
+    {
+      "id": 535010997887571002,
+      "resourceId": 7525717754679414078,
+      "type": "sticker"
     }
   ],
   "width": 1080,

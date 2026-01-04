@@ -25,13 +25,14 @@ public class JianyingTrackBuilder {
      * 各轨道的排序值，越大越上层
      */
     private static final String[] TRACK_LAYOUTS = new String[]{
+            "特效音",
             "音频",
 
             "绿幕背景",
             "视频",
             "图片",
 
-            "图片",
+            "贴纸",
 
             "字幕",
             "文本",
