@@ -1,6 +1,6 @@
 {
   "id": 296653948753219560,
-  "projectName": "001_base_project",
+  "projectName": "001_duo_video",
   "scripts": [
     {
       "segments": [
@@ -89,7 +89,7 @@
           "id": 296653948753219561,
           "time": {
             "start": 3000,
-            "duration": 3000
+            "duration": 5000
           },
           "materialId": 535010997887571046,
           "materialStart": 10000,

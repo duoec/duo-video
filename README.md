@@ -1,41 +1,98 @@
-# Duo Video
+# Duo-Video
 
 [![Java Version](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.8-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Maven](https://img.shields.io/badge/Maven-Project-blue.svg)](https://maven.apache.org/)
 
-Duo Video 是一个用于以编程方式生成剪映（JianYing）视频项目文件的 Java 库。通过简洁的 API，你可以创建复杂的视频项目，包括视频片段、文本、字幕、特效等，而无需手动操作剪映应用。
+Duo-Video 是一个强大的 Java 视频编辑 SDK，通过简洁优雅的 API 以编程方式生成专业级视频项目。项目采用分层架构设计，目前通过生成剪映工程文件实现视频创作，**最终目标是实现纯 Linux 环境下的 Headless 视频生成能力**。
 
-## 特性
+![剪映工程示例](https://api.duoec.com/public/duo-video.png)
+（本工程由 com.duoec.video.jy.JianyingBuilderTest.buildWithProjectJson 测试用例生成）
 
-- 编程式创建剪映视频项目
-- 支持多种素材类型：视频、文本、文本模板、音频等
-- 灵活的分镜（VideoScript）和片段（VideoSegment）管理
-- 支持文本样式自定义（字体、颜色、大小、对齐等）
-- 支持 LUT（色彩查找表）
-- 支持位置、时间范围等精确控制
-- 基于 Builder 模式的流畅 API
+## 项目愿景
 
-## 项目结构
+**duo-video-base** 定义了一套简洁而完整的视频数据模型，用最小化的结构描述复杂的视频项目。当前阶段通过 **duo-video-jy** 模块将这套模型转换为剪映工程格式，利用剪映编辑器导出最终视频。未来将直接调用底层渲染引擎，实现无需 GUI 的服务器端视频生成。
+
+## 项目亮点
+
+- **支持剪映最新版本** - 与剪映专业版保持同步，支持最新特性
+- **文本模板** - 丰富的官方文字动画模板，一键应用动态效果
+- **画面特效** - 粒子、扭曲、模糊等数百种视觉效果
+- **脸部特效** - 基于 AI 的人脸识别特效（美颜、搞怪等）
+- **绿幕抠图** - 智能色度键控，支持背景替换和边缘优化
+- **转场效果** - 专业的场景过渡动画
+- **复合片段** - 多层素材智能合成（绿幕+背景自动合并）
+- **视频倒放** - 基于 FFmpeg 的高质量倒放处理。支持剪映自带的水平镜像、垂直镜像
+- **LUT 滤镜** - 专业级调色，支持肤色保护（使用自定义CUBE文件）
+- **花字系统** - 花字文字效果，支持逐字符样式定制
+- **Fluent API** - 流畅的 Builder 模式，代码即视频脚本
+
+## 核心功能一览
+
+### 基础素材（6 种）
+
+| 素材类型     | 功能描述     | 特性              |
+|----------|----------|-----------------|
+| **视频**   | 支持常见视频格式 | 时间裁剪、变速、倒放      |
+| **图片**   | 支持常见图片格式 | 自定义显示时长、缩放      |
+| **文本**   | 富文本编辑    | 多样式、花字、描边、阴影、背景 |
+| **字幕**   | 基于文本系统   | 继承全部文本样式能力      |
+| **音频**   | 背景音乐、配音  | 时间范围、音量控制       |
+| **文本模板** | 官方动画模板   | 多文本块、动态效果       |
+| -- 其它 -- | 新功能持续追加中 | ...             |
+
+### 特效素材（5 种）
+
+| 特效类型 | 功能描述 | 应用场景 |
+|---------|---------|---------|
+| **特效音** | 短音效资源 | 转场音、点击音、环境音 |
+| **贴纸** | 动态或静态贴纸 | 表情、标签、装饰 |
+| **转场** | 场景过渡动画 | 淡入淡出、擦除、翻转等 |
+| **画面特效** | 全屏视觉效果 | 粒子、扭曲、色彩调整 |
+| **脸部特效** | AI 人脸特效 | 美颜、搞怪、风格化 |
+
+### 高级功能（14 项）
+
+- **绿幕抠图** - 智能 Chroma Key，支持自定义取色和容差
+- **复合片段** - 绿幕视频与背景自动合成为 Group
+- **LUT 滤镜** - 3D LUT 调色，支持肤色保护模式
+- **视频倒放** - FFmpeg 驱动的高质量倒放
+- **变速控制** - 0.2x - 100x 任意倍速
+- **音量调节** - 静音、原音量、增益，支持线性/对数转换
+- **透明度** - 0-100 级别控制
+- **旋转** - 任意角度旋转
+- **缩放** - 支持 X/Y 轴独立缩放
+- **位置** - 像素级精确定位，中心原点坐标系
+- **镜像** - 水平/垂直镜像独立控制
+- **花字** - 特殊文字样式，支持资源包加载
+- **逐字样式** - 单个字符独立样式（颜色、大小、特效）
+- **智能轨道** - 自动创建、防重叠、层级管理
+
+## 项目架构
 
 ```
 duo-video/
-├── duo-server-base/      # 服务器基础模块
-├── duo-video-base/       # 视频项目基础模块（核心数据模型）
-└── duo-video-jy/         # 剪映项目生成器（转换为剪映格式）
+├── duo-server-base/      # 基础工具库（文件处理、JSON、工具类）
+├── duo-video-base/       # 核心数据模型（VideoProject、Material、Segment）
+└── duo-video-jy/         # 剪映集成（将数据模型转换为剪映工程格式）
+    ├── builder/          # 17 个专业 Builder 类
+    ├── dto/              # 剪映数据结构映射
+    └── service/          # 素材下载、FFmpeg、Exiftool 集成
 ```
 
 ## 环境要求
 
-- Java 21+
-- Maven 3.6+
-- Spring Boot 3.5.8
+- **Java 21+**
+- **Maven 3.6+**
+- **Spring Boot 3.5.8**
+- **FFmpeg**（可选，用于视频倒放）
+- **Exiftool**（可选，用于媒体元数据提取）
 
 ## 快速开始
 
 ### 1. 添加依赖
 
-在你的 `pom.xml` 中添加依赖：
+在你的 `pom.xml` 中添加：
 
 ```xml
 <dependency>
@@ -45,138 +102,221 @@ duo-video/
 </dependency>
 ```
 
-### 2. 创建视频项目
-
-使用 `VideoProjectBuilder` 创建视频项目：
+### 2. 创建你的第一个视频
 
 ```java
 import com.duoec.video.builder.ProjectBuilder;
 import com.duoec.video.jy.JianyingBuilder;
-import com.duoec.video.jy.dto.info.JianYingProjectInfo;
 import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.material.TextStyle;
 
-// 创建视频项目
-VideoProject videoProject = VideoProjectBuilder
-    .createBuilder(projectId, "我的视频项目", 1080, 1920)
-    .setTest(true) // 设置为测试模式
+// 创建 1080x1920 竖屏视频项目
+VideoProject project = ProjectBuilder
+    .createBuilder("my-project-001", "我的第一个视频", 1080, 1920)
+    .setFps(30)
+    .setTest(true) // 测试模式
 
-    // 第一个分镜：添加文本模板
-    .getTextTemplateBuilder(0)
-    .add(textTemplateResourceId, "标题文本", 0, 3000)
-    .setPosition(0, -400) // 位置：中央偏上
+    // 添加文本模板（带动画效果）
+    .addTextTemplateAndGetBuilder(0, 267415006823001104L, "标题文本", 0, 3000)
+    .setPosition(0, -400)  // 屏幕上方
     .back()
 
     // 添加普通文本
-    .getTextBuilder(0)
-    .add("文本ID", 0, 3000)
-    .setStyle(
-        new TextStyle()
-            .setFontSize(5)
-            .setTextAlign(1)
-            .setFillColor("#FFFFFF")
-            .setFontName("默认字体")
-    )
-    .setPosition(0, 1866) // 位置：底部
+    .addTextAndGetBuilder(0, "这是一段普通文本", 0, 3000)
+    .setStyle(new TextStyle()
+        .setFontSize(16)
+        .setFillColor("#FFFFFF")
+        .setTextAlign(1)  // 居中对齐
+        .setBold(true))
+    .setPosition(0, 400)  // 屏幕下方
     .back()
 
-    .getProject(); // 导出项目
+    .getProject();
 
-// 构建剪映项目文件
-JianyingBuilder jianyingBuilder = new JianyingBuilder();
-JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject);
-```
+// 构建剪映工程
+JianyingBuilder builder = new JianyingBuilder();
+JianYingProjectInfo jyProject = builder.build(project);
 
-### 3. 使用 JSON 配置
-
-你也可以从 JSON 文件加载项目配置：
-
-```java
-VideoProject videoProject = FileUtils.readJson("project.json", VideoProject.class);
-videoProject.setTest(true);
-
-JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject);
+// 此时剪映工程已生成，可在剪映中打开并导出视频
 ```
 
 ## 核心概念
 
-### VideoProject（视频项目）
+### 三层数据模型
 
-视频项目是最顶层的容器，包含：
-- 项目名称、尺寸（宽高）、帧率
-- 分镜列表（scripts）
-- 素材列表（materials）
-
-### VideoScript（分镜）
-
-分镜代表视频的一个时间段，包含：
-- 时间范围（可选，未指定则自动扩容）
-- 片段列表（segments）
-
-### VideoSegment（片段）
-
-片段是最小的视频元素单位，可以是：
-- 视频片段
-- 文本
-- 文本模板
-- 音频
-- 特效等
+```
+VideoProject (视频项目)
+├── projectName: 项目名称
+├── width/height: 分辨率
+├── fps: 帧率
+├── scripts: List<VideoScript> (分镜列表，用于组织复杂的项目)
+│   └── VideoScript (分镜)
+│       ├── time: 时间范围（可选，未填写时自动扩容）
+│       └── segments: List<VideoSegment> (片段列表)
+│           └── VideoSegment (片段)
+│               ├── materialId: 关联的素材ID
+│               ├── type: 素材类型
+│               ├── time: 显示时间范围
+│               ├── speed: 变速
+│               ├── zoom: 缩放
+│               ├── point: 位置
+│               ├── rotate: 旋转
+│               ├── opacity: 透明度
+│               ├── volume: 音量
+│               └── refs: 关联的其他素材（如转场）
+└── materials: List<BaseMaterial> (素材库)
+```
 
 ### 坐标系统
 
-位置坐标以视频中心为原点 (0, 0)：
-- X 轴：左负右正
-- Y 轴：上正下负
+```
+        Y+
+        ↑
+        |
+X- ←--(0,0)--→ X+
+        |
+        ↓
+        Y-
+```
+
+参考剪映的坐标系
+
+- **原点 (0, 0)**: 视频画面中心
+- **X 轴**: 左负右正
+- **Y 轴**: 上正下负（注意：与常见坐标系相反）
 
 ### 时间单位
 
-所有时间相关的参数使用微秒（μs）为单位。
+所有时间参数使用 **毫秒（ms）** 为单位：
 
-## API 示例
+- 1 秒 = 1,000 毫秒
+- 3 秒 = 3,000 毫秒
 
-### 设置视频尺寸和帧率
+## 实用示例
 
-```java
-VideoProject project = VideoProjectBuilder
-    .createBuilder(id, "项目名称", 1920, 1080) // 横屏 16:9
-    .setFps(30) // 设置帧率为 30fps
-    .getProject();
-```
-
-### 添加多个分镜
+### 绿幕抠图 + 背景替换
 
 ```java
-VideoProjectBuilder builder = VideoProjectBuilder.createBuilder(id, "项目名称", 1080, 1920);
+// 添加带绿幕的视频
+VideoSegment greenScreenVideo = new VideoSegment()
+    .setMaterialId(videoMaterialId)
+    .setTime(new VideoTimeRange(0, 5000000))  // 5秒
+    .setGreenBackground(
+            new GreenBackground() // 目前仅实现捨色抠像
+                .setBaseBackgroundColor("#4e8a1fff")  // 绿幕颜色
+                .setStrength(20) // 强度。其它参数、功能可以剪映的参数。这些参数可以使用AI推荐（需要多模态支持）
+    );
 
-// 第一个分镜
-builder.getTextBuilder(0)
-    .add("scene1_text", 0, 3000)
-    .back();
-
-// 第二个分镜
-builder.getTextBuilder(1)
-    .add("scene2_text", 0, 5000)
-    .back();
-
-VideoProject project = builder.getProject();
+// 会自动生成复合片段（绿幕视频 + 背景合成）
 ```
 
-### 自定义文本样式
+### 视频倒放
+
+```java
+VideoSegment reverseVideo = new VideoSegment()
+    .setMaterialId(videoMaterialId)
+    .setTime(new VideoTimeRange(0, 3000000))
+    .setUpend(true);  // 启用倒放（需要 FFmpeg）
+```
+
+### 添加转场
+
+```java
+// 在 refs 中关联转场素材
+VideoSegment segment1 = new VideoSegment()
+    .setMaterialId(video1)
+    .setTime(new VideoTimeRange(0, 3000000));
+
+// 自动应用到前一个片段的结尾
+segment1.addRef(transitionMaterialId, "transition");
+```
+
+### 复杂文本样式
 
 ```java
 TextStyle style = new TextStyle()
-    .setFontSize(10)           // 字体大小
-    .setTextAlign(1)           // 对齐方式：0=左对齐，1=居中，2=右对齐
-    .setFillColor("#FF0000")   // 文字颜色（红色）
-    .setFontName("微软雅黑");   // 字体名称
+    .setFontSize(20)                    // 字体大小
+    .setBold(true)                      // 粗体
+    .setItalic(false)                   // 斜体
+    .setUnderline(true)                 // 下划线
+    .setFillColor("#FF0000")            // 填充颜色
+    .setTextAlign(1)                    // 0=左，1=中，2=右
+    .setLineSpacing(0.5)                // 行间距
+    .setLetterSpacing(0.1)              // 字间距
 
-builder.getTextBuilder(0)
-    .add("text_id", 0, 3000)
-    .setStyle(style)
-    .back();
+    // 描边
+    .setStrokeColor("#000000")
+    .setStrokeWidth(2.0)
+
+    // 阴影
+    .setShadowColor("#00000080")
+    .setShadowAlpha(0.5)
+    .setShadowAngle(45)
+    .setShadowDistance(5.0)
+    .setShadowSmooth(3.0)
+
+    // 背景
+    .setBackgroundColor("#FFFFFF80")
+    .setBackgroundAlpha(0.5)
+    .setBackgroundCornerRadius(10.0)
+    .setBackgroundWidth(1.2)
+    .setBackgroundHeight(1.5);
+
+// 花字效果
+TextWord word = new TextWord()
+    .setText("花")
+    .setFlowerId(flowerResourceId);  // 特殊文字效果
 ```
 
-## 构建和测试
+### 画面特效
+
+```java
+VideoSegment withEffect = new VideoSegment()
+    .setMaterialId(videoId)
+    .setTime(new VideoTimeRange(0, 3000000));
+
+// 添加画面特效（粒子、扭曲、模糊等）
+VideoSegment effect = new VideoSegment()
+    .setType("video_effect")
+    .setMaterialId(videoEffectMaterialId)  // 特效素材ID
+    .setTime(new VideoTimeRange(500000, 2000000));  // 特效时间范围
+```
+
+### 使用 LUT 滤镜
+
+```java
+VideoMaterial video = new VideoMaterial()
+    .setMaterialId(videoId)
+    .setUrl("https://example.com/video.mp4")
+    .setLut(new Lut()
+        .setUrl("https://example.com/lut.cube")
+        .setSkinToneCorrection(10));  // 保护肤色，与剪映上的参数保持一致
+```
+
+### 变速和音量控制
+
+```java
+VideoSegment segment = new VideoSegment()
+    .setMaterialId(videoId)
+    .setTime(new VideoTimeRange(0, 3000000))
+    .setSpeed(200)      // 2倍速（百分比）
+    .setVolume(150);    // 音量增益 1.5 
+```
+
+### 使用 JSON 配置
+
+```java
+// 从 JSON 文件加载项目
+VideoProject project = FileUtils.readJson("project.json", VideoProject.class);
+
+// 构建剪映工程
+JianyingBuilder builder = new JianyingBuilder();
+JianYingProjectInfo jyProject = builder.build(project);
+```
+
+注意：本demo中，第一个视频旋转 90度，应该是倒着的人，但又配置了垂直镜像，所以人正过来了。另外，剪映5.9版本不支持垂直镜像，所以在低版本上人是倒过来的。特此说明
+
+## 构建
 
 ### 编译项目
 
@@ -190,71 +330,39 @@ mvn clean install
 mvn test
 ```
 
-### 使用指定 Profile
+### 使用 Maven Profile
 
-开发环境（默认）：
+开发环境（SNAPSHOT 版本）：
 ```bash
 mvn clean install -Pdev
 ```
 
-生产环境：
+生产环境（正式版本）：
 ```bash
 mvn clean install -Pprod
 ```
 
-## 项目配置
-
-### Maven Profiles
-
-项目提供两个 Maven Profile：
-
-- `dev`（默认）：使用 SNAPSHOT 版本
-- `prod`：使用正式版本
-
 ## 开发指南
 
-### 添加新的素材类型
+### 轨道层级顺序
 
-1. 在 `duo-video-base` 模块的 `com.duoec.video.project.material` 包下创建新的素材类
-2. 继承 `BaseMaterial` 类
-3. 在 `duo-video-jy` 模块中实现对应的转换逻辑
+轨道自下而上的渲染顺序（数字越小越在底层）：
 
-### 扩展剪映功能
+1. 特效音
+2. 音频
+3. 绿幕背景
+4. 视频
+5. 图片
+6. 画面特效
+7. 贴纸
+8. 字幕
+9. 文本
+10. 文本模板
 
-在 `duo-video-jy` 模块的 `com.duoec.video.jy.builder` 包下添加新的 Builder 类。
+## 特别说明
 
-## 技术栈
+**本项目仅供学习交流使用，如有侵权，请联系作者。**
 
-- Java 21
-- Spring Boot 3.5.8
-- Lombok
-- JUnit 5
-- Maven
+![企业微信](https://api.duoec.com/public/qywx_xwz.jpg)
 
-## 许可证
-
-本项目采用开源许可证（具体许可证类型待定）。
-
-## 贡献
-
-欢迎贡献代码！请遵循以下步骤：
-
-1. Fork 本仓库
-2. 创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交你的更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启一个 Pull Request
-
-## 联系方式
-
-如有问题或建议，请提交 Issue。
-
-## 更新日志
-
-### v1.0.0-SNAPSHOT
-
-- 初始版本
-- 支持基础的剪映项目生成
-- 支持文本、文本模板、视频等素材
-- 支持 LUT 色彩查找表
-- 提供 Builder 模式的流畅 API
+_本 README.md 由 claude code 生成，仅作参考，以代码实现为准_
