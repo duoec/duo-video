@@ -10,6 +10,7 @@ public class Track implements Serializable {
     public static final String TYPE_TEXT = "text";
     public static final String TYPE_VIDEO = "video";
     public static final String TYPE_AUDIO = "audio";
+    public static final String TYPE_EFFECT = "effect";
     public static final String TYPE_STICKER = "sticker";
 
     /**

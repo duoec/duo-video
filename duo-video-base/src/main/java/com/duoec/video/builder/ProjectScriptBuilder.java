@@ -98,6 +98,35 @@ public class ProjectScriptBuilder {
     }
 
     /**
+     * 获取画面、脸部特效Builder
+     */
+    public ProjectVideoEffectBuilder getProjectVideoEffectBuilder() {
+        return ProjectVideoEffectBuilder.getBuilder(projectBuilder, this);
+    }
+
+    /**
+     * 添加画面特效
+     * @param videoEffectResourceId 画面特效ID
+     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
+     * @param duration 展示时长，单位：毫秒
+     */
+    public ProjectVideoEffectBuilder addVideoEffectAndGetBuilder(long videoEffectResourceId, long start, long duration) {
+        return getProjectVideoEffectBuilder()
+                .addVideoEffect(videoEffectResourceId, start, duration);
+    }
+
+    /**
+     * 添加脸部特效
+     * @param faceEffectResourceId 脸部特效ID
+     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
+     * @param duration 展示时长，单位：毫秒
+     */
+    public ProjectVideoEffectBuilder addFaceEffectAndGetBuilder(long faceEffectResourceId, long start, long duration) {
+        return getProjectVideoEffectBuilder()
+                .addFaceEffect(faceEffectResourceId, start, duration);
+    }
+
+    /**
      * 获取特效音Builder
      */
     public ProjectSoundBuilder getProjectSoundBuilder() {

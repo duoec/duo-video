@@ -37,6 +37,8 @@ public class JianyingSegmentBuilder {
         registrySegmentBuilder(TextTemplateSegmentBuilder.class);
         registrySegmentBuilder(SoundSegmentBuilder.class);
         registrySegmentBuilder(StickerSegmentBuilder.class);
+        registrySegmentBuilder(VideoEffectSegmentBuilder.class);
+        registrySegmentBuilder(FaceEffectSegmentBuilder.class);
     }
 
     public static void build(JianyingProjectBuildState state, VideoScript videoScript, VideoSegment videoSegment) {

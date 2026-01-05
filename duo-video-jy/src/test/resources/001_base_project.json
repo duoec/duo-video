@@ -68,10 +68,28 @@
           "volume": -50
         },
         {
+          "id": 296653948753229570,
+          "time": {
+            "start": 5000,
+            "duration": 3000
+          },
+          "materialId": 296653948753219570,
+          "type": "video_effect"
+        },
+        {
+          "id": 296653948753229571,
+          "time": {
+            "start": 1500,
+            "duration": 1000
+          },
+          "materialId": 296653948753219571,
+          "type": "face_effect"
+        },
+        {
           "id": 296653948753219561,
           "time": {
             "start": 3000,
-            "duration": 5000
+            "duration": 3000
           },
           "materialId": 535010997887571046,
           "materialStart": 10000,
@@ -266,7 +284,7 @@
     },
     {
       "id": 535010997887571000,
-      "type": "textTemplate",
+      "type": "text_template",
       "texts": [
         "非常棒"
       ],
@@ -292,6 +310,16 @@
       "resourceId": 7290852476259930685,
       "duration": 1000,
       "type": "transition"
+    },
+    {
+      "id": 296653948753219570,
+      "resourceId": 269695294462754817,
+      "type": "video_effect"
+    },
+    {
+      "id": 296653948753219571,
+      "resourceId": 269695388951642113,
+      "type": "face_effect"
     }
   ],
   "width": 1080,

@@ -32,6 +32,8 @@ public class JianyingTrackBuilder {
             "视频",
             "图片",
 
+            "画面特效",
+
             "贴纸",
 
             "字幕",

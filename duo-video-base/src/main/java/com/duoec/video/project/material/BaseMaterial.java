@@ -54,6 +54,14 @@ import java.io.Serializable;
         @JsonSubTypes.Type(
                 value = TransitionMaterial.class,
                 name = MaterialTypeEnum.MATERIAL_TYPE_TRANSITION
+        ),
+        @JsonSubTypes.Type(
+                value = VideoEffectMaterial.class,
+                name = MaterialTypeEnum.MATERIAL_TYPE_VIDEO_EFFECT
+        ),
+        @JsonSubTypes.Type(
+                value = FaceEffectMaterial.class,
+                name = MaterialTypeEnum.MATERIAL_TYPE_FACE_EFFECT
         )
 })
 public class BaseMaterial implements Serializable {

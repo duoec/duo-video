@@ -51,6 +51,16 @@ public enum MaterialTypeEnum {
      * LUT
      */
     LUT_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_LUT),
+
+    /**
+     * 画面特效
+     */
+    VIDEO_EFFECT_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_VIDEO_EFFECT),
+
+    /**
+     * 脸部特效
+     */
+    FACE_EFFECT_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_FACE_EFFECT),
     ;
 
     public static final String MATERIAL_TYPE_VIDEO = "video";
@@ -60,9 +70,11 @@ public enum MaterialTypeEnum {
     public static final String MATERIAL_TYPE_SOUND = "sound";
     public static final String MATERIAL_TYPE_TEXT = "text";
     public static final String MATERIAL_TYPE_SUBTITLE = "subtitle";
-    public static final String MATERIAL_TYPE_TEXT_TEMPLATE = "textTemplate";
+    public static final String MATERIAL_TYPE_TEXT_TEMPLATE = "text_template";
     public static final String MATERIAL_TYPE_LUT = "lut";
     public static final String MATERIAL_TYPE_TRANSITION = "transition";
+    public static final String MATERIAL_TYPE_VIDEO_EFFECT = "video_effect";
+    public static final String MATERIAL_TYPE_FACE_EFFECT = "face_effect";
 
     private final String type;
 
