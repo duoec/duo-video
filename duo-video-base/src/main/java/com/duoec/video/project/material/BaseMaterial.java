@@ -50,6 +50,10 @@ import java.io.Serializable;
         @JsonSubTypes.Type(
                 value = StickerMaterial.class,
                 name = MaterialTypeEnum.MATERIAL_TYPE_STICKER
+        ),
+        @JsonSubTypes.Type(
+                value = TransitionMaterial.class,
+                name = MaterialTypeEnum.MATERIAL_TYPE_TRANSITION
         )
 })
 public class BaseMaterial implements Serializable {

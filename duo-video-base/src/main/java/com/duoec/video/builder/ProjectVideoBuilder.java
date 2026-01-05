@@ -6,6 +6,8 @@ import com.duoec.video.project.VideoPoint;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.BaseVisibleMediaMaterial;
+import com.duoec.video.project.material.MaterialTypeEnum;
+import com.duoec.video.project.material.TransitionMaterial;
 import com.duoec.video.project.material.VideoMaterial;
 import org.springframework.util.StringUtils;
 
@@ -37,6 +39,31 @@ public class ProjectVideoBuilder extends BaseMaterialBuilder<VideoMaterial, Proj
 
         videoPoint = new VideoPoint(0, 0);
 
+        return this;
+    }
+
+    /**
+     * 添加转场特效（视频末尾），使用默认转场时长
+     * @param transitionId 转场资源ID
+     */
+    public ProjectVideoBuilder addTransition(long transitionId) {
+        return addTransition(transitionId, null);
+    }
+
+    /**
+     * 添加转场特效（视频末尾）
+     * @param transitionId 转场资源ID
+     * @param duration 转场时长（为null 时，表示使用此转场特效的默认时长）
+     */
+    public ProjectVideoBuilder addTransition(long transitionId, Long duration) {
+        TransitionMaterial transitionMaterial = new TransitionMaterial();
+        transitionMaterial.setId(SnowflakeIdUtils.nextTmpId());
+        transitionMaterial.setResourceId(transitionId);
+        if (duration != null) {
+            transitionMaterial.setDuration(duration);
+        }
+
+        segment.getRefs().put(transitionMaterial.getId(), MaterialTypeEnum.MATERIAL_TYPE_TRANSITION);
         return this;
     }
 

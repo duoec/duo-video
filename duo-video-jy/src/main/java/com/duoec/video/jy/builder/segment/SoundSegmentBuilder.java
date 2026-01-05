@@ -31,6 +31,9 @@ public class SoundSegmentBuilder extends BaseSegmentBuilder<SoundMaterial> {
             throw new DuoServiceException("无法找到特效音资源：resourceId=" + resourceId);
         }
 
+        // 复制资源文件到剪映本地素材库
+        JianyingResourceUtils.downloadResources(state.getProjectLocalResourceDir(), resource.getResources());
+
         Audio audio = JsonUtils.toObject(resource.getMainConfig(), Audio.class)
                 .setId(UuidUtils.next());
         state.getJianyingProject().getMaterials().getAudios().add(audio);

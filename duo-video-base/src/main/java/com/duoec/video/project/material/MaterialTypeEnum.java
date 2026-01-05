@@ -43,6 +43,11 @@ public enum MaterialTypeEnum {
     TEXT_TEMPLATE_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_TEXT_TEMPLATE),
 
     /**
+     * 转场
+     */
+    TRANSITION_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_TRANSITION),
+
+    /**
      * LUT
      */
     LUT_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_LUT),
@@ -57,6 +62,7 @@ public enum MaterialTypeEnum {
     public static final String MATERIAL_TYPE_SUBTITLE = "subtitle";
     public static final String MATERIAL_TYPE_TEXT_TEMPLATE = "textTemplate";
     public static final String MATERIAL_TYPE_LUT = "lut";
+    public static final String MATERIAL_TYPE_TRANSITION = "transition";
 
     private final String type;
 

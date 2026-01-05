@@ -7,7 +7,7 @@
         {
           "id": 296653948753219565,
           "time": {
-            "start": 3000,
+            "start": 3500,
             "duration": 3000
           },
           "materialId": 535010997887571096,
@@ -35,10 +35,11 @@
             "duration": 3000
           },
           "materialId": 535010997887571021,
-          "materialStart": 10000,
+          "materialStart": 5000,
           "type": "video",
           "layoutIndex": 1000,
           "refs": {
+            "296653948753219569": "transition"
           },
           "speed": 100,
           "zoom": {
@@ -83,7 +84,7 @@
             "x": 10000,
             "y": 10000
           },
-          "rotate": 0,
+          "rotate": 90,
           "visible": true,
           "volume": -100
         },
@@ -284,6 +285,12 @@
       "id": 535010997887571002,
       "resourceId": 7525717754679414078,
       "type": "sticker"
+    },
+    {
+      "id": 296653948753219569,
+      "resourceId": 7290852476259930685,
+      "duration": 1000,
+      "type": "transition"
     }
   ],
   "width": 1080,

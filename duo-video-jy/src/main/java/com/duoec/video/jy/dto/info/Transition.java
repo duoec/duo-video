@@ -6,13 +6,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Transition extends BaseMaterial {
     private String path;
 
+    @JsonProperty("is_ai_transition")
+    public Boolean isAiTransition;
+
     @JsonProperty("category_id")
     public String categoryId;
 
     @JsonProperty("category_name")
     public String categoryName;
 
-    public Integer duration;
+    public Long duration;
 
     @JsonProperty("effect_id")
     public String effectId;
@@ -24,11 +27,23 @@ public class Transition extends BaseMaterial {
 
     public String platform = "all";
 
+    @JsonProperty("video_path")
+    public String videoPath;
+
+    @JsonProperty("third_resource_id")
+    public String thirdResourceId;
+
     @JsonProperty("request_id")
     public String requestId;
 
     @JsonProperty("resource_id")
     public String resourceId;
+
+    @JsonProperty("task_id")
+    public String taskId;
+
+    @JsonProperty("source_platform")
+    public Integer sourcePlatform;
 
     public String getCategoryId() {
         return categoryId;
@@ -48,11 +63,11 @@ public class Transition extends BaseMaterial {
         return this;
     }
 
-    public Integer getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public Transition setDuration(Integer duration) {
+    public Transition setDuration(Long duration) {
         this.duration = duration;
         return this;
     }
@@ -128,6 +143,51 @@ public class Transition extends BaseMaterial {
 
     public Transition setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    public Boolean getAiTransition() {
+        return isAiTransition;
+    }
+
+    public Transition setAiTransition(Boolean aiTransition) {
+        isAiTransition = aiTransition;
+        return this;
+    }
+
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public Transition setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
+        return this;
+    }
+
+    public String getThirdResourceId() {
+        return thirdResourceId;
+    }
+
+    public Transition setThirdResourceId(String thirdResourceId) {
+        this.thirdResourceId = thirdResourceId;
+        return this;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public Transition setTaskId(String taskId) {
+        this.taskId = taskId;
+        return this;
+    }
+
+    public Integer getSourcePlatform() {
+        return sourcePlatform;
+    }
+
+    public Transition setSourcePlatform(Integer sourcePlatform) {
+        this.sourcePlatform = sourcePlatform;
         return this;
     }
 }

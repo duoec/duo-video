@@ -15,15 +15,15 @@ import com.duoec.video.jy.utils.UuidUtils;
 import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
-import com.duoec.video.project.material.BaseVisibleMediaMaterial;
-import com.duoec.video.project.material.MaterialTypeEnum;
-import com.duoec.video.project.material.VideoMaterial;
+import com.duoec.video.project.material.*;
+import com.duoec.video.project.material.BaseMaterial;
 import lombok.AllArgsConstructor;
 import org.assertj.core.util.Lists;
 import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMaterial> {
     @Override
@@ -65,31 +65,67 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
                     .setSourceTimeRange(timeRange);
 
             String combinationId = material.getId() + DuoServerConsts.UNDERLINE_STR + backgroundDto.material.getId();
-            Segment combinationSegment = state.getCombinationSegment(
+            Segment finalSegment = segment;
+            // 重置 Segment 时间
+            segment = state.getCombinationSegment(
                             combinationId,
-                            cid -> JianyingUtils.combine(jianyingProject, Lists.newArrayList(segment, backgroundDto.segment))
+                            cid -> JianyingUtils.combine(jianyingProject, Lists.newArrayList(finalSegment, backgroundDto.segment))
                     )
                     // 重置 Segment 时间
                     .setTargetTimeRange(targetTimeRange)
                     .setSourceTimeRange(sourceTimeRange);
-
-
-//            segment = combinationSegment;
-            return null; // 进行了复合片段，就不需要再外面额外处理
         }
-
-        List<Effect> effects = jianyingProject.getMaterials().getEffects();
 
         // LUT
         List<Effect> lutEffectList = buildLut(state, videoScript, videoSegment, material);
         if (!CollectionUtils.isEmpty(lutEffectList)) {
+            List<Effect> effects = jianyingProject.getMaterials().getEffects();
             for (Effect effect : lutEffectList) {
                 segment.getExtraMaterialRefs().add(effect.getId());
                 effects.add(effect);
             }
         }
 
+        // 处理Refs
+        setRefs(state, videoScript, videoSegment, material, segment);
+
+        if (backgroundDto != null) {
+            // 如果是复合片段时，不需要后续的统一处理，这里直接返回null了，但这逻辑不好，后续需要优化
+            return null;
+        }
         return segment;
+    }
+
+    private void setRefs(JianyingProjectBuildState state, VideoScript videoScript, VideoSegment videoSegment, VideoMaterial material, Segment segment) {
+        Map<Long, String> refs = videoSegment.getRefs();
+        if (CollectionUtils.isEmpty(refs)) {
+            return;
+        }
+        refs.forEach((materialId, type) -> {
+            BaseMaterial refMaterial = state.getMaterial(materialId);
+            if (refMaterial == null) {
+                return;
+            }
+            if (refMaterial instanceof TransitionMaterial transitionMaterial) {
+                // 添加转场
+                JyResource transitionConfig = JianyingResourceUtils.getJyResource(transitionMaterial.getType(), transitionMaterial.getResourceId());
+                if (transitionConfig == null) {
+                    return;
+                }
+
+                // 复制资源文件到剪映本地素材库
+                JianyingResourceUtils.downloadResources(state.getProjectLocalResourceDir(), transitionConfig.getResources());
+                Transition transition = JsonUtils.toObject(transitionConfig.getMainConfig(), Transition.class)
+                        .setId(UuidUtils.next());
+                Long duration = transitionMaterial.getDuration();
+                if (duration != null) {
+                    transition.setDuration(duration * JianyingUtils.LONG_1000);
+                }
+
+                state.getJianyingProject().getMaterials().getTransitions().add(transition);
+                segment.getExtraMaterialRefs().add(transition.getId());
+            }
+        });
     }
 
     private GreenBackgroundDto getGreenBackgroundSegment(JianyingProjectBuildState state, VideoScript videoScript, VideoSegment videoSegment, VideoMaterial material, Segment segment) {

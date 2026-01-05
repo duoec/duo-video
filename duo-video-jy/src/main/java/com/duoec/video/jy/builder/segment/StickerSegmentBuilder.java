@@ -31,6 +31,9 @@ public class StickerSegmentBuilder extends BaseSegmentBuilder<StickerMaterial> {
             throw new DuoServiceException("无法找到贴纸资源：resourceId=" + resourceId);
         }
 
+        // 复制资源文件到剪映本地素材库
+        JianyingResourceUtils.downloadResources(state.getProjectLocalResourceDir(), resource.getResources());
+
         Sticker sticker = JsonUtils.toObject(resource.getMainConfig(), Sticker.class)
                 .setId(UuidUtils.next());
         state.getJianyingProject().getMaterials().getStickers().add(sticker);
