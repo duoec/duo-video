@@ -19,6 +19,9 @@ public class BaseMaterialBuilder<T extends BaseMaterial, E extends BaseMaterialB
     protected Long materialStart;
     protected Integer layoutIndex;
     protected Integer speed;
+    protected Boolean upend;
+    protected Boolean horizontal;
+    protected Boolean vertical;
 
     /**
      * 设置位置坐标
@@ -45,6 +48,24 @@ public class BaseMaterialBuilder<T extends BaseMaterial, E extends BaseMaterialB
      */
     public E setRotate(int rotate) {
         this.rotate = rotate;
+        return (E) this;
+    }
+
+    /**
+     * 设置水平镜像，null或false 表示不镜像
+     * @param vertical true=水平镜像
+     */
+    public E setVertical(Boolean vertical) {
+        this.vertical = vertical;
+        return (E) this;
+    }
+
+    /**
+     * 设置垂直镜像，null或false 表示不镜像
+     * @param horizontal true=垂直镜像
+     */
+    public E setHorizontal(Boolean horizontal) {
+        this.horizontal = horizontal;
         return (E) this;
     }
 
@@ -81,6 +102,15 @@ public class BaseMaterialBuilder<T extends BaseMaterial, E extends BaseMaterialB
         }
         if (speed != null) {
             segment.setSpeed(speed);
+        }
+        if (upend != null) {
+            segment.setUpend(upend);
+        }
+        if (horizontal != null) {
+            segment.setHorizontal(horizontal);
+        }
+        if (vertical != null) {
+            segment.setVertical(vertical);
         }
         script.getSegments().add(segment);
 

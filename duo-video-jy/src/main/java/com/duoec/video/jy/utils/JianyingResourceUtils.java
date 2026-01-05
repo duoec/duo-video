@@ -133,7 +133,7 @@ public class JianyingResourceUtils {
      */
     public static String copyToLocalResources(JianyingProjectBuildState state, File file, String type) {
         if (file == null || !file.exists()) {
-            throw new DuoServiceException("需要复制的文件不存在: " + file.getAbsolutePath());
+            throw new DuoServiceException("需要复制的文件不存在: " + (file == null ? "null" : file.getAbsolutePath()));
         }
         String fileName = UrlUtils.decode(file.getName());
         if (!StringUtils.hasLength(fileName)) {
@@ -145,7 +145,9 @@ public class JianyingResourceUtils {
         File resourceDir = new File(projectLocalResourceDir, resourceType);
         File jyResourceFontFile = new File(resourceDir, fileName);
         //复制到剪映资源目录
-        FileUtils.copyFile(file, jyResourceFontFile);
+        if (!jyResourceFontFile.exists()) {
+            FileUtils.copyFile(file, jyResourceFontFile);
+        }
 
         return LOCAL_RESOURCE_PATH + resourceType + DuoServerConsts.OBLIQUE_LINE_STR + file.getName();
     }

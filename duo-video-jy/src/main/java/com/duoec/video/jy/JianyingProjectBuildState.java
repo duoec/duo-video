@@ -83,7 +83,10 @@ public class JianyingProjectBuildState {
         FileUtils.mkdirs(projectLocalResourceDir);
 
         if (this.videoProject.getMaterials() != null) {
-            this.materialMap = this.videoProject.getMaterials().stream().filter(material -> material.getId() != null && material.getId() > 0).collect(Collectors.toMap(BaseMaterial::getId, Function.identity()));
+            this.materialMap = this.videoProject.getMaterials()
+                    .stream()
+                    .filter(material -> material.getId() != null && material.getId() > 0)
+                    .collect(Collectors.toMap(BaseMaterial::getId, Function.identity()));
         } else {
             this.materialMap = new HashMap<>();
         }
@@ -136,5 +139,9 @@ public class JianyingProjectBuildState {
      */
     public Segment getCombinationSegment(String combinationId, Function<String, Segment> fun) {
         return combinationSegmentMap.computeIfAbsent(combinationId, fun);
+    }
+
+    public Map<Long, BaseMaterial> getMaterialMap() {
+        return materialMap;
     }
 }

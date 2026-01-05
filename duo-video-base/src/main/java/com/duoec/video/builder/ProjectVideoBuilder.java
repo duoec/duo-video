@@ -24,6 +24,15 @@ public class ProjectVideoBuilder extends BaseMaterialBuilder<VideoMaterial, Proj
         return new ProjectVideoBuilder(projectBuilder, scriptBuilder);
     }
 
+    /**
+     * 设置倒放，null为顺序播放
+     * @param upend true=倒放 false=顺放
+     */
+    public ProjectVideoBuilder setUpend(Boolean upend) {
+        this.upend = upend;
+        return this;
+    }
+
     public ProjectVideoBuilder add(long videoMaterialId, String videoUrl, long start, long duration) {
         material = new VideoMaterial();
         material.setId(videoMaterialId);

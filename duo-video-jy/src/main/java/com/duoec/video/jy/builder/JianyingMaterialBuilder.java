@@ -11,15 +11,18 @@ import com.duoec.video.jy.dto.meta.Value;
 import com.duoec.video.jy.utils.JianyingResourceUtils;
 import com.duoec.video.jy.utils.JianyingUtils;
 import com.duoec.video.jy.utils.UuidUtils;
+import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.*;
 import com.duoec.video.utils.ExiftoolUtils;
+import com.duoec.video.utils.FfmpegUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.assertj.core.util.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -64,6 +67,51 @@ public class JianyingMaterialBuilder {
                 addJianYingLocal(state, material, file);
             }
         });
+
+        // 特殊处理：倒放
+        upendVideoProcess(state);
+    }
+
+    private static void upendVideoProcess(JianyingProjectBuildState state) {
+        VideoProject videoProject = state.getVideoProject();
+        videoProject.getScripts().forEach(script -> {
+            List<VideoSegment> segments = script.getSegments();
+            if (CollectionUtils.isEmpty(segments)) {
+                return;
+            }
+            segments.forEach(segment -> {
+                boolean upend = Optional.ofNullable(segment.getUpend()).orElse(false);
+                if (!upend) {
+                    return;
+                }
+                long materialId = segment.getMaterialId();
+                Map<Long, BaseMaterial> materialMap = state.getMaterialMap();
+                materialMap.computeIfAbsent(-materialId, upendMaterialId -> {
+                    BaseMaterial material = materialMap.get(materialId);
+                    File srcFile = material.getLocalFile();
+                    File targetFile = new File(srcFile.getParentFile(), DuoServerConsts.MIDDLE_LINE_STR + srcFile.getName());
+                    if (!targetFile.exists()) {
+                        FfmpegUtils.upend(srcFile, targetFile);
+                    }
+
+                    VideoMaterial upendVideoMaterial = new VideoMaterial();
+                    BeanUtils.copyProperties(material, upendVideoMaterial);
+                    upendVideoMaterial.setId(-materialId);
+                    upendVideoMaterial.setLocalFile(targetFile);
+
+                    segment.setMaterialId(-materialId);
+                    // 重新计算开始时间
+                    int speed = Optional.ofNullable(segment.getSpeed()).orElse(100);
+                    segment.setMaterialStart(upendVideoMaterial.getDuration() - (segment.getMaterialStart() + segment.getTime().getDuration() * speed / 100));
+
+                    videoProject.getMaterials().add(upendVideoMaterial);
+
+                    // 添加到剪映本地
+                    addJianYingLocal(state, upendVideoMaterial, targetFile);
+                    return upendVideoMaterial;
+                });
+            });
+        });
     }
 
     private static void downloadMaterials(JianyingProjectBuildState state, Long materialId, Map<BaseMaterial, File> materialFileMap) {
@@ -95,6 +143,9 @@ public class JianyingMaterialBuilder {
     }
 
     private static void addJianYingLocal(JianyingProjectBuildState state, BaseMaterial material, File file) {
+        String type = material.getType();
+        JianyingResourceUtils.copyToLocalResources(state, file, type);
+
         JianYingProjectMeta projectMeta = state.getJianYingProjectMeta();
         List<Value> values = projectMeta.getDraftMaterials()
                 .stream()
@@ -106,7 +157,7 @@ public class JianyingMaterialBuilder {
         Value materialValue = JianyingUtils.getDefaultProjectMetaMaterialValue()
                 .setId(UuidUtils.next())
                 .setExtraInfo(file.getName())
-                .setFilePath("./Resources/local/" + material.getType() + DuoServerConsts.OBLIQUE_LINE_STR + file.getName())
+                .setFilePath("./Resources/local/" + type + DuoServerConsts.OBLIQUE_LINE_STR + file.getName())
                 .setImportTime(now / 1000)
                 .setImportTimeMs(now)
                 .setCreateTime(now / 1000);

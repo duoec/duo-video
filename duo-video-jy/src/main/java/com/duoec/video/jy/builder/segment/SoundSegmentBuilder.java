@@ -38,7 +38,7 @@ public class SoundSegmentBuilder extends BaseSegmentBuilder<SoundMaterial> {
                 .setId(UuidUtils.next());
         state.getJianyingProject().getMaterials().getAudios().add(audio);
 
-        Segment segment = getSegment(videoSegment, audio)
+        Segment segment = getSegment(state.getJianyingProject(), videoSegment, audio)
                 .setExtraMaterialRefs(Lists.newArrayList())
                 .setTrackRenderIndex(0);
 

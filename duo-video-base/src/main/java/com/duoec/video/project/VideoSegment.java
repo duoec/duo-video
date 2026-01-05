@@ -74,20 +74,27 @@ public class VideoSegment implements Serializable {
     private Boolean visible;
 
     /**
-     * 水平镜像 (仅视频、图片有效)
-     */
-    private Boolean horizontal;
-
-    /**
      * 线性增益音量 <=-100表示静音 100表示原音量 >100表示增音 （volume /100.0即为剪映界面上的值）
      * 默认：100
      */
     private Integer volume;
 
     /**
-     * 垂直镜像
+     * 水平镜像 (仅视频、图片有效)
+     */
+    private Boolean horizontal;
+
+    /**
+     * 垂直镜像 (旧版本不支持)
      */
     private Boolean vertical;
+
+    /**
+     * 视频倒放，仅 type = video时有效
+     * 此功能需要本地安装ffmpeg
+     * 注意：倒放时，播放时间仍然是以顺放选定的时间片段倒放进行
+     */
+    private Boolean upend;
 
     public long getEndTime() {
         return time == null ? 0L : time.getEndTime();

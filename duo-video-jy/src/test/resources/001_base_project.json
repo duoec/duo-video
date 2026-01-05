@@ -79,13 +79,14 @@
           "layoutIndex": 1000,
           "refs": {
           },
-          "speed": 100,
+          "speed": 200,
           "zoom": {
             "x": 10000,
             "y": 10000
           },
           "rotate": 90,
           "visible": true,
+          "upend": true,
           "volume": -100
         },
         {

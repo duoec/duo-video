@@ -49,7 +49,7 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
         jianyingProject.getMaterials().getVideos().add(video);
 
         Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(jianyingProject, Track.TYPE_VIDEO, "视频", segmentTime.getStart(), segmentTime.getEndTime());
-        Segment segment = getSegment(videoSegment, video);
+        Segment segment = getSegment(jianyingProject, videoSegment, video);
         TimeRange targetTimeRange = segment.getTargetTimeRange();
         TimeRange sourceTimeRange = segment.getSourceTimeRange();
         JianyingSegmentBuilder.setSegmentCommonAttributes(state, videoSegment, segment, material);
@@ -160,13 +160,6 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
 
         VideoSegment backgroundVideoSegment = new VideoSegment();
         VideoTimeRange time = material.getTime();
-//            if (backgroundMaterial instanceof VideoMaterial backgroundVideoMaterial) {
-//                // 视频
-//                time = backgroundVideoMaterial.getTime();
-//            } else {
-//                // 图片
-//                time = videoSegment.getTime();
-//            }
         backgroundVideoSegment.setTime(time);
         backgroundVideoSegment.setMaterialStart(0L);
 
@@ -180,7 +173,7 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
         state.getJianyingProject().getMaterials().getChromas().add(chroma);
         segment.getExtraMaterialRefs().add(chroma.getId());
 
-        Segment backgroundSegment = getSegment(backgroundVideoSegment, video)
+        Segment backgroundSegment = getSegment(state.getJianyingProject(), backgroundVideoSegment, video)
                 .setRenderIndex(1)
                 .setTrackRenderIndex(1);
         Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_VIDEO, "绿幕背景", time.getStart(), time.getEndTime());

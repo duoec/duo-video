@@ -57,7 +57,7 @@ public class TextTemplateSegmentBuilder extends BaseSegmentBuilder<TextTemplateM
         VideoTimeRange segmentTime = videoSegment.getTime();
         Track textTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_TEXT, "文本模板", segmentTime.getStart(), segmentTime.getEndTime());
 
-        Segment segment = getSegment(videoSegment, textTemplate)
+        Segment segment = getSegment(state.getJianyingProject(), videoSegment, textTemplate)
                 .setExtraMaterialRefs(Lists.newArrayList())
                 .setTrackRenderIndex(0);
         textTrack.getSegments().add(segment);

@@ -132,7 +132,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         VideoTimeRange segmentTime = videoSegment.getTime();
         Track textTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_TEXT, trackName, segmentTime.getStart(), segmentTime.getEndTime());
 
-        Segment segment = getSegment(videoSegment, text);
+        Segment segment = getSegment(state.getJianyingProject(), videoSegment, text);
         textTrack.getSegments().add(segment);
 
         return segment;

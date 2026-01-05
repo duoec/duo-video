@@ -41,7 +41,7 @@ public class StickerSegmentBuilder extends BaseSegmentBuilder<StickerMaterial> {
         VideoTimeRange segmentTime = videoSegment.getTime();
         Track audioTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_STICKER, "贴纸", segmentTime.getStart(), segmentTime.getEndTime());
 
-        Segment segment = getSegment(videoSegment, sticker)
+        Segment segment = getSegment(state.getJianyingProject(), videoSegment, sticker)
                 .setExtraMaterialRefs(Lists.newArrayList())
                 .setTrackRenderIndex(0);
         audioTrack.getSegments().add(segment);
