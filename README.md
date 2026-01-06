@@ -15,10 +15,14 @@ Duo-Video 是一个强大的 Java 视频编辑 SDK，通过简洁优雅的 API �
 ## 项目愿景
 
 **duo-video-base** 定义了一套简洁而完整的视频数据模型 （参考：duo-video-jy/src/test/resources/001_base_project.json），用最小化的结构描述复杂的完整视频项目。
-<br>
+
+
+
 当前阶段通过 **duo-video-jy** 模块将这套模型转换为剪映草稿，利用剪映编辑器导出最终视频。未来将直接调用底层渲染引擎，实现无需 剪映 的服务器端视频生成。
 
-<br>
+
+
+
 
 使用剪映导出，只是过度...
 
@@ -32,9 +36,9 @@ Duo-Video 是一个强大的 Java 视频编辑 SDK，通过简洁优雅的 API �
 
 ```mermaid
 graph LR
-    A[AI生成<br/>视频、装饰包装] --> B[API/MCP<br/>多步骤生成视频json]
+    A[AI生成<br/>脚本、分镜、包装] --> B[API/MCP<br/>多粒度接口功能]
     B --> C[VideoProject<br/>视频模型 JSON]
-    D[第三方系统<br/>生成VideoProject] --> C
+    D[第三方系统<br/>直接生成VideoProject] --> C
     C --> E[生成剪映草稿<br/>视频任务]
     E --> F[AutoJY<br/>领取任务、导出视频]
     F --> G[用户下载<br/>成片视频]
