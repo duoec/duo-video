@@ -177,6 +177,30 @@
           },
           "materialId": 535010997887571002,
           "type": "sticker"
+        },
+        {
+          "id": 296653948753219564,
+          "time": {
+            "start": 4000,
+            "duration": 3000
+          },
+          "materialId": 535010997887571021,
+          "materialStart": 9000,
+          "type": "video",
+          "layoutIndex": 1000,
+          "refs": {
+            "296653948753219539": "mask"
+          },
+          "speed": 100,
+          "zoom": {
+            "x": 10000,
+            "y": 10000
+          },
+          "rotate": 90,
+          "visible": true,
+          "horizontal": true,
+          "vertical": true,
+          "volume": 0
         }
       ]
     }
@@ -320,6 +344,19 @@
       "id": 296653948753219571,
       "resourceId": 269695388951642113,
       "type": "face_effect"
+    },
+    {
+      "id": 296653948753219539,
+      "resourceId": 7356934080102928946,
+      "type": "mask",
+      "config": {
+        "width": 0.5,
+        "height": 0.28,
+        "centerX": 0.07,
+        "centerY": 0.25,
+        "pointX": 400,
+        "pointY": 400
+      }
     }
   ],
   "width": 1080,

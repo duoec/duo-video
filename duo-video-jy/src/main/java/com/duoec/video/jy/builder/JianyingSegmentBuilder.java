@@ -105,12 +105,6 @@ public class JianyingSegmentBuilder {
         // 增益音量
         int volume = Optional.ofNullable(videoSegment.getVolume()).orElse(100);
         segment.setVolume(JianyingUtils.amplitudeGain(volume / 100.0));
-
-        // 处理refs
-        Map<Long, String> refs = videoSegment.getRefs();
-        if (!CollectionUtils.isEmpty(refs)) {
-
-        }
     }
 
     private static void registrySegmentBuilder(Class<? extends SegmentBuilder> clazz) {

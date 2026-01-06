@@ -9,6 +9,8 @@ public class MaskConfig implements Serializable {
 
     private Double centerY;
 
+    private Double expansion;
+
     private Double feather;
 
     private Double height;
@@ -45,6 +47,15 @@ public class MaskConfig implements Serializable {
 
     public MaskConfig setCenterY(Double centerY) {
         this.centerY = centerY;
+        return this;
+    }
+
+    public Double getExpansion() {
+        return expansion;
+    }
+
+    public MaskConfig setExpansion(Double expansion) {
+        this.expansion = expansion;
         return this;
     }
 

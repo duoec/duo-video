@@ -62,6 +62,10 @@ import java.io.Serializable;
         @JsonSubTypes.Type(
                 value = FaceEffectMaterial.class,
                 name = MaterialTypeEnum.MATERIAL_TYPE_FACE_EFFECT
+        ),
+        @JsonSubTypes.Type(
+                value = MaskMaterial.class,
+                name = MaterialTypeEnum.MATERIAL_TYPE_MASK
         )
 })
 public class BaseMaterial implements Serializable {

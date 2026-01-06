@@ -50,7 +50,7 @@ public class ProcessBuilderUtils {
         processBuilder.redirectErrorStream(true);
 
         String cmdStr = String.join(" ", commands);
-        logger.info("准备执行命令：{}", cmdStr);
+        logger.info("执行命令：{}", cmdStr);
 
         long startTime = System.currentTimeMillis();
         Process process = null;
@@ -85,7 +85,7 @@ public class ProcessBuilderUtils {
             long duration = System.currentTimeMillis() - startTime;
 
             if (exitCode == 0) {
-                logger.info("命令执行成功，耗时：{}ms，输出行数：{}", duration, output.size());
+//                logger.info("命令执行成功，耗时：{}ms，输出行数：{}", duration, output.size());
             } else {
                 logger.error("命令执行失败，exitCode={}，耗时：{}ms，命令：{}", exitCode, duration, cmdStr);
             }

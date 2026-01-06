@@ -3,8 +3,8 @@ package com.duoec.video.jy;
 import com.duoec.base.core.util.FileUtils;
 import com.duoec.base.core.util.JsonUtils;
 import com.duoec.base.exceptions.DuoServiceException;
+import com.duoec.video.jy.dto.MaterialData;
 import com.duoec.video.jy.dto.info.JianYingProjectInfo;
-import com.duoec.video.jy.dto.info.Segment;
 import com.duoec.video.jy.dto.info.Track;
 import com.duoec.video.jy.dto.meta.JianYingProjectMeta;
 import com.duoec.video.jy.utils.JianyingResourceUtils;
@@ -37,12 +37,7 @@ public class JianyingProjectBuildState {
     private final JianYingProjectMeta jianYingProjectMeta;
 
     private final Map<Long, BaseMaterial> materialMap;
-
-    /**
-     * 组合表
-     * 有些组合全局仅需要做一次即可，比较绿幕
-     */
-    private final Map<String, Segment> combinationSegmentMap = Maps.newHashMap();
+    private final Map<String, MaterialData> cachedJyVideoMap = Maps.newHashMap();
 
     private final File projectDir;
     private final File projectLocalResourceDir;
@@ -132,16 +127,11 @@ public class JianyingProjectBuildState {
         FileUtils.writeFile(JsonUtils.toJsonString(jianYingProjectMeta).getBytes(StandardCharsets.UTF_8), new File(this.projectDir, "draft_meta_info.json"));
     }
 
-    /**
-     * 获取复合片段
-     * @param combinationId 复合片段的ID，一般由组合的ID串成
-     * @param fun 如果缓存中不存在，则执行此方法生成
-     */
-    public Segment getCombinationSegment(String combinationId, Function<String, Segment> fun) {
-        return combinationSegmentMap.computeIfAbsent(combinationId, fun);
-    }
-
     public Map<Long, BaseMaterial> getMaterialMap() {
         return materialMap;
+    }
+
+    public Map<String, MaterialData> getCachedJyVideoMap() {
+        return cachedJyVideoMap;
     }
 }

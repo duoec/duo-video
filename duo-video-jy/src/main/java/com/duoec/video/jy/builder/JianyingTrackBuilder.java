@@ -31,6 +31,7 @@ public class JianyingTrackBuilder {
             "绿幕背景",
             "视频",
             "图片",
+            "蒙板",
 
             "画面特效",
 
@@ -99,9 +100,9 @@ public class JianyingTrackBuilder {
         String groupName = trackName;
         int num = 0;
         if (index > -1) {
-            String numStr = trackName.substring(index);
+            String numStr = trackName.substring(index + 1);
             if (NumberUtils.isNatural(numStr)) {
-                groupName = trackName.substring(0, index + 1);
+                groupName = trackName.substring(0, index);
                 num = Integer.parseInt(numStr);
             }
         }

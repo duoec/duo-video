@@ -1,13 +1,14 @@
 package com.duoec.video.jy.utils;
 
 import com.duoec.base.core.util.FileUtils;
+import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.jy.builder.JianyingTrackBuilder;
+import com.duoec.video.jy.dto.MaterialData;
 import com.duoec.video.jy.dto.TimeRange;
 import com.duoec.video.jy.dto.font.FontConfig;
 import com.duoec.video.jy.dto.info.*;
 import com.duoec.video.jy.dto.meta.JianYingProjectMeta;
 import com.duoec.video.jy.dto.meta.Value;
-import com.duoec.video.project.material.VideoMaterial;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.springframework.util.CollectionUtils;
@@ -117,10 +118,10 @@ public class JianyingUtils {
      * @param projectInfo 工程
      * @param segments 需要合并的segments
      */
-    public static Segment combine(JianYingProjectInfo projectInfo, List<Segment> segments) {
+    public static MaterialData combine(JianYingProjectInfo projectInfo, List<Segment> segments) {
         if (CollectionUtils.isEmpty(segments)) {
             // 没有需要合并的
-            return null;
+            throw new DuoServiceException("复合片段失败：合并内容为空");
         }
         // 重新排序
         List<Track> tracks = projectInfo.getTracks();
@@ -231,7 +232,7 @@ public class JianyingUtils {
         Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(projectInfo, Track.TYPE_VIDEO, "视频", start, end);
         videoTrack.getSegments().add(combinationSegment);
 
-        return combinationSegment;
+        return new MaterialData(combinationSegment, combinationMaterial, false, draft.getId());
     }
 
     /**

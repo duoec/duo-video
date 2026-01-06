@@ -1,29 +1,20 @@
 
 package com.duoec.video.jy.dto.info;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
+@Data
+@Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Point implements Serializable {
 
     public Double x;
 
     public Double y;
-
-    public Double getX() {
-        return x;
-    }
-
-    public Point setX(Double x) {
-        this.x = x;
-        return this;
-    }
-
-    public Double getY() {
-        return y;
-    }
-
-    public Point setY(Double y) {
-        this.y = y;
-        return this;
-    }
 }

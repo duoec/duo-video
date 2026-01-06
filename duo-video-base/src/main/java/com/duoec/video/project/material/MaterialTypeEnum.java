@@ -61,12 +61,18 @@ public enum MaterialTypeEnum {
      * 脸部特效
      */
     FACE_EFFECT_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_FACE_EFFECT),
+
+    /**
+     * 蒙板
+     */
+    MASK_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_MASK),
     ;
 
     public static final String MATERIAL_TYPE_VIDEO = "video";
     public static final String MATERIAL_TYPE_IMAGE = "image";
     public static final String MATERIAL_TYPE_STICKER = "sticker";
     public static final String MATERIAL_TYPE_AUDIO = "audio";
+    public static final String MATERIAL_TYPE_MASK = "mask";
     public static final String MATERIAL_TYPE_SOUND = "sound";
     public static final String MATERIAL_TYPE_TEXT = "text";
     public static final String MATERIAL_TYPE_SUBTITLE = "subtitle";

@@ -7,7 +7,6 @@ import com.duoec.video.jy.JianyingBuilder;
 import com.duoec.video.jy.JianyingProjectBuildState;
 import com.duoec.video.jy.dto.JyResource;
 import com.duoec.video.jy.dto.info.Effect;
-import com.duoec.video.jy.dto.info.Segment;
 import com.duoec.video.jy.utils.JianyingResourceUtils;
 import com.duoec.video.jy.utils.UuidUtils;
 import com.duoec.video.project.VideoScript;
