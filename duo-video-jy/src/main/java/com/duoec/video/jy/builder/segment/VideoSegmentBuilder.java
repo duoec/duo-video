@@ -169,7 +169,9 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
                 .setEdgeSmoothValue(greenBackground.getEdgeFeather() / 100.0)
                 .setId(UuidUtils.next())
                 .setIntensityValue(greenBackground.getStrength() / 100.0)
-                .setSpillValue(greenBackground.getEdgeCleanup() / 100.0);
+                .setSpillValue(greenBackground.getEdgeCleanup() / 100.0)
+//                .setShadowValue()
+                ;
         state.getJianyingProject().getMaterials().getChromas().add(chroma);
         segment.getExtraMaterialRefs().add(chroma.getId());
 
