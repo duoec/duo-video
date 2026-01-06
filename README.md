@@ -6,7 +6,7 @@
 
 Duo-Video 是一个强大的 Java 视频编辑 SDK，通过简洁优雅的 API 以编程方式生成专业级视频项目。项目采用分层架构设计，目前通过生成剪映工程文件实现视频创作，**最终目标是实现纯 Linux 环境下的 Headless 视频生成能力**。
 
-![剪映工程示例](https://api.duoec.com/public/duo-video.png)
+![剪映工程示例](doc/duo-video.png)
 （本工程由 com.duoec.video.jy.JianyingBuilderTest.buildWithProjectJson 测试用例生成）
 
 
@@ -343,6 +343,6 @@ JianYingProjectInfo jyProject = new JianyingBuilder().build(project);
 
 **本项目仅供学习交流使用，如有侵权，请联系作者。**
 
-![企业微信](https://api.duoec.com/public/qywx_xwz.jpg)
+![企业微信](doc/qywx_xwz.jpg)
 
 _本 README.md 由 claude code 生成，仅作参考，以代码实现为准_
