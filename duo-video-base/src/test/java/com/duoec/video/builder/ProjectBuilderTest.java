@@ -12,7 +12,7 @@ class ProjectBuilderTest {
                 .setTest(true) // 设置为测试模式
                 .getScriptBuilder(0) // 进入第一个分镜
 
-                .addTextTemplateAndGetBuilder(7507280729638817086L, "太好了", 0, 3000) // 添加一个文本模板
+                .addTextTemplateAndGetBuilder(270464050694389761L, "太好了", 0, 3000) // 添加一个文本模板
                 .setPosition(0, -400) // 指定展示位置，0，0表示视频中央 上正下负 左负右正
                 .back() // 返回到 ProjectScriptBuilder
 
