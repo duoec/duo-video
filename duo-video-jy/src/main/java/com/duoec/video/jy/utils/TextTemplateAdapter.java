@@ -178,7 +178,9 @@ public class TextTemplateAdapter {
             logger.info("开始下载 jy_text_template_adapter: {} -> {}", downloadUrl, targetFile.getAbsolutePath());
 
             // 下载文件
-            JianyingBuilder.storageService.download(downloadUrl, targetFile);
+            if (!targetFile.exists()) {
+                JianyingBuilder.storageService.download(downloadUrl, targetFile);
+            }
 
             // 对于 Unix 系统（Mac/Linux），设置可执行权限
             if (!osName.contains("win")) {

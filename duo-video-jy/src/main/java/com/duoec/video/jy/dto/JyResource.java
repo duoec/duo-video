@@ -23,14 +23,14 @@ public class JyResource implements Serializable {
     private String name;
 
     /**
+     * 分类IDs
+     */
+    private List<Integer> categoryIds;
+
+    /**
      * 分类
      */
     private String categoryName;
-
-    /**
-     * 资源预览地址
-     */
-    private String demoUrl;
 
     /**
      * 是否允许商业应用
@@ -56,6 +56,16 @@ public class JyResource implements Serializable {
      * 状态：-1=停用 1=正常使用
      */
     private Integer status;
+
+    /**
+     * 资源静态封面图
+     */
+    private String coverImg;
+
+    /**
+     * 资源动态封面图
+     */
+    private String coverGif;
 
     /**
      * 资源主配置

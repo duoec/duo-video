@@ -35,7 +35,10 @@ public class StickerSegmentBuilder extends BaseSegmentBuilder<StickerMaterial> {
         JianyingResourceUtils.downloadResources(state.getProjectLocalResourceDir(), resource.getResources());
 
         Sticker sticker = JsonUtils.toObject(resource.getMainConfig(), Sticker.class)
-                .setId(UuidUtils.next());
+                .setId(UuidUtils.next())
+                .setIconUrl(JianyingResourceUtils.BASE_JY_RESOURCE_URL + resource.getCoverImg())
+                .setPreviewCoverUrl(JianyingResourceUtils.BASE_JY_RESOURCE_URL + resource.getCoverImg())
+                ;
         state.getJianyingProject().getMaterials().getStickers().add(sticker);
 
         VideoTimeRange segmentTime = videoSegment.getTime();
