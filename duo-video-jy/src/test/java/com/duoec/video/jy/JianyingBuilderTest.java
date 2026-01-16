@@ -25,7 +25,7 @@ class JianyingBuilderTest extends BaseTest {
 
     @Test
     void buildWithProjectBuilder() {
-        long textTemplateResourceId = 7507280729638817086L;
+        long textTemplateResourceId = 270464050694389761L;
 
         VideoProject videoProject = ProjectBuilder.createBuilder(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
                 .setTest(true) // 设置为测试模式

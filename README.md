@@ -466,10 +466,47 @@ X- ←--(0,0)--→ X+
 
 
 
-### 5.6 使用 JSON 配置
+
+
+## 六、如何开始
+
+### 6.1 环境准备
+
+duo-video 运行在 JDK21 + maven上，请自行配置运行环境
+
+#### 剪映草稿目录配置
+
+开始之前，请改一下你的 剪映草稿目录，打开：com.duoec.video.jy.BaseTest.java，修改下面一行代码为你本地的正确地址
 
 ```java
-// 从 JSON 文件加载项目
+// 测试代码会直接将剪映工程生成到这个目录下，如果配置的是剪映的草稿目录，就可以直接打开剪映看到
+JianyingProjectBuildState.DEBUG_JY_DRAFT_DIR = "/Users/xuwenzhen/Movies/JianyingPro/User Data/Projects/com.lveditor.draft/";
+```
+
+
+
+#### secret 配置
+
+如果你已经注册且分配了 secretKey，请在环境变量里配置。如果没有配置，只能使用公开的资源
+
+| 环境变量       | 说明                    | 备注       |
+| -------------- | ----------------------- | ---------- |
+| DUO_SECRET_ID  | 接口签名加密 SECRET_ID  |            |
+| DUO_SECRET_KEY | 接口签名加密 SECRET_KEY |            |
+| DUO_SERVER     | 资源服务器地址          | 不设置即可 |
+
+
+
+#### 缓存目录
+
+默认情况下，程序会在创建缓存目录 duo-video-jy/tmp，这些文件可以随时安全删除。如果遇到一些奇怪的错误，也可以尝试删除此目录，清掉缓存文件。
+
+
+
+### 6.2 直接使用使用 JSON 配置
+
+```java
+// 从 JSON 文件加载项目，001_base_project.json文件在项目资源目录duo-video-jy/src/test/resources 里面
 VideoProject project = FileUtils.readJson("001_base_project.json", VideoProject.class);
 
 // 构建剪映工程
@@ -480,7 +517,48 @@ JianYingProjectInfo jyProject = new JianyingBuilder().build(project);
 
 
 
+### 6.3 使用VideoBuilder构建
+
+``` java
+@Test
+void buildWithProjectBuilder() {
+    long textTemplateResourceId = 270464050694389761L;
+
+    VideoProject videoProject = ProjectBuilder.createBuilder(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
+            .setTest(true) // 设置为测试模式
+
+            .getScriptBuilder(0) // 进入第一个分镜
+            .addTextTemplateAndGetBuilder(textTemplateResourceId, "太好了", 0, 3000) // 添加一个文本模板
+            .setPosition(0, -400) // 指定展示位置，0，0表示视频中央 上正下负 左负右正
+            .back() // 返回到 ProjectScriptBuilder
+
+            .addTextAndGetBuilder(String.valueOf(textTemplateResourceId), 0, 3000)
+            .setStyle(
+                    new TextStyle()
+                            .setFontSize(5)
+                            .setTextAlign(1)
+                            .setFillColor(JianyingResourceUtils.DEFAULT_FILL_COLOR)
+                            .setFontName(JianyingResourceUtils.DEFAULT_FONT_NAME)
+            )
+            .setPosition(0, 1866)
+            .back()// 返回到 ProjectScriptBuilder
+
+            .back()// 返回到 ProjectBuilder
+            .getProject(); // 导出工程
+
+    JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject);
+
+    Assertions.assertNotNull(jyProject);
+}
+```
+
+
+
+
+
 **迭代比较频繁，如在构建过程有报错，可以尝试先清空项目缓存目录： duo-video-jy/tmp**
+
+如果有错误，请认真查看程序日志，一般会有比较明确的报错。如遇到有其它问题或者发现项目Bug，请与我们联系，使用微信扫描以下二维码：
 
 
 
@@ -489,5 +567,7 @@ JianYingProjectInfo jyProject = new JianyingBuilder().build(project);
 
 
 ![企业微信](doc/qywx_xwz.jpg)
+
+（请在备注里写明：duo-video，感谢你的关注，如果觉得这个项目对你有帮助，请给我一颗星，谢谢啦）
 
 本项目仅供学习交流使用，如有侵权，请联系作者

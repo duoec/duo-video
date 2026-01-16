@@ -1,5 +1,6 @@
 package com.duoec.video.jy.utils;
 
+import com.duoec.base.core.DuoServerConsts;
 import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.jy.JianyingBuilder;
 import com.duoec.video.jy.dto.TextTemplateDto;
@@ -59,7 +60,7 @@ public class TextTemplateAdapter {
             ProcessBuilderUtils.ExecutionResult result = ProcessBuilderUtils.execWithResult(30, commands);
 
             if (!result.isSuccess()) {
-                logger.error("jy_text_template_adapter 执行失败，退出码: {}", result.exitCode());
+                logger.error("jy_text_template_adapter 执行失败，退出码: {}，错误信息：{}", result.exitCode(), String.join(DuoServerConsts.TURN_LINE, result.output()));
                 return null;
             }
 
