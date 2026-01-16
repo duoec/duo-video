@@ -113,7 +113,7 @@ public class StorageServiceImpl implements StorageService {
         long t = System.currentTimeMillis();
         url = getDownloadUrl(url);
 
-        File tmpFile = new File(parentDir, UUID.randomUUID().toString() + ".tmp");
+        File tmpFile = new File(parentDir, UUID.randomUUID() + ".tmp");
 
         // 回退到HTTP下载
         try {
@@ -122,7 +122,6 @@ public class StorageServiceImpl implements StorageService {
                     InputStream in = connection.getInputStream();
                     FileOutputStream out = new FileOutputStream(tmpFile)
             ) {
-
                 byte[] buffer = new byte[4096];
                 int bytesRead;
                 while ((bytesRead = in.read(buffer)) != -1) {

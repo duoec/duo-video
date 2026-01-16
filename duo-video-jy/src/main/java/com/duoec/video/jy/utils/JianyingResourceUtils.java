@@ -2,12 +2,16 @@ package com.duoec.video.jy.utils;
 
 import com.duoec.base.core.DuoServerConsts;
 import com.duoec.base.core.util.FileUtils;
+import com.duoec.base.core.util.JsonUtils;
 import com.duoec.base.core.util.UrlUtils;
+import com.duoec.base.dto.response.BaseResponse;
 import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.jy.JianyingBuilder;
 import com.duoec.video.jy.JianyingProjectBuildState;
+import com.duoec.video.jy.dto.BaseResource;
 import com.duoec.video.jy.dto.JyResource;
 import com.duoec.video.utils.ZipUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -157,8 +162,18 @@ public class JianyingResourceUtils {
         File resourceConfigFile = new File(JianyingResourceUtils.JY_RS_DIR, rid);
         if (!resourceConfigFile.exists()) {
             // 从服务端下载
-            String url = BASE_JY_RESOURCE_URL + "jianying/rs/" + rid;
-            JianyingBuilder.storageService.download(url, resourceConfigFile);
+            String url = DuoApiUtils.BASE_JY_RESOURCE_API + resourceId;
+            BaseResponse<JyResource> resourceResp = DuoApiUtils.get(url, new TypeReference<BaseResponse<JyResource>>() {
+            });
+            if (!BaseResponse.responseSuccessWithNonNullData(resourceResp)) {
+                throw new DuoServiceException("加载剪映资源失败：" + resourceResp.getMsg());
+            }
+            JyResource resource = resourceResp.getData();
+            if (resource == null) {
+                throw new DuoServiceException("加载剪映资源失败：" + rid);
+            }
+            FileUtils.writeFile(JsonUtils.toJsonString(resource).getBytes(StandardCharsets.UTF_8), resourceConfigFile);
+            return resource;
         }
         if (!resourceConfigFile.exists()) {
             throw new DuoServiceException("加载剪映资源失败：" + rid);

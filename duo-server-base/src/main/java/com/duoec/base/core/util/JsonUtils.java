@@ -1,7 +1,9 @@
 package com.duoec.base.core.util;
 
+import com.duoec.base.core.DuoServerConsts;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -102,10 +104,27 @@ public class JsonUtils {
      * @param str   jsonString
      * @param clazz 待转换的Class类型
      * @param <T>   泛型
-     * @return
      */
     public static <T> T toObject(String str, Class<T> clazz) {
-        if (null == str || "".equals(str.trim())) {
+        if (null == str || DuoServerConsts.EMPTY_STR.equals(str.trim())) {
+            return null;
+        }
+        try {
+            return objectMapper.readValue(str, clazz);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("json反序列化失败：{}", e);
+        }
+    }
+
+    /**
+     * jsonString转Object
+     *
+     * @param str   jsonString
+     * @param clazz 待转换的TypeReference<Class>类型
+     * @param <T>   泛型
+     */
+    public static <T> T toObject(String str, TypeReference<T> clazz) {
+        if (null == str || DuoServerConsts.EMPTY_STR.equals(str.trim())) {
             return null;
         }
         try {
@@ -120,11 +139,10 @@ public class JsonUtils {
      *
      * @param str   jsonString
      * @param clazz 待转换的类型
-     * @param <T>
-     * @return
+     * @param <T> 列表的类
      */
     public static <T> List<T> toObjectList(String str, Class<T> clazz) {
-        if (null == str || "".equals(str.trim())) {
+        if (null == str || DuoServerConsts.EMPTY_STR.equals(str.trim())) {
             return new ArrayList<>();
         }
         JavaType javaType = getCollectionType(List.class, clazz);
