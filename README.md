@@ -466,6 +466,19 @@ X- ←--(0,0)--→ X+
 
 
 
+### 5.6 创建复合片段
+
+```java
+/**
+ * 合并为复合片段
+ * 将已经添加进 剪映草稿 的多段片段抽取成复合片段。程序将会自动迁移指定片段依赖的materials一并迁移到复合片段内
+ * 跟在剪映上直接合并复合片段是一样的效果
+ * @param projectInfo 工程
+ * @param segments 需要合并的segments
+ */
+com.duoec.video.jy.utils.JianyingUtils.combine(JianYingProjectInfo projectInfo, List<Segment> segments);
+```
+
 
 
 ## 六、如何开始
@@ -554,11 +567,9 @@ void buildWithProjectBuilder() {
 
 
 
-
-
 **迭代比较频繁，如在构建过程有报错，可以尝试先清空项目缓存目录： duo-video-jy/tmp**
 
-如果有错误，请认真查看程序日志，一般会有比较明确的报错。如遇到有其它问题或者发现项目Bug，请与我们联系，使用微信扫描以下二维码：
+如果有错误，请认真查看程序日志，一般会有比较明确的报错。如遇到有其它问题或者发现项目Bug，请与我们联系，使用微信扫描以下二维码
 
 
 

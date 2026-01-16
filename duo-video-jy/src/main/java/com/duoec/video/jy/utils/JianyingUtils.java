@@ -115,6 +115,8 @@ public class JianyingUtils {
 
     /**
      * 合并为复合片段
+     * 将已经添加进 剪映草稿 的多段片段抽取成复合片段。程序将会自动迁移指定片段依赖的materials一并迁移到复合片段内
+     * 跟在剪映上直接合并复合片段是一样的效果
      * @param projectInfo 工程
      * @param segments 需要合并的segments
      */
