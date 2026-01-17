@@ -111,7 +111,6 @@ public class StorageServiceImpl implements StorageService {
         FileUtils.mkdirs(parentDir);
 
         long t = System.currentTimeMillis();
-        url = getDownloadUrl(url);
 
         File tmpFile = new File(parentDir, UUID.randomUUID() + ".tmp");
 
@@ -146,16 +145,6 @@ public class StorageServiceImpl implements StorageService {
                 throw new DuoServiceException("下载失败：" + url, e);
             }
         }
-    }
-
-    private String getDownloadUrl(String url) {
-        //检查是否是压缩视频，可兼容：
-        int index = url.indexOf("_low.");
-        if (index > -1) {
-            url = url.substring(0, index) + url.substring(index + 4);
-        }
-
-        return url;
     }
 
     private class BatchDownloadTask {

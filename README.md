@@ -487,6 +487,14 @@ com.duoec.video.jy.utils.JianyingUtils.combine(JianYingProjectInfo projectInfo, 
 
 duo-video 运行在 JDK21 + maven上，请自行配置运行环境
 
+
+
+#### ffmpeg
+
+项目依赖 [ffmpeg](https://www.ffmpeg.org/download.html) ，需要提前安装好
+
+
+
 #### 剪映草稿目录配置
 
 开始之前，请改一下你的 剪映草稿目录，打开：com.duoec.video.jy.BaseTest.java，修改下面一行代码为你本地的正确地址

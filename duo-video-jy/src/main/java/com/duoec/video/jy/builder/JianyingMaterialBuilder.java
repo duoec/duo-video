@@ -15,11 +15,9 @@ import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.*;
-import com.duoec.video.utils.ExiftoolUtils;
 import com.duoec.video.utils.FfmpegUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.assertj.core.util.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -30,7 +28,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 public class JianyingMaterialBuilder {
     private static final Logger logger = LoggerFactory.getLogger(JianyingMaterialBuilder.class);
@@ -195,7 +192,7 @@ public class JianyingMaterialBuilder {
     }
 
     private static void setMaterialMeta(BaseMaterial material, File file) {
-        ExiftoolUtils.MediaExif exif = ExiftoolUtils.getMediaExif(file);
+        FfmpegUtils.MediaExif exif = FfmpegUtils.getMediaExif(file);
         if (exif == null) {
             logger.warn("无法解析元数据：{}", file.getAbsolutePath());
             return;
