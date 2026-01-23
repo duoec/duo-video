@@ -1,5 +1,10 @@
 package com.duoec.video.project.material;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+@Data
+@Accessors(chain = true)
 public class TextWord extends TextStyle {
     /**
      * 文本索引
@@ -14,21 +19,9 @@ public class TextWord extends TextStyle {
      */
     private Integer length;
 
-    public Integer getIndex() {
-        return index;
-    }
-
-    public TextWord setIndex(Integer index) {
-        this.index = index;
-        return this;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public TextWord setLength(Integer length) {
-        this.length = length;
-        return this;
-    }
+    /**
+     * 预设样式ID。[type='style', id=${styleId}]
+     * 如果同时设置 styleId 和 style时，会优先加载 styleId 的样式，再使用 style 覆盖！
+     */
+    private Long styleId;
 }

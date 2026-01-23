@@ -11,14 +11,12 @@ import com.duoec.video.jy.dto.font.Font;
 import com.duoec.video.jy.dto.info.*;
 import com.duoec.video.jy.utils.JianyingResourceUtils;
 import com.duoec.video.jy.utils.JianyingUtils;
+import com.duoec.video.jy.utils.TextStyleUtils;
 import com.duoec.video.jy.utils.UuidUtils;
 import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
-import com.duoec.video.project.material.MaterialTypeEnum;
-import com.duoec.video.project.material.TextMaterial;
-import com.duoec.video.project.material.TextStyle;
-import com.duoec.video.project.material.TextWord;
+import com.duoec.video.project.material.*;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +34,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
     private static final String TRACK_NAME_TEXT = "文本";
     private static final TextStyle DEFAULT_STYLE = new TextStyle()
             .setFontName(JianyingResourceUtils.DEFAULT_FONT_NAME)
-            .setFontSize(5)
+            .setFontSize(JianyingResourceUtils.DEFAULT_FONT_SIZE)
             .setFillColor(JianyingResourceUtils.DEFAULT_FILL_COLOR);
 
     @Override
@@ -58,15 +56,15 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
                 .setText(material.getText())
                 .setStyles(styles);
 
-        TextStyle globalStyle = Optional.ofNullable(material.getStyle()).orElse(DEFAULT_STYLE);
+        TextStyle globalStyle = getGlobalStyle(state, material);
         if (CollectionUtils.isEmpty(words)) {
-            TextWord word = globalStyle.toTextWidgetWord(0, material.getText().length());
+            TextWord word = TextStyleUtils.toTextWidgetWord(globalStyle, 0, material.getText().length());
             Style style = addText(state, material, word);
             if (style != null) {
                 styles.add(style);
             }
         } else {
-            List<TextWord> mergedWords = mergeWords(material);
+            List<TextWord> mergedWords = mergeWords(state, material);
             mergedWords.forEach(word -> {
                 Style style = addText(state, material, word);
                 if (style != null) {
@@ -138,9 +136,33 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         return segment;
     }
 
-    private List<TextWord> mergeWords(TextMaterial widget) {
+    private static TextStyle getGlobalStyle(JianyingProjectBuildState state, TextMaterial material) {
+        Long styleId = material.getStyleId();
+
+        TextStyle style = null;
+        if (styleId != null) {
+            StyleMaterial styleMaterial = state.getMaterial(styleId);
+            if (styleMaterial != null && styleMaterial.getStyle() != null) {
+                style = styleMaterial.getStyle();
+            }
+        }
+
+        TextStyle wordTextStyle = material.getStyle();
+        if (wordTextStyle != null) {
+            if (style == null) {
+                return wordTextStyle;
+            } else {
+                // 合并样式
+                return TextStyleUtils.mergeTextStyle(wordTextStyle, style);
+            }
+        } else {
+            return Optional.ofNullable(style).orElse(DEFAULT_STYLE);
+        }
+    }
+
+    private List<TextWord> mergeWords(JianyingProjectBuildState state, TextMaterial widget) {
         //全局样式
-        TextStyle globalStyle = widget.getStyle();
+        TextStyle globalStyle = getGlobalStyle(state, widget);
 
         String text = widget.getText();
 
@@ -162,10 +184,9 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
 
         int indexStart = 0;
         List<TextWord> wordList = Lists.newArrayList();
-        TextWord word;
         for (Integer start : indexList) {
             if (start > indexStart) {
-                word = globalStyle.toTextWidgetWord(indexStart, start - indexStart);
+                TextWord word = TextStyleUtils.toTextWidgetWord(globalStyle, indexStart, start - indexStart);
                 wordList.add(word);
                 indexStart = start;
             }
@@ -175,7 +196,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         wordList.forEach(textWidgetWord -> {
             int s = textWidgetWord.getIndex();
             int e = s + textWidgetWord.getLength();
-            words.stream().filter(w -> !(w.getIndex() + w.getLength() < e || w.getIndex() > s)).forEach(textWidgetWord::mergeStyle);
+            words.stream().filter(w -> !(w.getIndex() + w.getLength() < e || w.getIndex() > s)).forEach(word -> TextStyleUtils.mergeStyle(state, textWidgetWord, word));
         });
 
         return wordList;
@@ -271,7 +292,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
                                 .setId(DuoServerConsts.EMPTY_STR)
                 )
                 .setRange(Lists.newArrayList(word.getIndex(), word.getIndex() + word.getLength()))
-                .setSize(word.getFontSize() * 1.0)
+                .setSize(Optional.ofNullable(word.getFontSize()).orElse(JianyingResourceUtils.DEFAULT_FONT_SIZE) * 1.0)
                 .setStrokes(null)
                 .setEffectStyle(null)
                 .setUseLetterColor(true);

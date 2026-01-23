@@ -115,7 +115,7 @@
           },
           "materialId": 535010997887571047,
           "materialStart": 0,
-          "type": "subtitle",
+          "type": "text",
           "layoutIndex": 1000,
           "refs": {},
           "speed": 100,
@@ -133,7 +133,7 @@
           },
           "materialId": 535010997887571048,
           "materialStart": 0,
-          "type": "subtitle",
+          "type": "text",
           "layoutIndex": 1000,
           "refs": {},
           "point": {
@@ -175,6 +175,15 @@
             "start": 1500,
             "duration": 3000
           },
+          "zoom": {
+            "x": 5000,
+            "y": 5000
+          },
+          "point": {
+            "x": 500,
+            "y": 0
+          },
+          "rotate": -45,
           "materialId": 535010997887571002,
           "type": "sticker"
         },
@@ -277,9 +286,8 @@
         {
           "index": 3,
           "length": 2,
-          "fontSize": 18,
-          "fillColor": "#FFFF00",
-          "backgroundColor": "#FF0000"
+          "styleId": 296653948753219540,
+          "fontSize": 18
         }
       ]
     },
@@ -288,16 +296,7 @@
       "type": "text",
       "text": "你真好呀",
       "textType": "subtitle",
-      "style": {
-        "fontSize": 16,
-        "bold": true,
-        "italic": true,
-        "textAlign": 1,
-        "fontName": "抖音美好体",
-        "fillColor": "#FFFFFF",
-        "strokeColor": "#FF0000",
-        "strokeWidth": 10
-      },
+      "styleId": 296653948753219540,
       "words": [
         {
           "index": 1,
@@ -356,6 +355,21 @@
         "centerY": 0.25,
         "pointX": 400,
         "pointY": 400
+      }
+    },
+    {
+      "id":296653948753219540,
+      "type": "style",
+      "globalKeywordStyle": true,
+      "style": {
+        "fontSize": 28,
+        "bold": true,
+        "italic": true,
+        "textAlign": 1,
+        "fontName": "抖音美好体",
+        "fillColor": "#FFFF00",
+        "strokeColor": "#FF0000",
+        "strokeWidth": 10
       }
     }
   ],

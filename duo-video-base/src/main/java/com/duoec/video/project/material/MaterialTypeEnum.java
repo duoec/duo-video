@@ -33,11 +33,6 @@ public enum MaterialTypeEnum {
     TEXT_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_TEXT),
 
     /**
-     * 字幕
-     */
-    SUBTITLE_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_SUBTITLE),
-
-    /**
      * 文本模板
      */
     TEXT_TEMPLATE_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_TEXT_TEMPLATE),
@@ -66,6 +61,11 @@ public enum MaterialTypeEnum {
      * 蒙板
      */
     MASK_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_MASK),
+
+    /**
+     * 样式
+     */
+    STYLE_MATERIAL(MaterialTypeEnum.MATERIAL_TYPE_STYLE),
     ;
 
     public static final String MATERIAL_TYPE_VIDEO = "video";
@@ -81,6 +81,7 @@ public enum MaterialTypeEnum {
     public static final String MATERIAL_TYPE_TRANSITION = "transition";
     public static final String MATERIAL_TYPE_VIDEO_EFFECT = "video_effect";
     public static final String MATERIAL_TYPE_FACE_EFFECT = "face_effect";
+    public static final String MATERIAL_TYPE_STYLE = "style";
 
     private final String type;
 

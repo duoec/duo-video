@@ -17,6 +17,12 @@ public class TextMaterial extends BaseMaterial {
     private TextStyle style;
 
     /**
+     * 预设样式ID。[type='style', id=${styleId}]
+     * 如果同时设置 styleId 和 style时，会优先加载 styleId 的样式，再使用 style 覆盖！
+     */
+    private Long styleId;
+
+    /**
      * 特殊设置文本样式
      */
     private List<TextWord> words;

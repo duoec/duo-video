@@ -43,6 +43,7 @@ public class JianyingResourceUtils {
     public static final String JY_RESOURCE_LOCAL = "Resources/local";
 
     public static final String DEFAULT_FONT_NAME = "抖音美好体";
+    public static final int DEFAULT_FONT_SIZE = 14;
     public static final String DEFAULT_FILL_COLOR = "#00c1cd";
     public static final File JY_TEMP_DIR = new File("tmp");
     public static final File JY_RS_DIR = new File(JY_TEMP_DIR, RS_BASE_DIR);

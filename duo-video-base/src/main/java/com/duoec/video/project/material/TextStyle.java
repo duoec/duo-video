@@ -1,14 +1,9 @@
 package com.duoec.video.project.material;
 
-import com.duoec.base.exceptions.DuoServiceException;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
 
 @Data
 @Accessors(chain = true)
@@ -214,62 +209,4 @@ public class TextStyle implements Serializable {
      * 花字ID
      */
     private Long flowerId;
-
-    private static final Map<String, Field> FIELD_MAP = new HashMap<>();
-
-    public TextWord toTextWidgetWord(int start, int length) {
-        TextWord word = new TextWord()
-                .setIndex(start)
-                .setLength(length);
-
-        initFieldMap();
-
-        //将 当前的属性值复制到word上去
-        FIELD_MAP.forEach((fieldName, field) -> {
-            Object val = null;
-            try {
-                val = field.get(this);
-                if (val == null) {
-                    return;
-                }
-                field.set(word, val);
-            } catch (Exception e) {
-                throw new RuntimeException("设置样式失败：" + field + ": " + val, e);
-            }
-        });
-
-        return word;
-    }
-
-    private void initFieldMap() {
-        if (!FIELD_MAP.isEmpty()) {
-            return;
-        }
-        for (Field field : this.getClass().getDeclaredFields()) {
-            //判断是否是静态方法，则丢弃
-            if ((field.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
-                continue;
-            }
-
-            FIELD_MAP.put(field.getName(), field);
-            field.setAccessible(true);
-        }
-    }
-
-    public void mergeStyle(TextWord word) {
-        initFieldMap();
-
-        FIELD_MAP.forEach((fieldName, field) -> {
-            Object val = null;
-            try {
-                val = field.get(word);
-                if (val == null) {
-                    return;
-                }
-                field.set(this, val);
-            } catch (Exception e) {
-                throw new DuoServiceException("设置样式失败：" + field + ": " + val, e);
-            }
-        });
-    }
 }

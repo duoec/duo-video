@@ -175,6 +175,13 @@ public class JsonUtils {
         JsonUtils.objectMapper = objectMapper;
     }
 
+    /**
+     * 通过json序列化和反序列化进行深度复制
+     */
+    public static <T> T clone(T obj) {
+        return (T) toObject(toJsonString(obj), obj.getClass());
+    }
+
     private static void registryLongConverter(ObjectMapper objectMapper) {
         SimpleModule longConverter = new SimpleModule();
         longConverter.addSerializer(Long.class, ToStringSerializer.instance);

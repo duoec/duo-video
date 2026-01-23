@@ -28,10 +28,6 @@ import java.io.Serializable;
                 name = MaterialTypeEnum.MATERIAL_TYPE_TEXT
         ),
         @JsonSubTypes.Type(
-                value = SubtitleMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_SUBTITLE
-        ),
-        @JsonSubTypes.Type(
                 value = TextTemplateMaterial.class,
                 name = MaterialTypeEnum.MATERIAL_TYPE_TEXT_TEMPLATE
         ),
@@ -66,6 +62,10 @@ import java.io.Serializable;
         @JsonSubTypes.Type(
                 value = MaskMaterial.class,
                 name = MaterialTypeEnum.MATERIAL_TYPE_MASK
+        ),
+        @JsonSubTypes.Type(
+                value = StyleMaterial.class,
+                name = MaterialTypeEnum.MATERIAL_TYPE_STYLE
         )
 })
 public class BaseMaterial implements Serializable {

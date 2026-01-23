@@ -222,27 +222,29 @@ X- ←--(0,0)--→ X+
 
 ```json
 {
-  "scripts": [ // 分镜。也可以一个视频都放在一个分镜下，仅为方便管理
-    "segments": [
-      {
-        "id": 296653948753219561,
-        "time": { // 当前视频展示的
-          "start": 3000, // 当前片段从第几毫秒开始，单位：毫秒
-          "duration": 5000 // 当前片段持续时长，单位：毫秒
-        },
-        "materialId": 535010997887571046, // 引用的素材ID
-        "materialStart": 10000, // 当前片段的视频从第几毫秒开始
-        "type": "video",
-      }
-		]
-  ],
-  "materials": [
-    {
-      "id": 535010997887571046, // 全局唯一。生成剪映工程时会将它作为临时文件名，如果重复，视频引用会乱掉！
-      "url": "https://api.duoec.com/public/video/535010997887571046.mov",
-      "type": "video"
-    }
-  ]
+    "scripts": [ // 分镜。也可以一个视频都放在一个分镜下，仅为方便管理
+        {
+            "segments": [
+                {
+                    "id": 296653948753219561,
+                    "time": { // 当前视频展示的
+                        "start": 3000, // 当前片段从第几毫秒开始，单位：毫秒
+                        "duration": 5000 // 当前片段持续时长，单位：毫秒
+                    },
+                    "materialId": 535010997887571046, // 引用的素材ID
+                    "materialStart": 10000, // 当前片段的视频从第几毫秒开始
+                    "type": "video"
+                }
+            ]
+        }
+    ],
+    "materials": [
+        {
+            "id": 535010997887571046, // 全局唯一。生成剪映工程时会将它作为临时文件名，如果重复，视频引用会乱掉！
+            "url": "https://api.duoec.com/public/video/535010997887571046.mov",
+            "type": "video"
+        }
+    ]
 }
 ```
 
@@ -252,44 +254,46 @@ X- ←--(0,0)--→ X+
 
 ```json
 {
-  "scripts": [
-  	"segments": [
-    	{
-        "id": 296653948753219560,
-        "time": {
-          "start": 0,
-          "duration": 3000
+    "scripts": [
+        {
+            "segments": [
+                {
+                    "id": 296653948753219560,
+                    "time": {
+                        "start": 0,
+                        "duration": 3000
+                    },
+                    "materialId": 535010997887571021,
+                    "materialStart": 5000,
+                    "type": "video"
+                }
+            ]
+        }
+    ],
+    "materials": [
+        {
+            "id": 535010997887571021, // 素材ID，是一个全局唯一的整数
+            "url": "https://api.duoec.com/public/video/535010997887571021.mp4",
+            "type": "video",
+            "time": { // 素材使用片段。可选，为空时表示整个视频
+                "start": 0,
+                "duration": 86586
+            },
+            "greenBackground": { // 绿幕配置，当然也支持白幕、蓝幕。以下参数可以使用AI推荐（需要多模态支持）
+                "materialId": 535010997887571022, // 绿幕素材，可以是图片、视频
+                "baseBackgroundColor": "#4e8a1fff", // 绿幕颜色
+                "strength": 20, // 强度。参考剪映里的 强度
+                "edgeFeather": 10, // 边缘羽化。参考剪映
+                "edgeCleanup": 10, // 边缘清理。参考剪映
+                "shadow": 0 // 阴影。参考剪映，旧版本不支持
+            }
         },
-        "materialId": 535010997887571021,
-        "materialStart": 5000,
-        "type": "video"
-      }
-		]
-  ],
-  "materials": [
-    {
-      "id": 535010997887571021, # 素材ID，是一个全局唯一的整数
-      "url": "https://api.duoec.com/public/video/535010997887571021.mp4", 
-      "type": "video",
-      "time": { // 素材使用片段。可选，为空时表示整个视频
-        "start": 0, 
-        "duration": 86586
-      },
-      "greenBackground": { // 绿幕配置，当然也支持白幕、蓝幕。以下参数可以使用AI推荐（需要多模态支持）
-        "materialId": 535010997887571022, // 绿幕素材，可以是图片、视频
-        "baseBackgroundColor": "#4e8a1fff", // 绿幕颜色
-        "strength": 20, // 强度。参考剪映里的 强度
-        "edgeFeather": 10, // 边缘羽化。参考剪映
-        "edgeCleanup": 10, // 边缘清理。参考剪映
-    		"shadow": 0 // 阴影。参考剪映，旧版本不支持
-      }
-    },
-		{ // 绿幕背景的素材
-      "id": 535010997887571022,
-      "url": "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png",
-      "type": "image"
-    }
-  ]
+        { // 绿幕背景的素材
+            "id": 535010997887571022,
+            "url": "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png",
+            "type": "image"
+        }
+    ]
 }
 ```
 
@@ -299,60 +303,62 @@ X- ←--(0,0)--→ X+
 
 ```json
 {
-  "scripts": [
-  	"segments": [
-    	{
-          "id": 296653948753219564,
-          "time": {
-            "start": 4000,
-            "duration": 3000
-          },
-          "materialId": 535010997887571021, // 注意，多次复用时，会复用第一次出现时的构建复合片段
-          "materialStart": 9000,
-          "type": "video",
-          "refs": {
-            "296653948753219539": "mask"
-          },
+    "scripts": [
+        {
+            "segments": [
+                {
+                    "id": 296653948753219564,
+                    "time": {
+                        "start": 4000,
+                        "duration": 3000
+                    },
+                    "materialId": 535010997887571021, // 注意，多次复用时，会复用第一次出现时的构建复合片段
+                    "materialStart": 9000,
+                    "type": "video",
+                    "refs": {
+                        "296653948753219539": "mask"
+                    }
+                }
+            ]
         }
-		]
-  ],
-  "materials": [
-    {
-      "id": 535010997887571021, # 素材ID，是一个全局唯一的整数
-      "url": "https://api.duoec.com/public/video/535010997887571021.mp4", 
-      "type": "video",
-      "time": { // 素材使用片段。可选，为空时表示整个视频
-        "start": 0, 
-        "duration": 86586
-      },
-      "greenBackground": { // 绿幕配置，当然也支持白幕、蓝幕。以下参数可以使用AI推荐（需要多模态支持）
-        "materialId": 535010997887571022, // 绿幕素材，可以是图片、视频
-        "baseBackgroundColor": "#4e8a1fff", // 绿幕颜色
-        "strength": 20, // 强度。参考剪映里的 强度
-        "edgeFeather": 10, // 边缘羽化。参考剪映
-        "edgeCleanup": 10, // 边缘清理。参考剪映
-    		"shadow": 0 // 阴影。参考剪映，旧版本不支持
-      }
-    },
-		{ // 绿幕背景的素材
-      "id": 535010997887571022,
-      "url": "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png",
-      "type": "image"
-    },
-    {
-      "id": 296653948753219539,
-      "resourceId": 270415264124764161, // 蒙板-圆形的资源ID
-      "type": "mask",
-      "config": { // 以下是蒙板的配置，有点复杂，需要配合人脸识别小模型才能完成程序自动生成。这一部分可能还会进行优化
-        "width": 0.5, // 蒙板宽度比例（与视频宽的比值）
-        "height": 0.28, // 蒙板高度比例（与视频高的比值）
-        "centerX": 0.07, // 蒙板中心位置X轴（与视频宽的比值，有点奇葩）
-        "centerY": 0.25, // 蒙板中心位置Y轴（与视频高的比值，有点奇葩）
-        "pointX": 400, // 蒙板视频的位移X轴，与剪映界面值一致
-        "pointY": 400 // 蒙板视频的位移Y轴，与剪映界面值一致
-      }
-    }
-  ]
+    ],
+    "materials": [
+        {
+            "id": 535010997887571021, // 素材ID，是一个全局唯一的整数
+            "url": "https://api.duoec.com/public/video/535010997887571021.mp4",
+            "type": "video",
+            "time": { // 素材使用片段。可选，为空时表示整个视频
+                "start": 0,
+                "duration": 86586
+            },
+            "greenBackground": { // 绿幕配置，当然也支持白幕、蓝幕。以下参数可以使用AI推荐（需要多模态支持）
+                "materialId": 535010997887571022, // 绿幕素材，可以是图片、视频
+                "baseBackgroundColor": "#4e8a1fff", // 绿幕颜色
+                "strength": 20, // 强度。参考剪映里的 强度
+                "edgeFeather": 10, // 边缘羽化。参考剪映
+                "edgeCleanup": 10, // 边缘清理。参考剪映
+                "shadow": 0 // 阴影。参考剪映，旧版本不支持
+            }
+        },
+        { // 绿幕背景的素材
+            "id": 535010997887571022,
+            "url": "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png",
+            "type": "image"
+        },
+        {
+            "id": 296653948753219539,
+            "resourceId": 270415264124764161, // 蒙板-圆形的资源ID
+            "type": "mask",
+            "config": { // 以下是蒙板的配置，有点复杂，需要配合人脸识别小模型才能完成程序自动生成。这一部分可能还会进行优化
+                "width": 0.5, // 蒙板宽度比例（与视频宽的比值）
+                "height": 0.28, // 蒙板高度比例（与视频高的比值）
+                "centerX": 0.07, // 蒙板中心位置X轴（与视频宽的比值，有点奇葩）
+                "centerY": 0.25, // 蒙板中心位置Y轴（与视频高的比值，有点奇葩）
+                "pointX": 400, // 蒙板视频的位移X轴，与剪映界面值一致
+                "pointY": 400 // 蒙板视频的位移Y轴，与剪映界面值一致
+            }
+        }
+    ]
 }
 ```
 
@@ -364,109 +370,177 @@ X- ←--(0,0)--→ X+
 
 ```json
 {
-  "scripts": [
-    "segments": [
-    	{
-          "id": 296653948753219562,
-          "time": {
-            "start": 10,
-            "duration": 1990
-          },
-          "materialId": 535010997887571047,
-          "materialStart": 0,
-          "type": "subtitle",
-          "layoutIndex": 1000,
-          "refs": {},
-          "speed": 100,
-          "point": {
-            "x": 0,
-            "y": -1000
-          },
-          "rotate": 0
-        }
-		  ]
-  ],
-  "materials": [
-    {
-      "id": 535010997887571047,
-      "type": "text",
-      "text": "测试中文字幕",
-      "textType": "subtitle",
-      "style": {
-        "fontSize": 14,
-        "bold": false,
-        "italic": false,
-        "textAlign": 1,
-        "fontName": "微软雅黑",
-        "fillColor": "#FFFFFF",
-        "strokeColor": "#FF0000",
-        "strokeWidth": 10
-      },
-      "words": [
+    "scripts": [
         {
-          "index": 2,
-          "length": 2,
-          "fontSize": 16,
-          "fillColor": "#00FFFF",
-          "strokeColor": "#0000FF",
-          "strokeWidth": 20
-        },
-        {
-          "index": 3,
-          "length": 2,
-          "fontSize": 18,
-          "fillColor": "#FFFF00",
-          "backgroundColor": "#FF0000"
+            "segments": [
+                {
+                    "id": 296653948753219562,
+                    "time": {
+                        "start": 10,
+                        "duration": 1990
+                    },
+                    "materialId": 535010997887571047,
+                    "materialStart": 0,
+                    "type": "subtitle",
+                    "layoutIndex": 1000,
+                    "refs": {},
+                    "speed": 100,
+                    "point": {
+                        "x": 0,
+                        "y": -1000
+                    },
+                    "rotate": 0
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ],
+    "materials": [
+        {
+            "id": 535010997887571047,
+            "type": "text",
+            "text": "测试中文字幕",
+            "textType": "subtitle",
+            "style": {
+                "fontSize": 14,
+                "bold": false,
+                "italic": false,
+                "textAlign": 1,
+                "fontName": "微软雅黑",
+                "fillColor": "#FFFFFF",
+                "strokeColor": "#FF0000",
+                "strokeWidth": 10
+            },
+            "words": [
+                {
+                    "index": 2,
+                    "length": 2,
+                    "fontSize": 16,
+                    "fillColor": "#00FFFF",
+                    "strokeColor": "#0000FF",
+                    "strokeWidth": 20
+                },
+                {
+                    "index": 3,
+                    "length": 2,
+                    "fontSize": 18,
+                    "fillColor": "#FFFF00",
+                    "backgroundColor": "#FF0000"
+                }
+            ]
+        }
+    ]
 }
 ```
 
 
 
-### 5.5 文本模板
 
-```json
+
+### 5.5 文本预设样式
+
+> 实现预设样式，可以在需要使用的地方简单使用 styleId引用即可，还支持预设样式的覆盖
+
+``` json
 {
-  "scripts": [
-    "segments": [
-    	{
-        "id": 296653948753219503,
-        "time": {
-          "start": 0,
-          "duration": 2000
-        },
-        "materialId": 535010997887571000,
-        "type": "text",
-        "zoom": { // 文本模板的缩放
-          "x": 5000, // 单位：万分之几，5000即 50%
-          "y": 5000
-        },
-        "point": { // 文本模板位置，与剪映一致
-          "x": 0,
-          "y": 1400
+    "scripts": [
+        {
+            "segments": [
+                {
+                    "id": 535010997887571047,
+                    "type": "text",
+                    "text": "测试中文字幕",
+                    "textType": "subtitle",
+                    "styleId": 296653948753219540, // 可以直接引用文本样式，以简化样式定义
+                    "style": {
+                      "fontSize": 14 // 可以覆盖样式，仅覆盖当前样式，不会污染预设样式
+                    },
+                    "words": [
+                        {
+                            "index": 2,
+                            "length": 2,
+                            "fontSize": 16,
+                            "fillColor": "#00FFFF",
+                            "strokeColor": "#0000FF",
+                            "strokeWidth": 20
+                        },
+                        {
+                            "index": 3,
+                            "length": 2,
+                            "styleId": 296653948753219540, // 文本片段样式也可以直接引用样式
+                            "fontSize": 18 // 在引用的样式之后，可以覆盖样式
+                        }
+                    ]
+                }
+            ]
         }
-      }
     ],
-  	"materials": [
-      {
-        "id": 535010997887571000,
-        "type": "text_template", // 类型
-        "texts": [ // 内容，需要与文本模板匹配
-          "非常棒"
-        ],
-        "resourceId": 270464050694389761 // 文本模板资源ID，可以到 https://www.duoec.com/video 上查询
-      }
+    "materials": [
+        { // 定义一个样式表
+            "id": 296653948753219540,
+            "type": "style",
+            "globalKeywordStyle": true, // 设置为全局关键字样式，作为剪映的划词默认样式，此样式全局仅存在一个为true
+            "style": {
+                "fontSize": 28,
+                "bold": true,
+                "italic": true,
+                "textAlign": 1,
+                "fontName": "抖音美好体",
+                "fillColor": "#FFFF00",
+                "strokeColor": "#FF0000",
+                "strokeWidth": 10
+            }
+        }
     ]
-	]
-]
+}
 ```
 
 
 
-### 5.6 创建复合片段
+
+
+### 5.6 文本模板
+
+```json
+{
+    "scripts": [
+        {
+            "segments": [
+                {
+                    "id": 296653948753219503,
+                    "time": {
+                        "start": 0,
+                        "duration": 2000
+                    },
+                    "materialId": 535010997887571000,
+                    "type": "text",
+                    "zoom": { // 文本模板的缩放
+                        "x": 5000, // 单位：万分之几，5000即 50%
+                        "y": 5000
+                    },
+                    "point": { // 文本模板位置，与剪映一致
+                        "x": 0,
+                        "y": 1400
+                    }
+                }
+            ]
+        }
+    ],
+    "materials": [
+        {
+            "id": 535010997887571000,
+            "type": "text_template", // 类型
+            "texts": [ // 内容，需要与文本模板匹配
+                "非常棒"
+            ],
+            "resourceId": 270464050694389761 // 文本模板资源ID，可以到 https://www.duoec.com/video 上查询
+        }
+    ]
+}
+```
+
+
+
+### 5.7 创建复合片段
 
 ```java
 /**
