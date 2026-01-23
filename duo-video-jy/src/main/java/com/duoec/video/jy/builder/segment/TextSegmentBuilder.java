@@ -235,21 +235,6 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
     }
 
     private static WordStyleResult getStyle(JianyingProjectBuildState state, TextWord word) {
-        String fontName = word.getFontName();
-        if (!StringUtils.hasLength(fontName)) {
-            fontName = JianyingResourceUtils.DEFAULT_FONT_NAME;
-        }
-        File fontFile = JianyingResourceUtils.getFontFile(fontName);
-        String fontPath = JianyingResourceUtils.copyToLocalResources(state, fontFile, JianyingResourceUtils.RS_NAME_FONTS);
-        FontStyle fontStyle = new FontStyle()
-                .setContent(
-                        new Content()
-                                .setSolid(
-                                        new Solid()
-                                                .setColor(JianyingUtils.hexToNormalizedRGB(word.getFillColor()))
-                                )
-                );
-
         long flowerId = Optional.ofNullable(word.getFlowerId()).orElse(0L);
         Style style;
         if (flowerId > 0) {
@@ -260,6 +245,22 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
                 return new WordStyleResult(true, style);
             }
         }
+
+        String fontName = word.getFontName();
+        if (!StringUtils.hasLength(fontName)) {
+            fontName = JianyingResourceUtils.DEFAULT_FONT_NAME;
+        }
+
+        File fontFile = JianyingResourceUtils.getFontFile(fontName);
+        String fontPath = JianyingResourceUtils.copyToLocalResources(state, fontFile, JianyingResourceUtils.RS_NAME_FONTS);
+        FontStyle fontStyle = new FontStyle()
+                .setContent(
+                        new Content()
+                                .setSolid(
+                                        new Solid()
+                                                .setColor(JianyingUtils.hexToNormalizedRGB(word.getFillColor()))
+                                )
+                );
 
         // 没有花字时
         style = new Style()
@@ -299,7 +300,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         style
                 .setRange(Lists.newArrayList(word.getIndex(), word.getIndex() + word.getLength()))
                 .setSize(word.getFontSize() * 1.0)
-                .setUseLetterColor(true)
+//                .setUseLetterColor(true)
         ;
 
         // 添加特效

@@ -111,7 +111,7 @@ graph LR
 
 
 
-![剪映资源](./doc/jy_resource_list.jpg)
+![剪映资源](./doc/jy_resource_list.png)
 
 点击浏览：[https://www.duoec.com/video](https://www.duoec.com/video) 点击资源图片，自动复制资源ID到粘贴板
 
