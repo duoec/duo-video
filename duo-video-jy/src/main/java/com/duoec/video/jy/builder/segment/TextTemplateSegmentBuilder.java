@@ -14,7 +14,9 @@ import com.duoec.video.project.material.TextTemplateMaterial;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 public class TextTemplateSegmentBuilder extends BaseSegmentBuilder<TextTemplateMaterial> {
@@ -45,15 +47,16 @@ public class TextTemplateSegmentBuilder extends BaseSegmentBuilder<TextTemplateM
             return null;
         }
         TextTemplate textTemplate = dto.getTextTemplate();
-        Text text = dto.getText();
-        Effect effect = dto.getEffect();
+        List<Text> texts = dto.getTexts();
+        List<Effect> effects = dto.getEffects();
 
         Materials materials = state.getJianyingProject().getMaterials();
-        materials.getTexts().add(text);
+        materials.getTexts().addAll(texts);
         materials.getTextTemplates().add(textTemplate);
-        if (effect != null) {
-            materials.getEffects().add(effect);
+        if (!CollectionUtils.isEmpty(effects)) {
+            materials.getEffects().addAll(effects);
         }
+
         VideoTimeRange segmentTime = videoSegment.getTime();
         Track textTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_TEXT, "文本模板", segmentTime.getStart(), segmentTime.getEndTime());
 

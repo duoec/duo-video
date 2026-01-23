@@ -73,19 +73,14 @@ public class JyResource implements Serializable {
     private String mainConfig;
 
     /**
-     * 文本特效
+     * 文本特效（仅花字）
      */
     private String effect;
 
     /**
-     * 动画配置
+     * 文本配置 (仅文本模板)
      */
-    private String animation;
-
-    /**
-     * 文本配置
-     */
-    private String text;
+    private List<TextResource> texts;
 
     /**
      * 用户配置
@@ -107,4 +102,27 @@ public class JyResource implements Serializable {
      * 时长，单位：毫秒
      */
     private Long duration;
+
+    @Data
+    public static class TextResource {
+        /**
+         * 文本配置(JSON)
+         */
+        public String text;
+
+        /**
+         * 文本内容
+         */
+        public String content;
+
+        /**
+         * 文本特效(JSON)
+         */
+        private List<String> effects;
+
+        /**
+         * 动画配置(JSON)
+         */
+        private List<String> animations;
+    }
 }

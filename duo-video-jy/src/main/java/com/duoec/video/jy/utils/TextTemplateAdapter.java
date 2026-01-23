@@ -1,14 +1,11 @@
 package com.duoec.video.jy.utils;
 
 import com.duoec.base.core.DuoServerConsts;
+import com.duoec.base.core.util.JsonUtils;
 import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.jy.JianyingBuilder;
 import com.duoec.video.jy.dto.TextTemplateDto;
-import com.duoec.video.jy.dto.info.Effect;
-import com.duoec.video.jy.dto.info.Text;
-import com.duoec.video.jy.dto.info.TextTemplate;
 import com.duoec.video.utils.ProcessBuilderUtils;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,32 +110,7 @@ public class TextTemplateAdapter {
      * 解析jy_text_template_adapter 的JSON输出
      */
     private static TextTemplateDto parseGoOutput(String json) {
-        try {
-            JsonNode root = objectMapper.readTree(json);
-
-            // 解析text
-            Text text = null;
-            if (root.has("text")) {
-                text = objectMapper.treeToValue(root.get("text"), Text.class);
-            }
-
-            // 解析text_template
-            TextTemplate textTemplate = null;
-            if (root.has("text_template")) {
-                textTemplate = objectMapper.treeToValue(root.get("text_template"), TextTemplate.class);
-            }
-
-            // 解析effect
-            Effect effect = null;
-            if (root.has("effect")) {
-                effect = objectMapper.treeToValue(root.get("effect"), Effect.class);
-            }
-
-            return new TextTemplateDto(text, textTemplate, effect, root.get("version").asText());
-        } catch (Exception e) {
-            logger.error("解析jy_text_template_adapter JSON输出失败", e);
-            return null;
-        }
+        return JsonUtils.toObject(json, TextTemplateDto.class);
     }
 
     /**

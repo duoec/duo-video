@@ -73,7 +73,7 @@ public class JianYingProjectInfo implements Serializable {
     @JsonProperty("update_time")
     public Integer updateTime;
 
-    public Integer version;
+    public String version;
 
     @JsonProperty("uneven_animation_template_info")
     public UnevenAnimationTemplateInfo unevenAnimationTemplateInfo;
@@ -329,11 +329,11 @@ public class JianYingProjectInfo implements Serializable {
         return this;
     }
 
-    public Integer getVersion() {
+    public String getVersion() {
         return version;
     }
 
-    public JianYingProjectInfo setVersion(Integer version) {
+    public JianYingProjectInfo setVersion(String version) {
         this.version = version;
         return this;
     }

@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class DuoApiUtils {
-    public static final String BASE_JY_RESOURCE_API = "https://api.duoec.com/api/jy/resource/";
+    public static String BASE_JY_RESOURCE_API = "https://api.duoec.com/api/jy/resource/";
     private static final String SECRET_ID;
     private static final String SECRET_KEY;
 
@@ -61,13 +61,13 @@ public class DuoApiUtils {
             String queryString = uri.getQuery();
             if (queryString != null && !queryString.isEmpty()) {
                 // 解析查询参数
-                String[] pairs = queryString.split("&");
-                Map<String, String> queryParams = new LinkedHashMap<>();
+                String[] pairs = queryString.split(DuoServerConsts.AND_STR);
 
+                Map<String, String> queryParams = new LinkedHashMap<>();
                 for (String pair : pairs) {
-                    int idx = pair.indexOf("=");
+                    int idx = pair.indexOf(DuoServerConsts.EQUAL_STR);
                     String key = idx > 0 ? pair.substring(0, idx) : pair;
-                    String value = idx > 0 && pair.length() > idx + 1 ? pair.substring(idx + 1) : "";
+                    String value = idx > 0 && pair.length() > idx + 1 ? pair.substring(idx + 1) : DuoServerConsts.EMPTY_STR;
 
                     // 使用与服务器端相同的编码方法
                     key = UrlUtils.encode(key);
@@ -84,16 +84,15 @@ public class DuoApiUtils {
                 StringBuilder sortedQueryString = new StringBuilder();
                 for (int i = 0; i < sortedKeys.length; i++) {
                     if (i > 0) {
-                        sortedQueryString.append("&");
+                        sortedQueryString.append(DuoServerConsts.AND_STR);
                     }
                     String key = sortedKeys[i];
                     String value = queryParams.get(key);
-                    sortedQueryString.append(key).append("=").append(value);
+                    sortedQueryString.append(key).append(DuoServerConsts.EQUAL_STR).append(value);
                 }
 
-                path += "?" + sortedQueryString.toString();
+                path += DuoServerConsts.ASK_STR + sortedQueryString;
             }
-
 
             // 构建HTTP请求
             HttpRequest.Builder urlBuilder = HttpRequest.newBuilder()
@@ -127,7 +126,7 @@ public class DuoApiUtils {
             // 使用Jackson反序列化响应体到指定类型
             return JsonUtils.toObject(body, typeReference);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new DuoServiceException(e);
         }
     }
 
@@ -138,10 +137,6 @@ public class DuoApiUtils {
                 + path + DuoServerConsts.TURN_LINE
                 + Optional.ofNullable(authorization).orElse(DuoServerConsts.EMPTY_STR) + DuoServerConsts.TURN_LINE
                 + Optional.ofNullable(body).orElse(DuoServerConsts.EMPTY_STR) + DuoServerConsts.TURN_LINE;
-        String signature = HmacUtils.calculateHmacSha256(SECRET_KEY, signatureMateStr);
-
-
-        return signature;
+        return HmacUtils.calculateHmacSha256(SECRET_KEY, signatureMateStr);
     }
-
 }
