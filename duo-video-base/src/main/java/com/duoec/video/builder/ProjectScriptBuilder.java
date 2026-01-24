@@ -5,8 +5,8 @@ import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoTimeRange;
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ProjectScriptBuilder {
     private final ProjectBuilder projectBuilder;
@@ -28,31 +28,40 @@ public class ProjectScriptBuilder {
     }
 
     public static ProjectScriptBuilder addAndGetScriptBuilder(ProjectBuilder projectBuilder) {
-        VideoScript videoScript = new VideoScript();
-        videoScript.setSegments(new ArrayList<>());
+        createNewScript(projectBuilder);
+        return new ProjectScriptBuilder(projectBuilder, projectBuilder.getProject().getScripts().size() - 1);
+    }
 
-        List<VideoScript> scripts = projectBuilder.getProject().getScripts();
-        scripts.add(videoScript);
-        return new ProjectScriptBuilder(projectBuilder, scripts.size() - 1);
+    public static ProjectScriptBuilder addAndGetScriptBuilder(ProjectBuilder projectBuilder, VideoTimeRange time) {
+        createNewScript(projectBuilder, time);
+        return new ProjectScriptBuilder(projectBuilder, projectBuilder.getProject().getScripts().size() - 1);
+    }
+
+    public ProjectScriptBuilder build(Consumer<ProjectScriptBuilder> projectScriptBuilderConsumer) {
+        if (projectScriptBuilderConsumer != null) {
+            projectScriptBuilderConsumer.accept(this);
+        }
+        return this;
     }
 
     /**
-     * 获取 VideoBuilder
+     * 创建一个视频片段，并获得 VideoBuilder
+     * @param videoMaterialId 视频素材ID。注意，素材ID在系统层面应该是唯一的，比如它就是数据库里的一个ID。在后续的创作中，会以此ID为名称，缓存到本地。如果ID重复，会导致文件错乱！！
      */
-    public ProjectVideoBuilder getVideoBuilder() {
-        return ProjectVideoBuilder.getBuilder(projectBuilder, this);
-    }
-
     public ProjectVideoBuilder addVideoAndGetBuilder(long videoMaterialId, String videoUrl, long start, long duration) {
-        return getVideoBuilder()
-                .add(videoMaterialId, videoUrl, start, duration);
+        return ProjectVideoBuilder.getBuilder(projectBuilder, this, videoMaterialId, videoUrl, start, duration);
     }
 
     /**
-     * 获取创建文本模板的Builder
+     * 创建一个视频片段，并获取 VideoBuilder 的上下文，以进一步编辑
      */
-    public ProjectTextTemplateBuilder getTextTemplateBuilder() {
-        return ProjectTextTemplateBuilder.getBuilder(projectBuilder, this);
+    public ProjectScriptBuilder buildNewVideo(long videoMaterialId, String videoUrl, long start, long duration, Consumer<ProjectVideoBuilder> projectVideoBuilderConsumer) {
+        ProjectVideoBuilder videoBuilder = addVideoAndGetBuilder(videoMaterialId, videoUrl, start, duration);
+        if (videoBuilder != null) {
+            projectVideoBuilderConsumer.accept(videoBuilder);
+            videoBuilder.back();
+        }
+        return this;
     }
 
     /**
@@ -63,8 +72,7 @@ public class ProjectScriptBuilder {
      * @param duration 展示时长，单位：毫秒
      */
     public ProjectTextTemplateBuilder addTextTemplateAndGetBuilder(long textTemplateResourceId, String text, long start, long duration) {
-        return getTextTemplateBuilder()
-                .add(textTemplateResourceId, Lists.newArrayList(text), start, duration);
+        return ProjectTextTemplateBuilder.getBuilder(projectBuilder, this, textTemplateResourceId, Lists.newArrayList(text), start, duration);
     }
 
     /**
@@ -75,15 +83,24 @@ public class ProjectScriptBuilder {
      * @param duration 展示时长，单位：毫秒
      */
     public ProjectTextTemplateBuilder addTextTemplateAndGetBuilder(long textTemplateResourceId, List<String> texts, long start, long duration) {
-        return getTextTemplateBuilder()
-                .add(textTemplateResourceId, texts, start, duration);
+        return ProjectTextTemplateBuilder.getBuilder(projectBuilder, this, textTemplateResourceId, texts, start, duration);
     }
 
     /**
-     * 获取贴纸Builder
+     * 添加文本模板，并获得 ProjectScriptBuilder 上下文
+     * @param textTemplateResourceId 文本模板ID
+     * @param texts 文本模板的内容(多块文本），需要根据文本模板确定是单行还是多行
+     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
+     * @param duration 展示时长，单位：毫秒
+     * @param textTemplateBuilderConsumer ProjectScriptBuilder 上下文构建器
      */
-    public ProjectStickerBuilder getProjectStickerBuilder() {
-        return ProjectStickerBuilder.getBuilder(projectBuilder, this);
+    public ProjectScriptBuilder buildNewTextTemplate(long textTemplateResourceId, List<String> texts, long start, long duration, Consumer<ProjectTextTemplateBuilder> textTemplateBuilderConsumer) {
+        ProjectTextTemplateBuilder textTemplateBuilder = ProjectTextTemplateBuilder.getBuilder(projectBuilder, this, textTemplateResourceId, texts, start, duration);
+        if (textTemplateBuilderConsumer != null) {
+            textTemplateBuilderConsumer.accept(textTemplateBuilder);
+            textTemplateBuilder.back();
+        }
+        return this;
     }
 
     /**
@@ -93,15 +110,23 @@ public class ProjectScriptBuilder {
      * @param duration 展示时长，单位：毫秒
      */
     public ProjectStickerBuilder addStickerAndGetBuilder(long stickerResourceId, long start, long duration) {
-        return getProjectStickerBuilder()
-                .add(stickerResourceId, start, duration);
+        return ProjectStickerBuilder.getBuilder(projectBuilder, this, stickerResourceId, start, duration);
     }
 
     /**
-     * 获取画面、脸部特效Builder
+     * 添加贴纸
+     * @param stickerResourceId 贴纸ID
+     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
+     * @param duration 展示时长，单位：毫秒
+     * @param stickerBuilderConsumer ProjectStickerBuilder 上下文构建器
      */
-    public ProjectVideoEffectBuilder getProjectVideoEffectBuilder() {
-        return ProjectVideoEffectBuilder.getBuilder(projectBuilder, this);
+    public ProjectScriptBuilder buildNewSticker(long stickerResourceId, long start, long duration, Consumer<ProjectStickerBuilder> stickerBuilderConsumer) {
+        ProjectStickerBuilder projectStickerBuilder = ProjectStickerBuilder.getBuilder(projectBuilder, this, stickerResourceId, start, duration);
+        if (stickerBuilderConsumer != null) {
+            stickerBuilderConsumer.accept(projectStickerBuilder);
+            projectStickerBuilder.back();
+        }
+        return this;
     }
 
     /**
@@ -111,8 +136,7 @@ public class ProjectScriptBuilder {
      * @param duration 展示时长，单位：毫秒
      */
     public ProjectVideoEffectBuilder addVideoEffectAndGetBuilder(long videoEffectResourceId, long start, long duration) {
-        return getProjectVideoEffectBuilder()
-                .addVideoEffect(videoEffectResourceId, start, duration);
+        return ProjectVideoEffectBuilder.getVideoEffectBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
     }
 
     /**
@@ -122,15 +146,35 @@ public class ProjectScriptBuilder {
      * @param duration 展示时长，单位：毫秒
      */
     public ProjectVideoEffectBuilder addFaceEffectAndGetBuilder(long faceEffectResourceId, long start, long duration) {
-        return getProjectVideoEffectBuilder()
-                .addFaceEffect(faceEffectResourceId, start, duration);
+        return ProjectVideoEffectBuilder.getVideoEffectBuilder(projectBuilder, this, faceEffectResourceId, start, duration);
     }
 
     /**
-     * 获取特效音Builder
+     * 添加画面特效
+     * @param videoEffectResourceId 画面特效ID
+     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
+     * @param duration 展示时长，单位：毫秒
      */
-    public ProjectSoundBuilder getProjectSoundBuilder() {
-        return ProjectSoundBuilder.getBuilder(projectBuilder, this);
+    public ProjectScriptBuilder builderNewVideoEffect(long videoEffectResourceId, long start, long duration, Consumer<ProjectVideoEffectBuilder> videoEffectBuilderConsumer) {
+        ProjectVideoEffectBuilder videoEffectBuilder = ProjectVideoEffectBuilder.getVideoEffectBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
+        if (videoEffectBuilderConsumer != null) {
+            videoEffectBuilderConsumer.accept(videoEffectBuilder);
+        }
+        return this;
+    }
+
+    /**
+     * 添加脸部特效
+     * @param videoEffectResourceId 脸部特效ID
+     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
+     * @param duration 展示时长，单位：毫秒
+     */
+    public ProjectScriptBuilder builderNewFaceEffect(long videoEffectResourceId, long start, long duration, Consumer<ProjectVideoEffectBuilder> faceEffectBuilderConsumer) {
+        ProjectVideoEffectBuilder faceEffectBuilder = ProjectVideoEffectBuilder.getVideoEffectBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
+        if (faceEffectBuilderConsumer != null) {
+            faceEffectBuilderConsumer.accept(faceEffectBuilder);
+        }
+        return this;
     }
 
     /**
@@ -140,15 +184,23 @@ public class ProjectScriptBuilder {
      * @param duration 展示时长，单位：毫秒
      */
     public ProjectSoundBuilder addSoundAndGetBuilder(long soundResourceId, long start, long duration) {
-        return getProjectSoundBuilder()
-                .add(soundResourceId, start, duration);
+        return ProjectSoundBuilder.getBuilder(projectBuilder, this, soundResourceId, start, duration);
     }
 
     /**
-     * 获取文本Builder
+     * 添加特效音
+     * @param soundResourceId 特效音ID
+     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
+     * @param duration 展示时长，单位：毫秒
+     * @param soundBuilderConsumer ProjectSoundBuilder 上下文编辑器
      */
-    public ProjectTextBuilder getProjectTextBuilder() {
-        return ProjectTextBuilder.getBuilder(projectBuilder, this);
+    public ProjectScriptBuilder buildNewSound(long soundResourceId, long start, long duration, Consumer<ProjectSoundBuilder> soundBuilderConsumer) {
+        ProjectSoundBuilder soundBuilder = ProjectSoundBuilder.getBuilder(projectBuilder, this, soundResourceId, start, duration);
+        if (soundBuilderConsumer != null) {
+            soundBuilderConsumer.accept(soundBuilder);
+            soundBuilder.back();
+        }
+        return this;
     }
 
     /**
@@ -158,8 +210,23 @@ public class ProjectScriptBuilder {
      * @param duration 展示持续时间，单位：毫秒
      */
     public ProjectTextBuilder addTextAndGetBuilder(String text, long start, long duration) {
-        return getProjectTextBuilder()
-                .add(text, start, duration);
+        return ProjectTextBuilder.getBuilder(projectBuilder, this, text, start, duration);
+    }
+
+    /**
+     * 添加文本
+     * @param text 文本内容
+     * @param start 展示开始时间，单位：毫秒
+     * @param duration 展示持续时间，单位：毫秒
+     * @param textBuilderConsumer ProjectTextBuilder 的上下文编辑器
+     */
+    public ProjectScriptBuilder buildNewText(String text, long start, long duration, Consumer<ProjectTextBuilder> textBuilderConsumer) {
+        ProjectTextBuilder textBuilder = ProjectTextBuilder.getBuilder(projectBuilder, this, text, start, duration);
+        if (textBuilderConsumer != null) {
+            textBuilderConsumer.accept(textBuilder);
+            textBuilder.back();
+        }
+        return this;
     }
 
     public ProjectScriptBuilder setTime(long start, long duration) {
@@ -188,5 +255,19 @@ public class ProjectScriptBuilder {
      */
     public VideoScript getScript() {
         return script;
+    }
+
+    private static VideoScript createNewScript(ProjectBuilder projectBuilder) {
+        VideoScript videoScript = new VideoScript();
+
+        List<VideoScript> scripts = projectBuilder.getProject().getScripts();
+        scripts.add(videoScript);
+        return videoScript;
+    }
+
+    private static VideoScript createNewScript(ProjectBuilder projectBuilder, VideoTimeRange time) {
+        VideoScript videoScript = createNewScript(projectBuilder);
+        videoScript.setTime(time);
+        return videoScript;
     }
 }

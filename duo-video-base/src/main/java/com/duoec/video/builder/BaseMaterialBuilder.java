@@ -117,4 +117,12 @@ public class BaseMaterialBuilder<T extends BaseMaterial, E extends BaseMaterialB
         projectBuilder.getProject().getMaterials().add(material);
         return scriptBuilder;
     }
+
+    protected T getMaterialById(long materialId) {
+        return (T) projectBuilder.getProject().getMaterials()
+                .stream()
+                .filter(material -> material.getId().equals(materialId))
+                .findFirst()
+                .orElse(null);
+    }
 }

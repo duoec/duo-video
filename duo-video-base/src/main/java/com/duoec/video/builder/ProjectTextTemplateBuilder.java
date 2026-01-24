@@ -10,27 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectTextTemplateBuilder extends BaseMaterialBuilder<TextTemplateMaterial, ProjectTextTemplateBuilder> {
-    private ProjectTextTemplateBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
+    private ProjectTextTemplateBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, long textTemplateResourceId, List<String> texts, long start, long duration) {
         this.projectBuilder = projectBuilder;
         this.scriptBuilder = scriptBuilder;
         this.script = scriptBuilder.getScript();
+        add(textTemplateResourceId, texts, start, duration);
     }
 
-    public static ProjectTextTemplateBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
-        return new ProjectTextTemplateBuilder(projectBuilder, scriptBuilder);
-    }
-
-    /**
-     * 添加文本模板
-     * @param textTemplateResourceId 文本模板ID
-     * @param text 文本模板的内容(单块文本）
-     * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
-     * @param duration 展示时长，单位：毫秒
-     */
-    public ProjectTextTemplateBuilder add(long textTemplateResourceId, String text, long start, long duration) {
-        List<String> texts = new ArrayList<>();
-        texts.add(text);
-        return add(textTemplateResourceId, texts, start, duration);
+    public static ProjectTextTemplateBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, long textTemplateResourceId, List<String> texts, long start, long duration) {
+        return new ProjectTextTemplateBuilder(projectBuilder, scriptBuilder, textTemplateResourceId, texts, start, duration);
     }
 
     /**
@@ -40,7 +28,7 @@ public class ProjectTextTemplateBuilder extends BaseMaterialBuilder<TextTemplate
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public ProjectTextTemplateBuilder add(long textTemplateResourceId, List<String> texts, long start, long duration) {
+    private ProjectTextTemplateBuilder add(long textTemplateResourceId, List<String> texts, long start, long duration) {
         material = new TextTemplateMaterial();
         material.setId(SnowflakeIdUtils.nextTmpId());
         material.setTexts(texts);

@@ -12,8 +12,9 @@ public class ProjectSoundBuilder extends BaseMaterialBuilder<SoundMaterial, Proj
         this.script = scriptBuilder.getScript();
     }
 
-    public static ProjectSoundBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
-        return new ProjectSoundBuilder(projectBuilder, scriptBuilder);
+    public static ProjectSoundBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, long soundResourceId, long start, long duration) {
+        return new ProjectSoundBuilder(projectBuilder, scriptBuilder)
+                .add(soundResourceId, start, duration);
     }
 
     /**
@@ -22,7 +23,7 @@ public class ProjectSoundBuilder extends BaseMaterialBuilder<SoundMaterial, Proj
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public ProjectSoundBuilder add(long soundResourceId, long start, long duration) {
+    private ProjectSoundBuilder add(long soundResourceId, long start, long duration) {
         material = new SoundMaterial();
         material.setId(SnowflakeIdUtils.nextTmpId());
         material.setResourceId(soundResourceId);

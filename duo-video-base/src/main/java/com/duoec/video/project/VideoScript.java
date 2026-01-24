@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +19,7 @@ public class VideoScript implements Serializable {
     /**
      * 片段
      */
-    private List<VideoSegment> segments;
+    private List<VideoSegment> segments = new ArrayList<>();
 
     public Long getEndTime() {
         if (time != null && time.getStart() != null && time.getDuration() != null) {

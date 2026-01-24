@@ -5,10 +5,7 @@ import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.project.VideoPoint;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
-import com.duoec.video.project.material.BaseVisibleMediaMaterial;
-import com.duoec.video.project.material.MaterialTypeEnum;
-import com.duoec.video.project.material.TransitionMaterial;
-import com.duoec.video.project.material.VideoMaterial;
+import com.duoec.video.project.material.*;
 import org.springframework.util.StringUtils;
 
 public class ProjectVideoBuilder extends BaseMaterialBuilder<VideoMaterial, ProjectVideoBuilder> {
@@ -20,8 +17,8 @@ public class ProjectVideoBuilder extends BaseMaterialBuilder<VideoMaterial, Proj
         this.script = scriptBuilder.getScript();
     }
 
-    public static ProjectVideoBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
-        return new ProjectVideoBuilder(projectBuilder, scriptBuilder);
+    public static ProjectVideoBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, long videoMaterialId, String videoUrl, long start, long duration) {
+        return new ProjectVideoBuilder(projectBuilder, scriptBuilder).add(videoMaterialId, videoUrl, start, duration);
     }
 
     /**
@@ -33,10 +30,15 @@ public class ProjectVideoBuilder extends BaseMaterialBuilder<VideoMaterial, Proj
         return this;
     }
 
-    public ProjectVideoBuilder add(long videoMaterialId, String videoUrl, long start, long duration) {
-        material = new VideoMaterial();
-        material.setId(videoMaterialId);
-        material.setUrl(videoUrl);
+    private ProjectVideoBuilder add(long videoMaterialId, String videoUrl, long start, long duration) {
+        BaseMaterial existsMaterial = this.projectBuilder.getProject().getMaterials().stream().filter(material -> material.getId().equals(videoMaterialId)).findFirst().orElse(null);
+        if (existsMaterial instanceof VideoMaterial videoMaterial) {
+            material = videoMaterial;
+        } else {
+            material = new VideoMaterial();
+            material.setId(videoMaterialId);
+            material.setUrl(videoUrl);
+        }
 
         videoTime = new VideoTimeRange(start, duration);
 
@@ -86,18 +88,12 @@ public class ProjectVideoBuilder extends BaseMaterialBuilder<VideoMaterial, Proj
         if (!StringUtils.hasLength(cubeUrl)) {
             throw new DuoServiceException("CUBE 文件路径不能为空");
         }
-        material.setLut(
-                new BaseVisibleMediaMaterial.Lut()
-                        .setUrl(cubeUrl)
-                        .setStrength(strength)
-                        .setSkinToneCorrection(skinToneCorrection)
-        );
+        material.setLut(new BaseVisibleMediaMaterial.Lut().setUrl(cubeUrl).setStrength(strength).setSkinToneCorrection(skinToneCorrection));
         return this;
     }
 
     public ProjectGreenBackgroundBuilder addGreenBackgroundAndGetBuilder(long backgroundId, String backgroundUrl) {
-        return new ProjectGreenBackgroundBuilder(projectBuilder, scriptBuilder, this)
-                .add(backgroundId, backgroundUrl);
+        return new ProjectGreenBackgroundBuilder(projectBuilder, scriptBuilder, this).add(backgroundId, backgroundUrl);
     }
 
     public BaseVisibleMediaMaterial getGreenBackgroundMaterial() {

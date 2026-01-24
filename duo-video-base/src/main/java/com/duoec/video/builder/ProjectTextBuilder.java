@@ -16,8 +16,8 @@ public class ProjectTextBuilder extends BaseMaterialBuilder<TextMaterial, Projec
         this.script = scriptBuilder.getScript();
     }
 
-    public static ProjectTextBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
-        return new ProjectTextBuilder(projectBuilder, scriptBuilder);
+    public static ProjectTextBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, String text, long start, long duration) {
+        return new ProjectTextBuilder(projectBuilder, scriptBuilder).add(text, start, duration);
     }
 
     /**
@@ -42,7 +42,7 @@ public class ProjectTextBuilder extends BaseMaterialBuilder<TextMaterial, Projec
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public ProjectTextBuilder add(String text, long start, long duration) {
+    private ProjectTextBuilder add(String text, long start, long duration) {
         material = new TextMaterial();
         material.setId(SnowflakeIdUtils.nextTmpId());
         material.setText(text);

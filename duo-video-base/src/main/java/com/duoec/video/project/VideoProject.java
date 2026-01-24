@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,27 +23,27 @@ public class VideoProject implements Serializable {
     /**
      * 分镜
      */
-    private List<VideoScript> scripts;
+    private List<VideoScript> scripts = new ArrayList<>();
 
     /**
      * 素材
      */
-    private List<BaseMaterial> materials;
+    private List<BaseMaterial> materials = new ArrayList<>();
 
     /**
      * 宽
      */
-    private Integer width;
+    private Integer width = 1080;
 
     /**
      * 高
      */
-    private Integer height;
+    private Integer height = 1920;
 
     /**
      * 帧率
      */
-    private Integer fps;
+    private Integer fps = 30;
 
     /**
      * 创建时间。时间戳，粒度：秒
@@ -57,7 +58,7 @@ public class VideoProject implements Serializable {
     /**
      * 是否测试环境
      */
-    private Boolean test;
+    private Boolean test = false;
 
     /**
      * 工程视频时长，以 scripts 占位为准

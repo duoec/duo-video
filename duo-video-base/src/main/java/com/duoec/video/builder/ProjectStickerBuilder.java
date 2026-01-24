@@ -12,8 +12,9 @@ public class ProjectStickerBuilder extends BaseMaterialBuilder<StickerMaterial, 
         this.script = scriptBuilder.getScript();
     }
 
-    public static ProjectStickerBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
-        return new ProjectStickerBuilder(projectBuilder, scriptBuilder);
+    public static ProjectStickerBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, long stickerResourceId, long start, long duration) {
+        return new ProjectStickerBuilder(projectBuilder, scriptBuilder)
+                .add(stickerResourceId, start, duration);
     }
 
     /**
@@ -22,7 +23,7 @@ public class ProjectStickerBuilder extends BaseMaterialBuilder<StickerMaterial, 
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public ProjectStickerBuilder add(long stickerResourceId, long start, long duration) {
+    private ProjectStickerBuilder add(long stickerResourceId, long start, long duration) {
         material = new StickerMaterial();
         material.setId(SnowflakeIdUtils.nextTmpId());
         material.setResourceId(stickerResourceId);

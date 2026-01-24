@@ -59,8 +59,8 @@ graph LR
 
 - **支持剪映最新版本** - 与剪映专业版保持同步，支持最新特性 (验证版本：剪映 v9.6.0)
 - **离线剪映草稿** - 草稿包含所有的资源，无需等待官方下载
-- **文本模板** - 丰富的官方文字动画模板，一键应用动态效果 (支持 6000+文本模板)
-- **画面特效** - 粒子、扭曲、模糊等数百种视觉效果 （支持 3000+画面特效）
+- **文本模板** - 丰富的官方文字动画模板，一键应用动态效果 (支持 7000+文本模板)
+- **画面特效** - 粒子、扭曲、模糊等数百种视觉效果 （支持 300+画面特效）
 - **脸部特效** - 基于 AI 的人脸识别特效（美颜、搞怪等） （支持 600+人脸特效）
 - **绿幕抠图** - 智能色度键控，支持背景替换和边缘优化 
 - **蒙板** - 人脸的精确控制浮动展示（人脸的计算有点复杂，需要配合小模型进行人脸识别才做得好）
@@ -68,7 +68,7 @@ graph LR
 - **复合片段** - 多层素材智能合成（绿幕+背景自动合并）
 - **视频倒放** - 基于 FFmpeg 的倒放处理。支持剪映自带的水平镜像、垂直镜像
 - **LUT 滤镜** - 专业级调色，支持肤色保护（使用自定义CUBE文件，剪映LUT属性展示不出来，等剪映的修复）
-- **花字系统** - 花字文字效果，支持逐字符样式定制 （支持 1600+花字）
+- **花字系统** - 花字文字效果，支持逐字符样式定制 （支持 2000+花字）
 
 
 
@@ -93,8 +93,8 @@ graph LR
 | **特效音** | 短音效资源 | 转场音、点击音、环境音 | 875 |
 | **贴纸** | 动态或静态贴纸 | 表情、标签、装饰 | 5356 |
 | **转场** | 场景过渡动画 | 淡入淡出、擦除、翻转等 | 774 |
-| **画面特效** | 全屏视觉效果 | 粒子、扭曲、色彩调整 | 3104 |
-| **脸部特效** | AI 人脸特效 | 美颜、搞怪、风格化 | 620 |
+| **画面特效** | 全屏视觉效果 | 粒子、扭曲、色彩调整 | 1538 |
+| **脸部特效** | AI 人脸特效 | 美颜、搞怪、风格化 | 310 |
 
 剪映资源浏览：[https://www.duoec.com/video](https://www.duoec.com/video) 
 
@@ -612,40 +612,100 @@ JianYingProjectInfo jyProject = new JianyingBuilder().build(project);
 
 
 
-### 6.3 使用VideoBuilder构建
+### 6.3 使用VideoBuilder构建 -- 链式调用
 
 ``` java
-@Test
-void buildWithProjectBuilder() {
-    long textTemplateResourceId = 270464050694389761L;
+long textTemplateResourceId = 270464050694389761L;
+VideoProject videoProject = ProjectBuilder.createBuilder(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
+  .setTest(true) // 设置为测试模式
 
-    VideoProject videoProject = ProjectBuilder.createBuilder(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
-            .setTest(true) // 设置为测试模式
+  .getScriptBuilder(0) // 进入第一个分镜
+  .addTextTemplateAndGetBuilder(textTemplateResourceId, "太好了", 0, 3000) // 添加一个文本模板
+  .setPosition(0, -400) // 指定展示位置，0，0表示视频中央 上正下负 左负右正
+  .back() // 返回到 ProjectScriptBuilder
 
-            .getScriptBuilder(0) // 进入第一个分镜
-            .addTextTemplateAndGetBuilder(textTemplateResourceId, "太好了", 0, 3000) // 添加一个文本模板
-            .setPosition(0, -400) // 指定展示位置，0，0表示视频中央 上正下负 左负右正
-            .back() // 返回到 ProjectScriptBuilder
+  .addTextAndGetBuilder(String.valueOf(textTemplateResourceId), 0, 3000)
+  .setStyle(
+          new TextStyle()
+                  .setFontSize(5)
+                  .setTextAlign(1)
+                  .setFillColor(JianyingResourceUtils.DEFAULT_FILL_COLOR)
+                  .setFontName(JianyingResourceUtils.DEFAULT_FONT_NAME)
+  )
+  .setPosition(0, 1866)
+  .back()// 返回到 ProjectScriptBuilder
 
-            .addTextAndGetBuilder(String.valueOf(textTemplateResourceId), 0, 3000)
-            .setStyle(
-                    new TextStyle()
-                            .setFontSize(5)
-                            .setTextAlign(1)
-                            .setFillColor(JianyingResourceUtils.DEFAULT_FILL_COLOR)
-                            .setFontName(JianyingResourceUtils.DEFAULT_FONT_NAME)
-            )
-            .setPosition(0, 1866)
-            .back()// 返回到 ProjectScriptBuilder
+  .back()// 返回到 ProjectBuilder
+  .getProject(); // 导出工程
 
-            .back()// 返回到 ProjectBuilder
-            .getProject(); // 导出工程
-
-    JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject);
-
-    Assertions.assertNotNull(jyProject);
-}
+JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject); // 直接生成 剪映草稿
 ```
+
+
+
+### 6.4 使用VideoBuilder构建 -- 函数式
+
+``` java
+VideoProject videoProject = ProjectBuilder.createBuilder(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
+  .build(projectBuilder -> {
+      // ProjectVideo 上下文，可以在这里修改 ProjectVideo 信息
+			// projectBuilder.setTest(true);
+  })
+  .setTest(true)
+  .buildScript(0, scriptBuilder -> {
+      // 在第一个分镜下
+      // scriptBuilder.getVideoBuilder().setUpend(true); //虽然在分镜的上下文环境里也可以获得上层的builder，但不建议在此修改、处理分镜外的数据！！
+      scriptBuilder
+        .build(videoScriptBuilder -> {
+          // ProjectVideoScript 上下文，可以在这里修改 ProjectVideoScript 信息（当然，看上去有点多此一举，看你喜欢）
+          // videoScriptBuilder.setTime(0L, 3000L);
+        })
+        .buildNewVideo(535010997887571046L, "https://api.duoec.com/public/video/535010997887571046.mov", 0, 3000, videoBuilder -> {
+          // 进入 ProjectVideoBuilder，可以在这里修改 ProjectVideo 的信息
+          videoBuilder
+          // .setPosition(0, -400) // 指定展示位置，0，0表示视频中央 上正下负 左负右正
+              .setSpeed(50) // x0.5倍速播放
+          ;
+        }) // 添加一个视频
+        .buildNewTextTemplate(270464050694389761L, List.of("太好了"), 0, 3000, textTemplateBuilder -> {
+          // 进入 ProjectScriptBuilder 上下文。在这里可以处理当前新添加的文本模板信息
+
+        })
+        .buildNewSticker(270402997699280897L, 1500L, 3000L, stickerBuilder -> {
+          // 进入 ProjectStickerBuilder 上下文。这里可以处理当前新添加的贴纸信息
+
+        })
+        .builderNewVideoEffect(270464037793497089L, 5000L, 3000L, videoEffectBuilder -> {
+          // 进入 ProjectVideoEffectBuilder 上下文。这里可以处理当前新添加的 画面特效 信息
+
+        })
+        .builderNewFaceEffect(270464033541718017L, 1500L, 1000L, faceEffectBuilder -> {
+          // 进入 ProjectFaceEffectBuilder 上下文。这里可以处理当前新添加的 脸部特效 信息
+
+        })
+        .buildNewSound(270464042140893185L, 1000L, 3000L, soundBuilder -> {
+          // 进入 ProjectSoundBuilder 上下文，这里可以处理当前新添加的 特效音 信息
+
+        })
+        .buildNewText("你真好呀", 2001L, 999L, textBuilder -> {
+          // 进入 ProjectTextBuilder 上下文，这里可以处理当前新添加的 文本 信息
+          textBuilder
+            .setPosition(0, -800)
+            .setStyle(
+              new TextStyle()
+                .setFontSize(14)
+                .setFillColor("#FF0000")
+            )
+          ;
+        })
+      ;
+  })
+  .getProject();
+
+JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject); // 直接生成 剪映草稿
+```
+
+
 
 
 

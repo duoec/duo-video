@@ -70,12 +70,14 @@ import java.io.Serializable;
 })
 public class BaseMaterial implements Serializable {
     /**
-     * 素材ID
+     * 素材ID。
+     * 素材ID在系统层面应该是唯一的，比如它就是数据库里的一个ID。在后续的创作中，会以此ID为名称，缓存到本地。如果ID重复，会导致文件错乱！！
      */
     private Long id;
 
     /**
      * 素材链接
+     * 链接必须是可直接下载的，如果需要签名，可能会导致下载失败而最终创作失败
      */
     private String url;
 
@@ -86,6 +88,8 @@ public class BaseMaterial implements Serializable {
 
     /**
      * 本地文件
+     * 创作过程，一些多媒体素材将直接设置进来，方便后续的引用
+     * 本数据不会写入工程文件！
      */
     @JsonIgnore
     private File localFile;

@@ -13,8 +13,14 @@ public class ProjectVideoEffectBuilder extends BaseMaterialBuilder<VideoEffectMa
         this.script = scriptBuilder.getScript();
     }
 
-    public static ProjectVideoEffectBuilder getBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
-        return new ProjectVideoEffectBuilder(projectBuilder, scriptBuilder);
+    public static ProjectVideoEffectBuilder getVideoEffectBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, long videoEffectResourceId, long start, long duration) {
+        return new ProjectVideoEffectBuilder(projectBuilder, scriptBuilder)
+                .addVideoEffect(videoEffectResourceId, start, duration);
+    }
+
+    public static ProjectVideoEffectBuilder getFaceEffectBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, long videoEffectResourceId, long start, long duration) {
+        return new ProjectVideoEffectBuilder(projectBuilder, scriptBuilder)
+                .addFaceEffect(videoEffectResourceId, start, duration);
     }
 
     /**
@@ -23,7 +29,7 @@ public class ProjectVideoEffectBuilder extends BaseMaterialBuilder<VideoEffectMa
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public ProjectVideoEffectBuilder addVideoEffect(long videoEffectResourceId, long start, long duration) {
+    private ProjectVideoEffectBuilder addVideoEffect(long videoEffectResourceId, long start, long duration) {
         addProjectVideoEffectBuilder(MaterialTypeEnum.MATERIAL_TYPE_VIDEO_EFFECT, videoEffectResourceId, start, duration);
         return this;
     }
