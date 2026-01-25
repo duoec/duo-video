@@ -6,10 +6,9 @@ import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.TextTemplateMaterial;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectTextTemplateBuilder extends BaseMaterialBuilder<TextTemplateMaterial, ProjectTextTemplateBuilder> {
+public class ProjectTextTemplateBuilder extends BaseSegmentBuilder<TextTemplateMaterial, ProjectTextTemplateBuilder> {
     private ProjectTextTemplateBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, long textTemplateResourceId, List<String> texts, long start, long duration) {
         this.projectBuilder = projectBuilder;
         this.scriptBuilder = scriptBuilder;

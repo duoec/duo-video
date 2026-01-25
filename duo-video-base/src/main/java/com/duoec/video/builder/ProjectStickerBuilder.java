@@ -5,7 +5,7 @@ import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.StickerMaterial;
 
-public class ProjectStickerBuilder extends BaseMaterialBuilder<StickerMaterial, ProjectStickerBuilder> {
+public class ProjectStickerBuilder extends BaseSegmentBuilder<StickerMaterial, ProjectStickerBuilder> {
     private ProjectStickerBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
         this.scriptBuilder = scriptBuilder;

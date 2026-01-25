@@ -3,6 +3,7 @@ package com.duoec.video.builder;
 import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoTimeRange;
+import com.duoec.video.project.material.TextStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,6 +112,7 @@ public class ProjectBuilder {
         if (scriptBuilderConsumer != null) {
             scriptBuilderConsumer.accept(builder);
         }
+        builder.back();
         return this;
     }
 
@@ -122,6 +124,7 @@ public class ProjectBuilder {
         if (scriptBuilderConsumer != null) {
             scriptBuilderConsumer.accept(builder);
         }
+        builder.back();
         return this;
     }
 
@@ -133,6 +136,7 @@ public class ProjectBuilder {
         if (scriptBuilderConsumer != null) {
             scriptBuilderConsumer.accept(builder);
         }
+        builder.back();
         return this;
     }
 
@@ -144,6 +148,22 @@ public class ProjectBuilder {
         if (scriptBuilderConsumer != null) {
             scriptBuilderConsumer.accept(builder);
         }
+        builder.back();
+        return this;
+    }
+
+    /**
+     * 添加预设样式
+     * @param styleId 预设样式ID
+     * @param style 样式
+     * @param textStyleBuilderConsumer 预设样式上下文编辑器
+     */
+    public ProjectBuilder buildStyle(long styleId, TextStyle style, Consumer<ProjectTextStyleBuilder> textStyleBuilderConsumer) {
+        ProjectTextStyleBuilder builder = ProjectTextStyleBuilder.addAndGetTextStyleBuilder(styleId, style);
+        if (textStyleBuilderConsumer != null) {
+            textStyleBuilderConsumer.accept(builder);
+        }
+        builder.back();
         return this;
     }
 

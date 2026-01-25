@@ -59,8 +59,8 @@ public class ProjectScriptBuilder {
         ProjectVideoBuilder videoBuilder = addVideoAndGetBuilder(videoMaterialId, videoUrl, start, duration);
         if (videoBuilder != null) {
             projectVideoBuilderConsumer.accept(videoBuilder);
-            videoBuilder.back();
         }
+        videoBuilder.back();
         return this;
     }
 
@@ -98,8 +98,8 @@ public class ProjectScriptBuilder {
         ProjectTextTemplateBuilder textTemplateBuilder = ProjectTextTemplateBuilder.getBuilder(projectBuilder, this, textTemplateResourceId, texts, start, duration);
         if (textTemplateBuilderConsumer != null) {
             textTemplateBuilderConsumer.accept(textTemplateBuilder);
-            textTemplateBuilder.back();
         }
+        textTemplateBuilder.back();
         return this;
     }
 
@@ -124,8 +124,8 @@ public class ProjectScriptBuilder {
         ProjectStickerBuilder projectStickerBuilder = ProjectStickerBuilder.getBuilder(projectBuilder, this, stickerResourceId, start, duration);
         if (stickerBuilderConsumer != null) {
             stickerBuilderConsumer.accept(projectStickerBuilder);
-            projectStickerBuilder.back();
         }
+        projectStickerBuilder.back();
         return this;
     }
 
@@ -136,7 +136,7 @@ public class ProjectScriptBuilder {
      * @param duration 展示时长，单位：毫秒
      */
     public ProjectVideoEffectBuilder addVideoEffectAndGetBuilder(long videoEffectResourceId, long start, long duration) {
-        return ProjectVideoEffectBuilder.getVideoEffectBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
+        return ProjectVideoEffectBuilder.getBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
     }
 
     /**
@@ -145,8 +145,8 @@ public class ProjectScriptBuilder {
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public ProjectVideoEffectBuilder addFaceEffectAndGetBuilder(long faceEffectResourceId, long start, long duration) {
-        return ProjectVideoEffectBuilder.getVideoEffectBuilder(projectBuilder, this, faceEffectResourceId, start, duration);
+    public ProjectFaceEffectBuilder addFaceEffectAndGetBuilder(long faceEffectResourceId, long start, long duration) {
+        return ProjectFaceEffectBuilder.getBuilder(projectBuilder, this, faceEffectResourceId, start, duration);
     }
 
     /**
@@ -156,7 +156,7 @@ public class ProjectScriptBuilder {
      * @param duration 展示时长，单位：毫秒
      */
     public ProjectScriptBuilder builderNewVideoEffect(long videoEffectResourceId, long start, long duration, Consumer<ProjectVideoEffectBuilder> videoEffectBuilderConsumer) {
-        ProjectVideoEffectBuilder videoEffectBuilder = ProjectVideoEffectBuilder.getVideoEffectBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
+        ProjectVideoEffectBuilder videoEffectBuilder = ProjectVideoEffectBuilder.getBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
         if (videoEffectBuilderConsumer != null) {
             videoEffectBuilderConsumer.accept(videoEffectBuilder);
         }
@@ -169,8 +169,8 @@ public class ProjectScriptBuilder {
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public ProjectScriptBuilder builderNewFaceEffect(long videoEffectResourceId, long start, long duration, Consumer<ProjectVideoEffectBuilder> faceEffectBuilderConsumer) {
-        ProjectVideoEffectBuilder faceEffectBuilder = ProjectVideoEffectBuilder.getVideoEffectBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
+    public ProjectScriptBuilder builderNewFaceEffect(long videoEffectResourceId, long start, long duration, Consumer<ProjectFaceEffectBuilder> faceEffectBuilderConsumer) {
+        ProjectFaceEffectBuilder faceEffectBuilder = ProjectFaceEffectBuilder.getBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
         if (faceEffectBuilderConsumer != null) {
             faceEffectBuilderConsumer.accept(faceEffectBuilder);
         }
@@ -198,8 +198,8 @@ public class ProjectScriptBuilder {
         ProjectSoundBuilder soundBuilder = ProjectSoundBuilder.getBuilder(projectBuilder, this, soundResourceId, start, duration);
         if (soundBuilderConsumer != null) {
             soundBuilderConsumer.accept(soundBuilder);
-            soundBuilder.back();
         }
+        soundBuilder.back();
         return this;
     }
 
@@ -224,8 +224,8 @@ public class ProjectScriptBuilder {
         ProjectTextBuilder textBuilder = ProjectTextBuilder.getBuilder(projectBuilder, this, text, start, duration);
         if (textBuilderConsumer != null) {
             textBuilderConsumer.accept(textBuilder);
-            textBuilder.back();
         }
+        textBuilder.back();
         return this;
     }
 

@@ -5,7 +5,7 @@ import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.SoundMaterial;
 
-public class ProjectSoundBuilder extends BaseMaterialBuilder<SoundMaterial, ProjectSoundBuilder> {
+public class ProjectSoundBuilder extends BaseSegmentBuilder<SoundMaterial, ProjectSoundBuilder> {
     private ProjectSoundBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
         this.scriptBuilder = scriptBuilder;

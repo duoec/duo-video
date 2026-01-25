@@ -8,7 +8,9 @@ import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.*;
 import org.springframework.util.StringUtils;
 
-public class ProjectVideoBuilder extends BaseMaterialBuilder<VideoMaterial, ProjectVideoBuilder> {
+import java.util.function.Consumer;
+
+public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, ProjectVideoBuilder> {
     private BaseVisibleMediaMaterial greenBackgroundMaterial;
 
     private ProjectVideoBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
@@ -94,6 +96,21 @@ public class ProjectVideoBuilder extends BaseMaterialBuilder<VideoMaterial, Proj
 
     public ProjectGreenBackgroundBuilder addGreenBackgroundAndGetBuilder(long backgroundId, String backgroundUrl) {
         return new ProjectGreenBackgroundBuilder(projectBuilder, scriptBuilder, this).add(backgroundId, backgroundUrl);
+    }
+
+    /**
+     * 设置当前视频为绿幕视频，并添加背景
+     * @param backgroundId 背景ID
+     * @param backgroundUrl 背景素材链接
+     * @param greenBackgroundBuilderConsumer 新添加的 ProjectGreenBackgroundBuilder 上下文编辑器
+     */
+    public ProjectVideoBuilder buildGreenBackground(long backgroundId, String backgroundUrl, Consumer<ProjectGreenBackgroundBuilder> greenBackgroundBuilderConsumer) {
+        ProjectGreenBackgroundBuilder greenBackgroundBuilder = new ProjectGreenBackgroundBuilder(projectBuilder, scriptBuilder, this).add(backgroundId, backgroundUrl);
+        if (greenBackgroundBuilderConsumer != null) {
+            greenBackgroundBuilderConsumer.accept(greenBackgroundBuilder);
+        }
+        greenBackgroundBuilder.back();
+        return this;
     }
 
     public BaseVisibleMediaMaterial getGreenBackgroundMaterial() {

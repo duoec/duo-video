@@ -43,6 +43,10 @@ class ProjectBuilderTest {
 //                    projectBuilder.setTest(true);
                 })
                 .setTest(true)
+                .buildStyle(296653948753219540L, new TextStyle(), styleBuilder -> {
+                    // 进入 ProjectTextStyleBuilder 上下文，在这里可以编辑当前预设样式
+
+                })
                 .buildScript(0, scriptBuilder -> {
                     // 在第一个分镜下
                     // scriptBuilder.getVideoBuilder().setUpend(true); //虽然在分镜的上下文环境里也可以获得上层的builder，但不建议在此修改、处理分镜外的数据！！

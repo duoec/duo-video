@@ -7,8 +7,10 @@ import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.TextMaterial;
 import com.duoec.video.project.material.TextStyle;
 
-public class ProjectTextBuilder extends BaseMaterialBuilder<TextMaterial, ProjectTextBuilder> {
+public class ProjectTextBuilder extends BaseSegmentBuilder<TextMaterial, ProjectTextBuilder> {
     private TextStyle style;
+
+    private Long styleId;
 
     private ProjectTextBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
@@ -37,6 +39,14 @@ public class ProjectTextBuilder extends BaseMaterialBuilder<TextMaterial, Projec
     }
 
     /**
+     * 设置预设样式
+     */
+    public ProjectTextBuilder setStyleId(long styleId) {
+        this.styleId = styleId;
+        return this;
+    }
+
+    /**
      * 添加一个文本
      * @param text 文本内容
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
@@ -60,5 +70,12 @@ public class ProjectTextBuilder extends BaseMaterialBuilder<TextMaterial, Projec
         segment.setLayoutIndex(1000);
 
         return this;
+    }
+
+    @Override
+    protected void beforeBack() {
+        if (styleId != null) {
+            material.setStyleId(styleId);
+        }
     }
 }
