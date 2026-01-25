@@ -14,14 +14,15 @@ public class ProjectTextStyleBuilder extends BaseMaterialBuilder<StyleMaterial> 
 
     private Boolean globalKeywordStyle = false;
 
-    private ProjectTextStyleBuilder(long styleId, TextStyle style) {
+    private ProjectTextStyleBuilder(ProjectBuilder projectBuilder, long styleId, TextStyle style) {
+        this.projectBuilder = projectBuilder;
         this.styleId = styleId;
         this.style = Optional.ofNullable(style).orElse(new TextStyle());
         this.material = new StyleMaterial();
     }
 
-    public static ProjectTextStyleBuilder addAndGetTextStyleBuilder(long styleId, TextStyle style) {
-        return new ProjectTextStyleBuilder(styleId, style);
+    public static ProjectTextStyleBuilder addAndGetTextStyleBuilder(ProjectBuilder projectBuilder, long styleId, TextStyle style) {
+        return new ProjectTextStyleBuilder(projectBuilder, styleId, style);
     }
 
     public ProjectBuilder back() {

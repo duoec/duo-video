@@ -13,6 +13,8 @@ import java.util.function.Consumer;
 public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, ProjectVideoBuilder> {
     private BaseVisibleMediaMaterial greenBackgroundMaterial;
 
+    private Integer volume;
+
     private ProjectVideoBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
         this.scriptBuilder = scriptBuilder;
@@ -33,7 +35,7 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
     }
 
     private ProjectVideoBuilder add(long videoMaterialId, String videoUrl, long start, long duration) {
-        BaseMaterial existsMaterial = this.projectBuilder.getProject().getMaterials().stream().filter(material -> material.getId().equals(videoMaterialId)).findFirst().orElse(null);
+        BaseMaterial existsMaterial = getMaterialById(videoMaterialId);
         if (existsMaterial instanceof VideoMaterial videoMaterial) {
             material = videoMaterial;
         } else {
@@ -47,7 +49,7 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
         segment = new VideoSegment();
         segment.setId(SnowflakeIdUtils.nextTmpId());
         segment.setMaterialId(videoMaterialId);
-        segment.setType("video");
+        segment.setType(MaterialTypeEnum.MATERIAL_TYPE_VIDEO);
         segment.setLayoutIndex(1000);
 
         videoPoint = new VideoPoint(0, 0);
@@ -113,6 +115,11 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
         return this;
     }
 
+    public ProjectVideoBuilder setVolume(int volume) {
+        this.volume = volume;
+        return this;
+    }
+
     public BaseVisibleMediaMaterial getGreenBackgroundMaterial() {
         return greenBackgroundMaterial;
     }
@@ -120,6 +127,9 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
     public ProjectScriptBuilder back() {
         if (greenBackgroundMaterial != null) {
             projectBuilder.getProject().getMaterials().add(greenBackgroundMaterial);
+        }
+        if (volume != null) {
+            segment.setVolume(volume);
         }
         return super.back();
     }

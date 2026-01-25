@@ -28,6 +28,7 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMaterial> {
@@ -53,7 +54,7 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
                             new TimeRange(segmentTime.getStart() * JianyingUtils.LONG_1000, duration)
                     )
                     .setSourceTimeRange(
-                            new TimeRange(videoSegment.getMaterialStart() * JianyingUtils.LONG_1000, duration)
+                            new TimeRange(Optional.ofNullable(videoSegment.getMaterialStart()).orElse(0L) * JianyingUtils.LONG_1000, duration)
                     );
             Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(jianyingProject, Track.TYPE_VIDEO, "视频", segmentTime.getStart(), segmentTime.getEndTime());
             videoTrack.getSegments().add(segment);

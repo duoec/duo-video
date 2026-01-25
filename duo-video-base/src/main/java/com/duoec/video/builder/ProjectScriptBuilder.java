@@ -45,7 +45,28 @@ public class ProjectScriptBuilder {
     }
 
     /**
-     * 创建一个视频片段，并获得 VideoBuilder
+     * 创建一个图片片段，并获得 ProjectImageBuilder
+     * @param imageMaterialId 图片素材ID。注意，素材ID在系统层面应该是唯一的，比如它就是数据库里的一个ID。在后续的创作中，会以此ID为名称，缓存到本地。如果ID重复，会导致文件错乱！！
+     */
+    public ProjectImageBuilder addImageAndGetBuilder(long imageMaterialId, String imageUrl, long start, long duration) {
+        return ProjectImageBuilder.getBuilder(projectBuilder, this, imageMaterialId, imageUrl, start, duration);
+    }
+
+    /**
+     * 创建一个图片片段，并获得 ProjectImageBuilder 上下文编辑器
+     * @param imageMaterialId 图片素材ID。注意，素材ID在系统层面应该是唯一的，比如它就是数据库里的一个ID。在后续的创作中，会以此ID为名称，缓存到本地。如果ID重复，会导致文件错乱！！
+     */
+    public ProjectScriptBuilder buildNewImage(long imageMaterialId, String imageUrl, long start, long duration, Consumer<ProjectImageBuilder> imageBuilderConsumer) {
+        ProjectImageBuilder imageBuilder = ProjectImageBuilder.getBuilder(projectBuilder, this, imageMaterialId, imageUrl, start, duration);
+        if (imageBuilderConsumer != null) {
+            imageBuilderConsumer.accept(imageBuilder);
+        }
+        imageBuilder.back();
+        return this;
+    }
+
+    /**
+     * 创建一个视频片段，并获得 ProjectVideoBuilder
      * @param videoMaterialId 视频素材ID。注意，素材ID在系统层面应该是唯一的，比如它就是数据库里的一个ID。在后续的创作中，会以此ID为名称，缓存到本地。如果ID重复，会导致文件错乱！！
      */
     public ProjectVideoBuilder addVideoAndGetBuilder(long videoMaterialId, String videoUrl, long start, long duration) {
@@ -61,6 +82,25 @@ public class ProjectScriptBuilder {
             projectVideoBuilderConsumer.accept(videoBuilder);
         }
         videoBuilder.back();
+        return this;
+    }
+
+    /**
+     * 创建一个音频片段
+     */
+    public ProjectAudioBuilder addAudioAndGetBuilder(long audioMaterialId, String audioUrl, long start, long duration) {
+        return ProjectAudioBuilder.getBuilder(projectBuilder, this, audioMaterialId, audioUrl, start, duration);
+    }
+
+    /**
+     * 创建一个音频片段
+     */
+    public ProjectScriptBuilder buildNewAudio(long audioMaterialId, String audioUrl, long start, long duration, Consumer<ProjectAudioBuilder> audioBuilderConsumer) {
+        ProjectAudioBuilder audioBuilder = ProjectAudioBuilder.getBuilder(projectBuilder, this, audioMaterialId, audioUrl, start, duration);
+        if (audioBuilderConsumer != null) {
+            audioBuilderConsumer.accept(audioBuilder);
+        }
+        audioBuilder.back();
         return this;
     }
 

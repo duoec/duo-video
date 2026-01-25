@@ -20,6 +20,9 @@ public class BaseSegmentBuilder<T extends BaseMaterial, E extends BaseMaterialBu
     protected Boolean upend;
     protected Boolean horizontal;
     protected Boolean vertical;
+    protected Integer zoomX;
+    protected Integer zoomY;
+    protected Boolean visible;
 
     /**
      * 设置位置坐标
@@ -110,11 +113,25 @@ public class BaseSegmentBuilder<T extends BaseMaterial, E extends BaseMaterialBu
         if (vertical != null) {
             segment.setVertical(vertical);
         }
+        if (zoomX != null && zoomY != null) {
+            segment.setZoom(new VideoPoint(zoomX, zoomY));
+        }
         script.getSegments().add(segment);
 
         beforeBack();
 
         addMaterial(material);
         return scriptBuilder;
+    }
+
+    public E setZoom(int zoomX, int zoomY) {
+        this.zoomX = zoomX;
+        this.zoomY = zoomY;
+        return (E) this;
+    }
+
+    public E setVisible(boolean visible) {
+        this.visible = visible;
+        return (E) this;
     }
 }
