@@ -56,7 +56,7 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
                     .setSourceTimeRange(
                             new TimeRange(Optional.ofNullable(videoSegment.getMaterialStart()).orElse(0L) * JianyingUtils.LONG_1000, duration)
                     );
-            Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(jianyingProject, Track.TYPE_VIDEO, "视频", segmentTime.getStart(), segmentTime.getEndTime());
+            Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(jianyingProject, Track.TYPE_VIDEO, "视频", segmentTime.getStart(), segmentTime.calculateEndTime());
             videoTrack.getSegments().add(segment);
         } else {
             segment = materialData.getSegment();
@@ -103,12 +103,13 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
                     .setDuration(materialTime.getDuration() * JianyingUtils.LONG_1000);
             jianyingProject.getMaterials().getVideos().add(video);
 
-            Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(jianyingProject, Track.TYPE_VIDEO, "视频", segmentTime.getStart(), segmentTime.getEndTime());
+            Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(jianyingProject, Track.TYPE_VIDEO, "视频", segmentTime.getStart(), segmentTime.calculateEndTime());
             Segment segment = getSegment(jianyingProject, videoSegment, video);
             TimeRange targetTimeRange = segment.getTargetTimeRange();
             TimeRange sourceTimeRange = segment.getSourceTimeRange();
             JianyingSegmentBuilder.setSegmentCommonAttributes(state, videoSegment, segment, material);
             videoTrack.getSegments().add(segment);
+            fromCache.set(false);
 
             // 绿幕背景
             GreenBackgroundDto backgroundDto = getGreenBackgroundSegment(state, videoScript, videoSegment, material, segment);
@@ -120,7 +121,6 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
                         .setSourceTimeRange(timeRange);
 
                 MaterialData materialData = JianyingUtils.combine(jianyingProject, Lists.newArrayList(segment, backgroundDto.segment));
-                fromCache.set(false);
                 materialData.getSegment()
                         // 重置 Segment 时间
                         .setTargetTimeRange(targetTimeRange)
@@ -208,7 +208,7 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
         Segment backgroundSegment = getSegment(state.getJianyingProject(), backgroundVideoSegment, video)
                 .setRenderIndex(1)
                 .setTrackRenderIndex(1);
-        Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_VIDEO, "绿幕背景", time.getStart(), time.getEndTime());
+        Track videoTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_VIDEO, "绿幕背景", time.getStart(), time.calculateEndTime());
         videoTrack.getSegments().add(backgroundSegment);
 
         return new GreenBackgroundDto(backgroundSegment, backgroundMaterial);

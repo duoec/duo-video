@@ -59,7 +59,7 @@ public class JianyingProjectBuildState {
             throw new DuoServiceException("初始化剪映工程失败！");
         }
 
-        jianYingProject.setId(UuidUtils.next()).setName(projectId.toString()).setDuration(videoProject.getDuration() * JianyingUtils.LONG_1000);
+        jianYingProject.setId(UuidUtils.next()).setName(projectId.toString()).setDuration(videoProject.calculateEndTime() * JianyingUtils.LONG_1000);
         jianYingProject.getCanvasConfig().setHeight(videoProject.getHeight()).setWidth(videoProject.getWidth());
 
         boolean test = Optional.ofNullable(videoProject.getTest()).orElse(false);

@@ -15,7 +15,6 @@ import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.FaceEffectMaterial;
 import com.duoec.video.project.material.MaterialTypeEnum;
-import com.duoec.video.project.material.VideoEffectMaterial;
 import com.google.common.collect.Lists;
 
 public class FaceEffectSegmentBuilder extends BaseSegmentBuilder<FaceEffectMaterial> {
@@ -44,7 +43,7 @@ public class FaceEffectSegmentBuilder extends BaseSegmentBuilder<FaceEffectMater
                 .setTrackRenderIndex(0);
 
         VideoTimeRange segmentTime = videoSegment.getTime();
-        Track effectTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_EFFECT, "画面特效", segmentTime.getStart(), segmentTime.getEndTime());
+        Track effectTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_EFFECT, "画面特效", segmentTime.getStart(), segmentTime.calculateEndTime());
         effectTrack.getSegments().add(segment);
 
         return segment;

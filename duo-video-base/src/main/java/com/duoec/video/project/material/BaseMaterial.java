@@ -69,6 +69,10 @@ import java.io.Serializable;
         )
 })
 public class BaseMaterial implements Serializable {
+    public BaseMaterial() {
+        this.type = getType();
+    }
+
     /**
      * 素材ID。
      * 素材ID在系统层面应该是唯一的，比如它就是数据库里的一个ID。在后续的创作中，会以此ID为名称，缓存到本地。如果ID重复，会导致文件错乱！！

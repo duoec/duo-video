@@ -207,7 +207,7 @@ public class JianyingMaterialBuilder {
             videoMaterial.setDuration(exif.getDuration());
             VideoTimeRange materialTime = videoMaterial.getTime();
             if (materialTime == null) {
-                materialTime = new VideoTimeRange();
+                materialTime = new VideoTimeRange(0L, exif.getDuration());
                 videoMaterial.setTime(materialTime);
             }
             if (materialTime.getStart() == null) {
@@ -215,6 +215,10 @@ public class JianyingMaterialBuilder {
             }
             if (materialTime.getDuration() == null || materialTime.getDuration() <= 0) {
                 materialTime.setDuration(exif.getDuration());
+            }
+        } else if (material instanceof AudioMaterial audioMaterial) {
+            if (audioMaterial.getTime() == null) {
+                audioMaterial.setTime(new VideoTimeRange(0L, exif.getDuration()));
             }
         }
     }

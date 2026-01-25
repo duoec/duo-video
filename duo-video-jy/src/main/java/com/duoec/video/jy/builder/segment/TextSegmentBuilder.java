@@ -128,7 +128,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         //添加轨道
         String trackName = isSubtitle ? TRACK_NAME_SUBTITLE : TRACK_NAME_TEXT;
         VideoTimeRange segmentTime = videoSegment.getTime();
-        Track textTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_TEXT, trackName, segmentTime.getStart(), segmentTime.getEndTime());
+        Track textTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_TEXT, trackName, segmentTime.getStart(), segmentTime.calculateEndTime());
 
         Segment segment = getSegment(state.getJianyingProject(), videoSegment, text);
         textTrack.getSegments().add(segment);

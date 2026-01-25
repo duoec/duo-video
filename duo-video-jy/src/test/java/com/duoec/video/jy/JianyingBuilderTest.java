@@ -1,6 +1,7 @@
 package com.duoec.video.jy;
 
 import com.duoec.base.core.util.FileUtils;
+import com.duoec.base.core.util.JsonUtils;
 import com.duoec.base.core.util.SnowflakeIdUtils;
 import com.duoec.video.builder.ProjectBuilder;
 import com.duoec.video.jy.dto.info.JianYingProjectInfo;
@@ -81,25 +82,11 @@ class JianyingBuilderTest extends BaseTest {
                     // 在第一个分镜下
                     // scriptBuilder.getVideoBuilder().setUpend(true); //虽然在分镜的上下文环境里也可以获得上层的builder，但不建议在此修改、处理分镜外的数据！！
                     scriptBuilder
-                            .buildNewImage(535010997887571096L, "https://api.duoec.com/public/image/535010997887571096.png", 3500L, 3000L, imageBuilder -> {
-                                imageBuilder
-                                        .setLayoutIndex(1000)
-                                        .setZoom(7500, 7500)
-                                        .setPosition(0, -1512)
-                                        .setRotate(-90)
-                                        .setVisible(true)
-                                        .setHorizontal(true)
-                                        .setVertical(true)
-                                ;
-                            })
-                            .buildNewVideo(535010997887571021L, "https://api.duoec.com/public/video/535010997887571021.mp4", 0L, 86586L, videoBuilder -> {
+                            .buildNewVideo(535010997887571021L, "https://api.duoec.com/public/video/535010997887571021.mp4", 0L, 3000L, videoBuilder -> {
                                 videoBuilder
                                         .buildGreenBackground(535010997887571022L, "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png", backgroundBuilder -> {
                                             backgroundBuilder.setChroma("#4e8a1fff", 20, 10, 10);
-                                        });
-                            })
-                            .buildNewVideo(535010997887571021L, "https://api.duoec.com/public/video/535010997887571021.mp4", 0L, 3000L, videoBuilder -> {
-                                videoBuilder
+                                        })
                                         .setMaterialStart(5000L)
                                         .setLayoutIndex(1000)
                                         .addTransition(270404457990455297L, 1000L)
@@ -111,64 +98,44 @@ class JianyingBuilderTest extends BaseTest {
                                         .setVolume(0)
                                 ;
                             })
-                            .buildNewAudio(535010997887571025L, "https://api.duoec.com/public/audio/535010997887571025.mp3", 0L, 8000L, audioBuilder -> {
-                                audioBuilder
-                                        .setMaterialStart(10000L)
-                                        .setLayoutIndex(1000)
-                                        .setSpeed(100)
-                                        .setVisible(true)
-                                        .setVolume(-50)
-                                        ;
-                            })
+//                            .buildNewImage(535010997887571096L, "https://api.duoec.com/public/image/535010997887571096.png", 3500L, 3000L, imageBuilder -> {
+//                                imageBuilder
+//                                        .setLayoutIndex(1000)
+//                                        .setZoom(7500, 7500)
+//                                        .setPosition(0, -1512)
+//                                        .setRotate(-90)
+//                                        .setVisible(true)
+//                                        .setHorizontal(true)
+//                                        .setVertical(true)
+//                                ;
+//                            })
 
-
-
-
-                            .build(videoScriptBuilder -> {
-                                // ProjectVideoScript 上下文，可以在这里修改 ProjectVideoScript 信息（当然，看上去有点多此一举，看你喜欢）
-//                                videoScriptBuilder.setTime(0L, 3000L);
-                            })
-                            .buildNewVideo(535010997887571046L, "https://api.duoec.com/public/video/535010997887571046.mov", 0, 3000, videoBuilder -> {
-                                // 进入 ProjectVideoBuilder，可以在这里修改 ProjectVideo 的信息
-                                videoBuilder
-//                                        .setPosition(0, -400) // 指定展示位置，0，0表示视频中央 上正下负 左负右正
-                                        .setSpeed(50) // x0.5倍速播放
-                                ;
-                            }) // 添加一个视频
-                            .buildNewTextTemplate(270464050694389761L, List.of("太好了"), 0, 3000, textTemplateBuilder -> {
-                                // 进入 ProjectScriptBuilder 上下文。在这里可以处理当前新添加的文本模板信息
-
-                            })
-                            .buildNewSticker(270402997699280897L, 1500L, 3000L, stickerBuilder -> {
-                                // 进入 ProjectStickerBuilder 上下文。这里可以处理当前新添加的贴纸信息
-
-                            })
-                            .builderNewVideoEffect(270464037793497089L, 5000L, 3000L, videoEffectBuilder -> {
-                                // 进入 ProjectVideoEffectBuilder 上下文。这里可以处理当前新添加的 画面特效 信息
-
-                            })
-                            .builderNewFaceEffect(270464033541718017L, 1500L, 1000L, faceEffectBuilder -> {
-                                // 进入 ProjectFaceEffectBuilder 上下文。这里可以处理当前新添加的 脸部特效 信息
-
-                            })
-                            .buildNewSound(270464042140893185L, 1000L, 3000L, soundBuilder -> {
-                                // 进入 ProjectSoundBuilder 上下文，这里可以处理当前新添加的 特效音 信息
-
-                            })
-                            .buildNewText("你真好呀", 2001L, 999L, textBuilder -> {
-                                // 进入 ProjectTextBuilder 上下文，这里可以处理当前新添加的 文本 信息
-                                textBuilder
-                                        .setPosition(0, -800)
-                                        .setStyle(
-                                                new TextStyle()
-                                                        .setFontSize(14)
-                                                        .setFillColor("#FF0000")
-                                        )
-                                ;
-                            })
+//                            .buildNewVideo(535010997887571021L, "https://api.duoec.com/public/video/535010997887571021.mp4", 0L, 3000L, videoBuilder -> {
+//                                videoBuilder
+//                                        .setMaterialStart(5000L)
+//                                        .setLayoutIndex(1000)
+//                                        .addTransition(270404457990455297L, 1000L)
+//                                        .setSpeed(100)
+//                                        .setZoom(10000, 10000)
+//                                        .setRotate(90)
+//                                        .setVisible(true)
+//                                        .setHorizontal(true)
+//                                        .setVolume(0)
+//                                ;
+//                            })
+//                            .buildNewAudio(535010997887571025L, "https://api.duoec.com/public/audio/535010997887571025.mp3", 0L, 8000L, audioBuilder -> {
+//                                audioBuilder
+//                                        .setMaterialStart(10000L)
+//                                        .setLayoutIndex(1000)
+//                                        .setSpeed(100)
+//                                        .setVisible(true)
+//                                        .setVolume(-50)
+//                                        ;
+//                            })
                     ;
                 })
                 .getProject();
+        System.out.println(JsonUtils.toJsonString(videoProject));
         JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject);
     }
 }

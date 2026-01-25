@@ -19,5 +19,6 @@
         <module>duo-video-base</module>
         <module>duo-video-jy</module>
         <module>duo-server-base</module>
+        <module>duo-video-api</module>
     </modules>
 </project>

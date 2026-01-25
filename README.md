@@ -556,7 +556,7 @@ com.duoec.video.jy.utils.JianyingUtils.combine(JianYingProjectInfo projectInfo, 
 
 
 
-## 六、如何开始
+## 六、快速上手
 
 ### 6.1 环境准备
 
@@ -572,7 +572,7 @@ duo-video 运行在 JDK21 + maven上，请自行配置运行环境
 
 #### 剪映草稿目录配置
 
-开始之前，请改一下你的 剪映草稿目录，打开：com.duoec.video.jy.BaseTest.java，修改下面一行代码为你本地的正确地址
+git clone下来之后，请改一下你的 剪映草稿目录，打开：com.duoec.video.jy.BaseTest.java，修改下面一行代码为你本地的正确地址
 
 ```java
 // 测试代码会直接将剪映工程生成到这个目录下，如果配置的是剪映的草稿目录，就可以直接打开剪映看到
@@ -581,19 +581,19 @@ JianyingProjectBuildState.DEBUG_JY_DRAFT_DIR = "/Users/xuwenzhen/Movies/Jianying
 
 
 
-#### secret 配置
+#### secret 配置（可选）
 
 如果你已经注册且分配了 secretKey，请在环境变量里配置。如果没有配置，只能使用公开的资源
 
-| 环境变量       | 说明                    | 备注       |
-| -------------- | ----------------------- | ---------- |
-| DUO_SECRET_ID  | 接口签名加密 SECRET_ID  |            |
-| DUO_SECRET_KEY | 接口签名加密 SECRET_KEY |            |
-| DUO_SERVER     | 资源服务器地址          | 不设置即可 |
+| 环境变量       | 说明                    | 备注         |
+| -------------- | ----------------------- | ------------ |
+| DUO_SECRET_ID  | 接口签名加密 SECRET_ID  |              |
+| DUO_SECRET_KEY | 接口签名加密 SECRET_KEY |              |
+| DUO_SERVER     | 资源服务器地址          | 默认无需设置 |
 
 
 
-#### 缓存目录
+#### 缓存目录（可选）
 
 默认情况下，程序会在创建缓存目录 duo-video-jy/tmp，这些文件可以随时安全删除。如果遇到一些奇怪的错误，也可以尝试删除此目录，清掉缓存文件。
 

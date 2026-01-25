@@ -36,7 +36,7 @@ public class ImageSegmentBuilder extends BaseVisibleMediaMaterialBuilder<ImageMa
                 .setDuration(segmentTime.getDuration() * JianyingUtils.LONG_1000);
         state.getJianyingProject().getMaterials().getVideos().add(video);
 
-        Track imageTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_VIDEO, "图片", segmentTime.getStart(), segmentTime.getEndTime())
+        Track imageTrack = JianyingTrackBuilder.getOrCreateTrack(state.getJianyingProject(), Track.TYPE_VIDEO, "图片", segmentTime.getStart(), segmentTime.calculateEndTime())
                 .setFlag(2);
         Segment segment = getSegment(state.getJianyingProject(), videoSegment, video);
         imageTrack.getSegments().add(segment);

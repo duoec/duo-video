@@ -63,11 +63,11 @@ public class VideoProject implements Serializable {
     /**
      * 工程视频时长，以 scripts 占位为准
      */
-    public Long getDuration() {
+    public Long calculateEndTime() {
         if (CollectionUtils.isEmpty(scripts)) {
             return 0L;
         }
 
-        return scripts.stream().mapToLong(VideoScript::getEndTime).max().orElse(0L);
+        return scripts.stream().mapToLong(VideoScript::calculateEndTime).max().orElse(0L);
     }
 }

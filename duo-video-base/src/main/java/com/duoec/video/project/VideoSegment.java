@@ -3,6 +3,7 @@ package com.duoec.video.project;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -41,7 +42,7 @@ public class VideoSegment implements Serializable {
     /**
      * 关联：materialId => 类型
      */
-    private Map<Long, String> refs;
+    private Map<Long, String> refs = new HashMap<>();
 
     /**
      * 变速，单位：百分之一。100表示1倍速
@@ -96,7 +97,7 @@ public class VideoSegment implements Serializable {
      */
     private Boolean upend;
 
-    public long getEndTime() {
-        return time == null ? 0L : time.getEndTime();
+    public long calculateEndTime() {
+        return time == null ? 0L : time.calculateEndTime();
     }
 }

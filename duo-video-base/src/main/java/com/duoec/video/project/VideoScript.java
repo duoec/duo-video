@@ -21,17 +21,17 @@ public class VideoScript implements Serializable {
      */
     private List<VideoSegment> segments = new ArrayList<>();
 
-    public Long getEndTime() {
+    public Long calculateEndTime() {
         if (time != null && time.getStart() != null && time.getDuration() != null) {
             // 限定时间
-            return time.getEndTime();
+            return time.calculateEndTime();
         }
         if (CollectionUtils.isEmpty(segments)) {
             return 0L;
         }
         return segments.stream()
                 .filter(segment -> segment.getVisible() == null || segment.getVisible())
-                .mapToLong(VideoSegment::getEndTime)
+                .mapToLong(VideoSegment::calculateEndTime)
                 .max().orElse(0L);
     }
 }

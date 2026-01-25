@@ -23,7 +23,7 @@ public class VideoTimeRange implements Serializable {
      */
     private Long duration;
 
-    public long getEndTime() {
+    public long calculateEndTime() {
         return Optional.ofNullable(start).orElse(0L) + Optional.ofNullable(duration).orElse(0L);
     }
 }
