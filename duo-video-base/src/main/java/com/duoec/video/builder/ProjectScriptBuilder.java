@@ -200,6 +200,7 @@ public class ProjectScriptBuilder {
         if (videoEffectBuilderConsumer != null) {
             videoEffectBuilderConsumer.accept(videoEffectBuilder);
         }
+        videoEffectBuilder.back();
         return this;
     }
 
@@ -209,11 +210,12 @@ public class ProjectScriptBuilder {
      * @param start 展示起始时间（在整个视频中的时间），单位：毫秒
      * @param duration 展示时长，单位：毫秒
      */
-    public ProjectScriptBuilder builderNewFaceEffect(long videoEffectResourceId, long start, long duration, Consumer<ProjectFaceEffectBuilder> faceEffectBuilderConsumer) {
+    public ProjectScriptBuilder buildNewFaceEffect(long videoEffectResourceId, long start, long duration, Consumer<ProjectFaceEffectBuilder> faceEffectBuilderConsumer) {
         ProjectFaceEffectBuilder faceEffectBuilder = ProjectFaceEffectBuilder.getBuilder(projectBuilder, this, videoEffectResourceId, start, duration);
         if (faceEffectBuilderConsumer != null) {
             faceEffectBuilderConsumer.accept(faceEffectBuilder);
         }
+        faceEffectBuilder.back();
         return this;
     }
 

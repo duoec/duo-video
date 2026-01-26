@@ -43,7 +43,7 @@ class ProjectBuilderTest {
 //                    projectBuilder.setTest(true);
                 })
                 .setTest(true)
-                .buildStyle(296653948753219540L, new TextStyle(), styleBuilder -> {
+                .buildGlobalStyle(296653948753219540L, new TextStyle(), styleBuilder -> {
                     // 进入 ProjectTextStyleBuilder 上下文，在这里可以编辑当前预设样式
 
                 })
@@ -74,7 +74,7 @@ class ProjectBuilderTest {
                                 // 进入 ProjectVideoEffectBuilder 上下文。这里可以处理当前新添加的 画面特效 信息
 
                             })
-                            .builderNewFaceEffect(270464033541718017L, 1500L, 1000L, faceEffectBuilder -> {
+                            .buildNewFaceEffect(270464033541718017L, 1500L, 1000L, faceEffectBuilder -> {
                                 // 进入 ProjectFaceEffectBuilder 上下文。这里可以处理当前新添加的 脸部特效 信息
 
                             })

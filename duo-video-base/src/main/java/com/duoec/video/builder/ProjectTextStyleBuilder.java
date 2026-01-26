@@ -1,49 +1,24 @@
 package com.duoec.video.builder;
 
-import com.duoec.video.project.material.BaseMaterial;
-import com.duoec.video.project.material.MaterialTypeEnum;
-import com.duoec.video.project.material.StyleMaterial;
+import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.project.material.TextStyle;
+import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.Optional;
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Objects;
 
-public class ProjectTextStyleBuilder extends BaseMaterialBuilder<StyleMaterial> {
-    private final TextStyle style;
+@Slf4j
+public class ProjectTextStyleBuilder<D extends TextStyle> {
+    private final D style;
 
-    private final long styleId;
-
-    private Boolean globalKeywordStyle = false;
-
-    private ProjectTextStyleBuilder(ProjectBuilder projectBuilder, long styleId, TextStyle style) {
-        this.projectBuilder = projectBuilder;
-        this.styleId = styleId;
-        this.style = Optional.ofNullable(style).orElse(new TextStyle());
-        this.material = new StyleMaterial();
+    private ProjectTextStyleBuilder(D style) {
+        this.style = style;
     }
 
-    public static ProjectTextStyleBuilder addAndGetTextStyleBuilder(ProjectBuilder projectBuilder, long styleId, TextStyle style) {
-        return new ProjectTextStyleBuilder(projectBuilder, styleId, style);
-    }
-
-    public ProjectBuilder back() {
-        BaseMaterial existsMaterial = getMaterialById(styleId);
-        if (existsMaterial == null || !MaterialTypeEnum.MATERIAL_TYPE_STYLE.equals(existsMaterial.getType())) {
-            // 不存在
-            material.setId(styleId);
-            material.setStyle(style);
-            material.setGlobalKeywordStyle(Optional.ofNullable(globalKeywordStyle).orElse(false));
-            addMaterial(material);
-        }
-        beforeBack();
-        return projectBuilder;
-    }
-
-    /**
-     * 设置是否是全局 关键词默认样式
-     */
-    public ProjectTextStyleBuilder setGlobalKeywordStyle(Boolean globalKeywordStyle) {
-        this.globalKeywordStyle = globalKeywordStyle;
-        return this;
+    public static <D extends TextStyle> ProjectTextStyleBuilder<D> build(D style) {
+        return new ProjectTextStyleBuilder<>(style);
     }
 
     /**
@@ -284,5 +259,43 @@ public class ProjectTextStyleBuilder extends BaseMaterialBuilder<StyleMaterial> 
     public ProjectTextStyleBuilder setFlowerId(Long flowerId) {
         this.style.setFlowerId(flowerId);
         return this;
+    }
+
+    /**
+     * 设置花字ID
+     */
+    public ProjectTextStyleBuilder setStyleId(Long styleId) {
+        Field styleIdField = getStyleIdField(style.getClass());
+        String className = style.getClass().getName();
+        if (styleIdField == null) {
+            log.warn("当前类属性不存在：{}.styleId ", className);
+            return this;
+        }
+        try {
+            styleIdField.set(this.style, styleId);
+        } catch (IllegalAccessException e) {
+            throw new DuoServiceException("设置" + className + ".styleId 失败", e);
+        }
+        return this;
+    }
+
+    private static final Map<Class, Field> STYLE_ID_FIELD_MAP = Maps.newHashMap();
+
+    private static Field getStyleIdField(Class<?> clazz) {
+        return STYLE_ID_FIELD_MAP.computeIfAbsent(clazz, c -> {
+            Field styleIdField;
+            try {
+                styleIdField = clazz.getDeclaredField("styleId");
+            } catch (NoSuchFieldException e) {
+                // 如果当前类没有，则尝试找父类
+                Class<?> sc = clazz.getSuperclass();
+                if (sc == Object.class) {
+                    return null;
+                }
+                return getStyleIdField(sc);
+            }
+            styleIdField.setAccessible(true);
+            return styleIdField;
+        });
     }
 }

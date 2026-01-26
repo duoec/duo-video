@@ -11,6 +11,7 @@ import com.duoec.video.project.material.TransitionMaterial;
 
 public class ProjectAudioBuilder extends BaseSegmentBuilder<AudioMaterial, ProjectAudioBuilder> {
     private Integer volume;
+    private VideoTimeRange materialTime;
 
     private ProjectAudioBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
@@ -75,9 +76,17 @@ public class ProjectAudioBuilder extends BaseSegmentBuilder<AudioMaterial, Proje
         return this;
     }
 
+    public ProjectAudioBuilder setMaterialTime(long start, long duration) {
+        this.materialTime = new VideoTimeRange(start, duration);
+        return this;
+    }
+
     public ProjectScriptBuilder back() {
         if (volume != null) {
             segment.setVolume(volume);
+        }
+        if (materialTime != null) {
+            material.setTime(materialTime);
         }
         return super.back();
     }

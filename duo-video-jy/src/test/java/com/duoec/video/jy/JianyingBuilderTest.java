@@ -8,6 +8,8 @@ import com.duoec.video.jy.dto.info.JianYingProjectInfo;
 import com.duoec.video.jy.utils.JianyingResourceUtils;
 import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.TextWord;
+import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -65,16 +67,20 @@ class JianyingBuilderTest extends BaseTest {
 //                    projectBuilder.setTest(true);
                 })
                 .setTest(true)
-                .buildStyle(296653948753219540L, new TextStyle(), styleBuilder -> {
+                .buildGlobalStyle(296653948753219540L, new TextStyle(), styleBuilder -> {
                     // 进入 ProjectTextStyleBuilder 上下文，在这里可以编辑当前预设样式
-                    styleBuilder.setFontSize(28)
-                            .setBold(true)
-                            .setItalic(true)
-                            .setTextAlign(1)
-                            .setFontName("抖音美好体")
-                            .setFillColor("#FFFF00")
-                            .setStrokeColor("#FF0000")
-                            .setStrokeWidth(10)
+                    styleBuilder
+                            .getGlobalStyleBuilder(textStyleBuilder -> {
+                                textStyleBuilder
+                                        .setFontSize(28)
+                                        .setBold(true)
+                                        .setItalic(true)
+                                        .setTextAlign(1)
+                                        .setFontName("抖音美好体")
+                                        .setFillColor("#FFFF00")
+                                        .setStrokeColor("#FF0000")
+                                        .setStrokeWidth(10);
+                            })
                             .setGlobalKeywordStyle(true)
                     ;
                 })
@@ -82,6 +88,17 @@ class JianyingBuilderTest extends BaseTest {
                     // 在第一个分镜下
                     // scriptBuilder.getVideoBuilder().setUpend(true); //虽然在分镜的上下文环境里也可以获得上层的builder，但不建议在此修改、处理分镜外的数据！！
                     scriptBuilder
+                            .buildNewImage(535010997887571096L, "https://api.duoec.com/public/image/535010997887571096.png", 3500L, 3000L, imageBuilder -> {
+                                imageBuilder
+                                        .setLayoutIndex(1000)
+                                        .setZoom(7500, 7500)
+                                        .setPosition(0, -1512)
+                                        .setRotate(-90)
+                                        .setVisible(true)
+                                        .setHorizontal(true)
+                                        .setVertical(true)
+                                ;
+                            })
                             .buildNewVideo(535010997887571021L, "https://api.duoec.com/public/video/535010997887571021.mp4", 0L, 3000L, videoBuilder -> {
                                 videoBuilder
                                         .buildGreenBackground(535010997887571022L, "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png", backgroundBuilder -> {
@@ -98,40 +115,100 @@ class JianyingBuilderTest extends BaseTest {
                                         .setVolume(0)
                                 ;
                             })
-//                            .buildNewImage(535010997887571096L, "https://api.duoec.com/public/image/535010997887571096.png", 3500L, 3000L, imageBuilder -> {
-//                                imageBuilder
-//                                        .setLayoutIndex(1000)
-//                                        .setZoom(7500, 7500)
-//                                        .setPosition(0, -1512)
-//                                        .setRotate(-90)
-//                                        .setVisible(true)
-//                                        .setHorizontal(true)
-//                                        .setVertical(true)
-//                                ;
-//                            })
+                            .buildNewAudio(535010997887571025L, "https://api.duoec.com/public/audio/535010997887571025.mp3", 0L, 8000L, audioBuilder -> {
+                                audioBuilder
+                                        .setMaterialTime(170, 126869)
+                                        .setMaterialStart(10000L)
+                                        .setLayoutIndex(1000)
+                                        .setSpeed(100)
+                                        .setVisible(true)
+                                        .setVolume(-50)
+                                ;
+                            })
+                            .builderNewVideoEffect(270464037793497089L, 5000L, 3000L, videoEffectBuilder -> {
 
-//                            .buildNewVideo(535010997887571021L, "https://api.duoec.com/public/video/535010997887571021.mp4", 0L, 3000L, videoBuilder -> {
-//                                videoBuilder
-//                                        .setMaterialStart(5000L)
-//                                        .setLayoutIndex(1000)
-//                                        .addTransition(270404457990455297L, 1000L)
-//                                        .setSpeed(100)
-//                                        .setZoom(10000, 10000)
-//                                        .setRotate(90)
-//                                        .setVisible(true)
-//                                        .setHorizontal(true)
-//                                        .setVolume(0)
-//                                ;
-//                            })
-//                            .buildNewAudio(535010997887571025L, "https://api.duoec.com/public/audio/535010997887571025.mp3", 0L, 8000L, audioBuilder -> {
-//                                audioBuilder
-//                                        .setMaterialStart(10000L)
-//                                        .setLayoutIndex(1000)
-//                                        .setSpeed(100)
-//                                        .setVisible(true)
-//                                        .setVolume(-50)
-//                                        ;
-//                            })
+                            })
+                            .buildNewFaceEffect(270464033541718017L, 1500L, 1000L, faceEffectBuilder -> {
+
+                            })
+                            .buildNewVideo(535010997887571046L, "https://api.duoec.com/public/video/535010997887571046.mov", 3000L, 5000L, videoBuilder -> {
+                                videoBuilder
+                                        .setMaterialTime(0L, 14264L)
+                                        .setMaterialStart(1000L)
+                                        .setLayoutIndex(1000)
+                                        .addTransition(270404457990455297L, 1000L)
+                                        .setSpeed(200)
+                                        .setZoom(10000, 10000)
+                                        .setRotate(90)
+                                        .setVisible(true)
+                                        .setHorizontal(true)
+                                        .setVolume(-100)
+                                ;
+                            })
+                            .buildNewText("测试中文字幕", 10L, 1990L, textBuilder -> {
+                                textBuilder.setLayoutIndex(1000)
+                                        .setPosition(0, -1000)
+                                        .setRotate(0)
+                                        .setAsSubtitle(true)
+                                        .setStyle(
+                                                new TextStyle()
+                                                        .setFontSize(14)
+                                                        .setBold(false)
+                                                        .setItalic(false)
+                                                        .setTextAlign(1)
+                                                        .setFontName("微软雅黑")
+                                                        .setFillColor("#FFFFFF")
+                                                        .setStrokeColor("#FF0000")
+                                                        .setStrokeWidth(10)
+                                        )
+                                        .addWord(2, 2, wordTextBuilder -> {
+                                            wordTextBuilder
+                                                    .setFontSize(16)
+                                                    .setFillColor("#00FFFF")
+                                                    .setStrokeWidth(20)
+                                                    .setStrokeColor("#0000FF")
+                                            ;
+                                        })
+                                        .addWord(3, 2, wordTextBuilder -> {
+                                            wordTextBuilder
+                                                    .setStyleId(296653948753219540L)
+                                                    .setFontSize(18)
+                                            ;
+                                        })
+
+                                ;
+                            })
+                            .buildNewText("你真好呀", 2001L, 999L, textBuilder -> {
+                                textBuilder
+                                        .setLayoutIndex(1000)
+                                        .setPosition(0, -800)
+                                        .setRotate(0)
+                                        .setAsSubtitle(true)
+                                        .setStyleId(296653948753219540L)
+                                        .addWord(1, 2, textWordBuilder -> {
+                                            textWordBuilder.setFlowerId(270413717936603137L);
+                                        })
+                                ;
+                            })
+                            .buildNewTextTemplate(270414005699805185L, List.of("非", "常", "棒", "duoec.com"), 2001L, 999L, textBuilder -> {
+                                textBuilder
+                                        .setLayoutIndex(1000)
+                                        .setZoom(5000, 5000)
+                                        .setPosition(0, 1400)
+                                ;
+                            })
+                            .buildNewSound(270464042140893185L, 1000L, 3000L, soundBuilder -> {
+
+                            })
+                            .buildNewSticker(270402997699280897L, 1500L, 3000L, stickerBuilder -> {
+                                stickerBuilder
+                                        .setZoom(5000, 5000)
+                                        .setPosition(500, 0)
+                                        .setRotate(-45)
+                                ;
+                            })
+
+
                     ;
                 })
                 .getProject();

@@ -14,6 +14,7 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
     private BaseVisibleMediaMaterial greenBackgroundMaterial;
 
     private Integer volume;
+    private VideoTimeRange materialTime;
 
     private ProjectVideoBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
@@ -115,6 +116,11 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
         return this;
     }
 
+    public ProjectVideoBuilder setMaterialTime(long start, long duration) {
+        this.materialTime = new VideoTimeRange(start, duration);
+        return this;
+    }
+
     public ProjectVideoBuilder setVolume(int volume) {
         this.volume = volume;
         return this;
@@ -130,6 +136,9 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
         }
         if (volume != null) {
             segment.setVolume(volume);
+        }
+        if (materialTime != null) {
+            material.setTime(materialTime);
         }
         return super.back();
     }

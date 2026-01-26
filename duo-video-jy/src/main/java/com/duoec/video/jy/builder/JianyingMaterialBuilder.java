@@ -35,7 +35,7 @@ public class JianyingMaterialBuilder {
     public static void build(JianyingProjectBuildState state) {
         Long taskId = state.getVideoProject().getId();
 
-        Map<BaseMaterial, File> materialFileMap = Maps.newHashMap();
+        Map<Long, File> materialFileMap = Maps.newHashMap();
         Optional.ofNullable(state.getVideoProject().getScripts()).orElse(Lists.newArrayList())
                 .stream()
                 .filter(script -> !CollectionUtils.isEmpty(script.getSegments()))
@@ -49,11 +49,12 @@ public class JianyingMaterialBuilder {
                 });
 
         JianyingBuilder.storageService.waitAsyncDownloadTask(taskId);
-        materialFileMap.forEach((material, file) -> {
+        materialFileMap.forEach((materialId, file) -> {
             if (!file.exists()) {
-                throw new DuoServiceException("[" + material.getId() + "]素材文件下载失败！");
+                throw new DuoServiceException("[" + materialId + "]素材文件下载失败！");
             }
 
+            BaseMaterial material = state.getMaterial(materialId);
             if (material instanceof BaseVisibleMediaMaterial || material instanceof AudioMaterial) {
                 material.setLocalFile(file);
 
@@ -111,7 +112,7 @@ public class JianyingMaterialBuilder {
         });
     }
 
-    private static void downloadMaterials(JianyingProjectBuildState state, Long materialId, Map<BaseMaterial, File> materialFileMap) {
+    private static void downloadMaterials(JianyingProjectBuildState state, Long materialId, Map<Long, File> materialFileMap) {
         BaseMaterial material = state.getMaterial(materialId);
         if (material == null) {
             return;
@@ -128,7 +129,7 @@ public class JianyingMaterialBuilder {
                 JianyingBuilder.storageService.asyncDownload(taskId, url, file);
             }
             material.setLocalFile(file);
-            materialFileMap.put(material, file);
+            materialFileMap.put(material.getId(), file);
         }
 
         if (material instanceof VideoMaterial videoMaterial) {

@@ -6,11 +6,20 @@ import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.TextMaterial;
 import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.TextWord;
+import com.google.common.collect.Lists;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.function.Consumer;
+
+import static com.duoec.video.builder.ProjectGlobalTextStyleBuilder.addAndGetBuilder;
 
 public class ProjectTextBuilder extends BaseSegmentBuilder<TextMaterial, ProjectTextBuilder> {
     private TextStyle style;
 
     private Long styleId;
+    private List<TextWord> words;
 
     private ProjectTextBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
@@ -72,10 +81,37 @@ public class ProjectTextBuilder extends BaseSegmentBuilder<TextMaterial, Project
         return this;
     }
 
+    /**
+     * 设置文本片段样式，会直接覆盖之前设置的所有 words
+     */
+    public ProjectTextBuilder setWords(List<TextWord> words) {
+        this.words = words;
+        return this;
+    }
+
+    public ProjectTextBuilder addWord(int index, int length, Consumer<ProjectTextStyleBuilder<TextWord>> textWordBuilderConsumer) {
+        if (this.words == null) {
+            this.words = Lists.newArrayList();
+        }
+        TextWord textWord = new TextWord()
+                .setIndex(index)
+                .setLength(length);
+        words.add(textWord);
+
+        ProjectTextStyleBuilder<TextWord> textWordBuilder = ProjectTextStyleBuilder.build(textWord);
+        if (textWordBuilderConsumer != null) {
+            textWordBuilderConsumer.accept(textWordBuilder);
+        }
+        return this;
+    }
+
     @Override
     protected void beforeBack() {
         if (styleId != null) {
             material.setStyleId(styleId);
+        }
+        if (!CollectionUtils.isEmpty(words)) {
+            material.setWords(words);
         }
     }
 }

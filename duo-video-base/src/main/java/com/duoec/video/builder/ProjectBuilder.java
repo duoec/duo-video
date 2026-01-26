@@ -158,8 +158,8 @@ public class ProjectBuilder {
      * @param style 样式
      * @param textStyleBuilderConsumer 预设样式上下文编辑器
      */
-    public ProjectBuilder buildStyle(long styleId, TextStyle style, Consumer<ProjectTextStyleBuilder> textStyleBuilderConsumer) {
-        ProjectTextStyleBuilder builder = ProjectTextStyleBuilder.addAndGetTextStyleBuilder(this, styleId, style);
+    public ProjectBuilder buildGlobalStyle(long styleId, TextStyle style, Consumer<ProjectGlobalTextStyleBuilder> textStyleBuilderConsumer) {
+        ProjectGlobalTextStyleBuilder builder = ProjectGlobalTextStyleBuilder.addAndGetBuilder(this, styleId, style);
         if (textStyleBuilderConsumer != null) {
             textStyleBuilderConsumer.accept(builder);
         }
