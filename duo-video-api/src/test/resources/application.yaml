@@ -1,0 +1,6 @@
+server:
+  port: 17026  #HTTP服务端口号
+
+spring:
+  application:
+    name: duo_video

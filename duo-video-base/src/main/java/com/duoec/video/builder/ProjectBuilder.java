@@ -4,6 +4,7 @@ import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.TextStyle;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,16 @@ public class ProjectBuilder {
     private static final Logger logger = LoggerFactory.getLogger(ProjectBuilder.class);
 
     private final VideoProject project;
+
+    private ProjectBuilder(VideoProject project) {
+        this.project = project;
+        if (this.project.getScripts() == null) {
+            this.project.setScripts(Lists.newArrayList());
+        }
+        if (this.project.getMaterials() == null) {
+            this.project.setMaterials(Lists.newArrayList());
+        }
+    }
 
     /**
      * 创建一个新工程。未指定视频宽、高，使用默认值 1080x1920
@@ -31,6 +42,10 @@ public class ProjectBuilder {
         project.getScripts().add(videoScript);
     }
 
+    public static ProjectBuilder createProject(VideoProject videoProject) {
+        return new ProjectBuilder(videoProject);
+    }
+
     /**
      * 创建一个新工程。指定视频宽、高
      * @param projectId 指定视频ID
@@ -38,7 +53,7 @@ public class ProjectBuilder {
      * @param width 视频宽
      * @param height 视频高
      */
-    public static ProjectBuilder createBuilder(long projectId, String projectName, int width, int height) {
+    public static ProjectBuilder createProject(long projectId, String projectName, int width, int height) {
         ProjectBuilder projectBuilder = new ProjectBuilder(projectId, projectName);
         projectBuilder.project.setWidth(width);
         projectBuilder.project.setHeight(height);

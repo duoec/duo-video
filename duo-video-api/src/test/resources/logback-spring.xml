@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="2 seconds">
+    <property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c[%L] - %msg%n" />
+
+    <!-- 开发环境 -->
+    <springProfile name="dev">
+        <appender name="APP_LOG" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <Pattern>${PATTERN}</Pattern>
+                <charset>UTF-8</charset>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <!-- 非开发环境 -->
+    <springProfile name="!dev">
+        <springProperty scope="context" name="logging.path" source="logging.path" defaultValue="./logs"/>
+        <appender name="APP_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>${logging.path}/server.%d{yyyy-MM-dd}.log</FileNamePattern>
+                <MaxHistory>3</MaxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>${PATTERN}</pattern>
+                <charset>UTF-8</charset>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <root level="INFO">
+        <appender-ref ref="APP_LOG" />
+    </root>
+</configuration>

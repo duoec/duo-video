@@ -124,10 +124,14 @@ graph LR
 duo-video/
 ├── duo-server-base/      # 基础工具库（文件处理、JSON、工具类）
 ├── duo-video-base/       # 核心数据模型（VideoProject、Material、Segment）
-└── duo-video-jy/         # 剪映集成（将数据模型转换为剪映工程格式）
-    ├── builder/          # 17 个专业 Builder 类
-    ├── dto/              # 剪映数据结构映射
-    └── service/          # 素材下载、FFmpeg、Exiftool 集成
+├── duo-video-jy/         # 剪映集成（将数据模型转换为剪映工程格式）
+│   ├── builder/          # 17 个专业 Builder 类
+│   ├── dto/              # 剪映数据结构映射
+│   └── service/          # 素材下载、FFmpeg、Exiftool 集成
+└── duo-video-api/        # RESTful API 接口（Spring Boot）
+    ├── controller/       # HTTP 接口控制器
+    ├── dto/              # 请求/响应数据传输对象
+    └── server/           # 业务服务层
 ```
 
 
@@ -705,6 +709,360 @@ JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject); // 直接�
 ```
 
 详见：com.duoec.video.jy.JianyingBuilderTest.buildWithBuilder() 完整实现了 001_base_project.json 的所有能力
+
+
+
+
+
+### 6.5 使用 RESTful API 接口
+
+duo-video-api 提供了完整的 RESTful API 接口，支持通过 HTTP 请求创建和编辑视频项目。
+
+#### 6.5.1 启动 API 服务
+
+```bash
+# 进入 API 模块目录
+cd duo-video-api
+
+# 启动 Spring Boot 应用
+mvn spring-boot:run
+```
+
+服务默认运行在 `http://localhost:8080`
+
+#### 6.5.2 API 接口列表
+
+所有接口统一返回格式：
+```json
+{
+  "code": 0,           // 0 表示成功，非 0 表示失败
+  "message": "success",
+  "data": { ... }      // VideoProject 对象
+}
+```
+
+##### 1. 创建视频项目
+
+```bash
+POST /api/video
+Content-Type: application/json
+
+{
+  "projectId": 123456789,      // 可选，不传则自动生成
+  "projectName": "我的视频",    // 可选，默认使用 projectId
+  "width": 1080,               // 可选，默认 1080
+  "height": 1920,              // 可选，默认 1920
+  "test": true                 // 可选，是否为测试模式
+}
+```
+
+##### 2. 设置全局文本样式
+
+```bash
+POST /api/video/global-style
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "styleId": 296653948753219540,
+  "textStyle": {
+    "fontSize": 28,
+    "bold": true,
+    "italic": true,
+    "textAlign": 1,
+    "fontName": "抖音美好体",
+    "fillColor": "#FFFF00",
+    "strokeColor": "#FF0000",
+    "strokeWidth": 10
+  },
+  "globalKeywordStyle": true    // 是否设为全局关键词样式
+}
+```
+
+##### 3. 添加图片素材
+
+```bash
+POST /api/video/image
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,             // 分镜索引，默认 0
+  "imageId": 535010997887571096,
+  "imageUrl": "https://example.com/image.png",
+  "startTime": 3500,            // 开始时间（毫秒）
+  "duration": 3000,             // 持续时间（毫秒）
+  "layoutIndex": 1000,          // 图层索引
+  "zoomX": 7500,                // X 轴缩放（万分比）
+  "zoomY": 7500,                // Y 轴缩放（万分比）
+  "positionX": 0,               // X 轴位置
+  "positionY": -1512,           // Y 轴位置
+  "rotate": -90,                // 旋转角度
+  "visible": true,              // 是否可见
+  "horizontal": true,           // 水平翻转
+  "vertical": true              // 垂直翻转
+}
+```
+
+##### 4. 添加视频素材（支持绿幕和蒙版）
+
+```bash
+POST /api/video/video
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,
+  "videoId": 535010997887571021,
+  "videoUrl": "https://example.com/video.mp4",
+  "startTime": 0,
+  "duration": 3000,
+  "materialStart": 5000,        // 素材开始位置（毫秒）
+  "materialTimeStart": 0,       // 素材时间范围开始（毫秒）
+  "materialTimeEnd": 14264,     // 素材时间范围结束（毫秒）
+  "layoutIndex": 1000,
+  "speed": 100,                 // 播放速度（百分比）
+  "zoomX": 10000,
+  "zoomY": 10000,
+  "rotate": 90,
+  "visible": true,
+  "horizontal": true,
+  "volume": 0,                  // 音量（-100 到 100）
+  "transitionId": 270404457990455297,  // 转场特效 ID
+  "transitionDuration": 1000,          // 转场持续时间
+  "greenBackground": {          // 绿幕背景（可选）
+    "greenScreenId": 535010997887571022,
+    "greenScreenUrl": "https://example.com/green.png",
+    "chromaColor": "#4e8a1fff",
+    "chromaStrength": 20,
+    "chromaShadow": 10,
+    "chromaHighlight": 10
+  },
+  "mask": {                     // 蒙版（可选）
+    "maskId": 270415264124764161,
+    "feather": 5,
+    "rotation": 90,
+    "width": 0.5,
+    "height": 0.28,
+    "centerX": 0.07,
+    "centerY": 0.25,
+    "pointX": 400,
+    "pointY": 400
+  }
+}
+```
+
+##### 5. 添加音频素材
+
+```bash
+POST /api/video/audio
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,
+  "audioId": 535010997887571025,
+  "audioUrl": "https://example.com/audio.mp3",
+  "startTime": 0,
+  "duration": 8000,
+  "materialTimeStart": 170,
+  "materialTimeEnd": 126869,
+  "materialStart": 10000,
+  "layoutIndex": 1000,
+  "speed": 100,
+  "visible": true,
+  "volume": -50
+}
+```
+
+##### 6. 添加文本/字幕
+
+```bash
+POST /api/video/text
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,
+  "text": "测试中文字幕",
+  "startTime": 10,
+  "duration": 1990,
+  "layoutIndex": 1000,
+  "positionX": 0,
+  "positionY": -1000,
+  "rotate": 0,
+  "asSubtitle": true,           // 是否作为字幕
+  "styleId": 296653948753219540, // 引用全局样式 ID（可选）
+  "style": {                    // 自定义样式（可选）
+    "fontSize": 14,
+    "bold": false,
+    "italic": false,
+    "textAlign": 1,
+    "fontName": "微软雅黑",
+    "fillColor": "#FFFFFF",
+    "strokeColor": "#FF0000",
+    "strokeWidth": 10
+  },
+  "wordStyles": [               // 逐字样式（可选）
+    {
+      "startIndex": 2,
+      "length": 2,
+      "fontSize": 16,
+      "fillColor": "#00FFFF",
+      "strokeWidth": 20,
+      "strokeColor": "#0000FF"
+    },
+    {
+      "startIndex": 3,
+      "length": 2,
+      "styleId": 296653948753219540,
+      "fontSize": 18,
+      "flowerId": 270413717936603137  // 花字 ID
+    }
+  ]
+}
+```
+
+##### 7. 添加文本模板
+
+```bash
+POST /api/video/text-template
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,
+  "templateId": 270414005699805185,
+  "texts": ["非", "常", "棒", "duoec.com"],
+  "startTime": 2001,
+  "duration": 999,
+  "layoutIndex": 1000,
+  "zoomX": 5000,
+  "zoomY": 5000,
+  "positionX": 0,
+  "positionY": 1400
+}
+```
+
+##### 8. 添加贴纸
+
+```bash
+POST /api/video/sticker
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,
+  "stickerId": 270402997699280897,
+  "startTime": 1500,
+  "duration": 3000,
+  "zoomX": 5000,
+  "zoomY": 5000,
+  "positionX": 500,
+  "positionY": 0,
+  "rotate": -45
+}
+```
+
+##### 9. 添加画面特效
+
+```bash
+POST /api/video/video-effect
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,
+  "effectId": 270464037793497089,
+  "startTime": 5000,
+  "duration": 3000
+}
+```
+
+##### 10. 添加人脸特效
+
+```bash
+POST /api/video/face-effect
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,
+  "effectId": 270464033541718017,
+  "startTime": 1500,
+  "duration": 1000
+}
+```
+
+##### 11. 添加音效
+
+```bash
+POST /api/video/sound
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,
+  "soundId": 270464042140893185,
+  "startTime": 1000,
+  "duration": 3000
+}
+```
+
+#### 6.5.3 完整示例
+
+使用 curl 创建一个完整的视频项目：
+
+```bash
+# 1. 创建项目
+curl -X POST http://localhost:8080/api/video \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projectId": 123456789,
+    "projectName": "我的第一个视频",
+    "width": 1080,
+    "height": 1920,
+    "test": true
+  }'
+
+# 2. 添加视频素材
+curl -X POST http://localhost:8080/api/video/video \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projectId": 123456789,
+    "videoId": 535010997887571021,
+    "videoUrl": "https://api.duoec.com/public/video/535010997887571021.mp4",
+    "startTime": 0,
+    "duration": 3000,
+    "zoomX": 10000,
+    "zoomY": 10000
+  }'
+
+# 3. 添加文本
+curl -X POST http://localhost:8080/api/video/text \
+  -H "Content-Type: application/json" \
+  -d '{
+    "projectId": 123456789,
+    "text": "Hello World",
+    "startTime": 0,
+    "duration": 3000,
+    "positionY": -800
+  }'
+```
+
+#### 6.5.4 API 特性
+
+- **链式操作**：每个接口返回完整的 VideoProject，可以连续调用
+- **自动保存**：每次操作后自动保存项目状态
+- **参数验证**：自动验证必填参数，返回友好的错误提示
+- **灵活配置**：所有可选参数都有合理的默认值
+- **完整功能**：支持所有 Builder 模式的功能，包括绿幕、蒙版、转场等高级特性
+
+#### 6.5.5 测试用例
+
+完整的 API 测试用例参见：`duo-video-api/src/test/java/com/duoec/video/controller/VideoApiControllerTest.java`
+
+该测试用例演示了如何使用 API 创建一个包含所有素材类型和特效的完整视频项目。
 
 
 

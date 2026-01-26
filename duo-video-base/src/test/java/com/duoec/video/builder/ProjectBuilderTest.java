@@ -11,7 +11,7 @@ import java.util.List;
 class ProjectBuilderTest {
     @Test
     void createBuilder() {
-        VideoProject project = ProjectBuilder.createBuilder(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
+        VideoProject project = ProjectBuilder.createProject(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
                 .setTest(true) // 设置为测试模式
                 .getScriptBuilder(0) // 进入第一个分镜
 
@@ -37,7 +37,7 @@ class ProjectBuilderTest {
 
     @Test
     void createBuilder2() {
-        VideoProject project = ProjectBuilder.createBuilder(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
+        VideoProject project = ProjectBuilder.createProject(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
                 .build(projectBuilder -> {
                     // ProjectVideo 上下文，可以在这里修改 ProjectVideo 信息
                     // projectBuilder.setTest(true);

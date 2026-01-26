@@ -30,7 +30,7 @@ class JianyingBuilderTest extends BaseTest {
     void buildWithProjectBuilder() {
         long textTemplateResourceId = 270464050694389761L;
 
-        VideoProject videoProject = ProjectBuilder.createBuilder(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
+        VideoProject videoProject = ProjectBuilder.createProject(SnowflakeIdUtils.nextTmpId(), "测试", 1080, 1920)
                 .setTest(true) // 设置为测试模式
 
                 .getScriptBuilder(0) // 进入第一个分镜
@@ -59,7 +59,7 @@ class JianyingBuilderTest extends BaseTest {
 
     @Test
     public void buildWithBuilder() {
-        VideoProject videoProject = ProjectBuilder.createBuilder(SnowflakeIdUtils.nextTmpId(), "002_duo_video", 1080, 1920)
+        VideoProject videoProject = ProjectBuilder.createProject(SnowflakeIdUtils.nextTmpId(), "002_duo_video", 1080, 1920)
                 .build(projectBuilder -> {
                     // ProjectVideo 上下文，可以在这里修改 ProjectVideo 信息
 //                    projectBuilder.setTest(true);
