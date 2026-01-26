@@ -15,6 +15,7 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
 
     private Integer volume;
     private VideoTimeRange materialTime;
+    private TransitionMaterial transitionMaterial;
 
     private ProjectVideoBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
@@ -72,7 +73,7 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
      * @param duration 转场时长（为null 时，表示使用此转场特效的默认时长）
      */
     public ProjectVideoBuilder addTransition(long transitionId, Long duration) {
-        TransitionMaterial transitionMaterial = new TransitionMaterial();
+        transitionMaterial = new TransitionMaterial();
         transitionMaterial.setId(SnowflakeIdUtils.nextTmpId());
         transitionMaterial.setResourceId(transitionId);
         if (duration != null) {
@@ -139,6 +140,9 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
         }
         if (materialTime != null) {
             material.setTime(materialTime);
+        }
+        if (transitionMaterial != null) {
+            projectBuilder.getProject().getMaterials().add(transitionMaterial);
         }
         return super.back();
     }

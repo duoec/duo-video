@@ -175,7 +175,6 @@ class JianyingBuilderTest extends BaseTest {
                                                     .setFontSize(18)
                                             ;
                                         })
-
                                 ;
                             })
                             .buildNewText("你真好呀", 2001L, 999L, textBuilder -> {
@@ -207,8 +206,6 @@ class JianyingBuilderTest extends BaseTest {
                                         .setRotate(-45)
                                 ;
                             })
-
-
                     ;
                 })
                 .getProject();
