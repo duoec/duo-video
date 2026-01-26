@@ -7,16 +7,13 @@ import com.duoec.video.project.material.ImageMaterial;
 import com.duoec.video.project.material.VideoMaterial;
 import org.springframework.util.StringUtils;
 
-public class ProjectGreenBackgroundBuilder {
-    private final ProjectBuilder projectBuilder;
-    private final ProjectScriptBuilder scriptBuilder;
+public class ProjectGreenBackgroundBuilder extends BaseMaterialBuilder<BaseVisibleMediaMaterial> {
     private final ProjectVideoBuilder materialBuilder;
-    private BaseVisibleMediaMaterial material;
     private BaseVisibleMediaMaterial.GreenBackground greenBackground;
+    private boolean existsMaterial = false;
 
-    ProjectGreenBackgroundBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder, ProjectVideoBuilder materialBuilder) {
+    ProjectGreenBackgroundBuilder(ProjectBuilder projectBuilder, ProjectVideoBuilder materialBuilder) {
         this.projectBuilder = projectBuilder;
-        this.scriptBuilder = scriptBuilder;
         this.materialBuilder = materialBuilder;
     }
 
@@ -25,14 +22,22 @@ public class ProjectGreenBackgroundBuilder {
             throw new DuoServiceException("无效素材链接");
         }
         String fileName = FileUtils.getFileName(materialUrl);
+        boolean imageFile = FileUtils.isImageFile(fileName);
+
+        BaseVisibleMediaMaterial existsBgMaterial = getMaterialById(materialId);
+        if (existsBgMaterial != null) {
+            material = existsBgMaterial;
+            existsMaterial = true;
+        } else {
+            material = imageFile ? new ImageMaterial() : new VideoMaterial();
+            material.setId(materialId);
+            material.setUrl(materialUrl);
+        }
+
         if (greenBackground == null) {
             greenBackground = new BaseVisibleMediaMaterial.GreenBackground();
         }
         greenBackground.setMaterialId(materialId);
-
-        material = FileUtils.isImageFile(fileName) ? new ImageMaterial() : new VideoMaterial();
-        material.setId(materialId);
-        material.setUrl(materialUrl);
 
         return this;
     }
@@ -51,7 +56,9 @@ public class ProjectGreenBackgroundBuilder {
     public ProjectVideoBuilder back() {
         if (greenBackground != null) {
             materialBuilder.getVideoMaterial().setGreenBackground(greenBackground);
-            projectBuilder.getProject().getMaterials().add(material);
+            if (!existsMaterial) {
+                projectBuilder.getProject().getMaterials().add(material);
+            }
         }
         return materialBuilder;
     }

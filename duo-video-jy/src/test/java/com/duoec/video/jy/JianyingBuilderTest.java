@@ -8,8 +8,6 @@ import com.duoec.video.jy.dto.info.JianYingProjectInfo;
 import com.duoec.video.jy.utils.JianyingResourceUtils;
 import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.material.TextStyle;
-import com.duoec.video.project.material.TextWord;
-import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -107,6 +105,33 @@ class JianyingBuilderTest extends BaseTest {
                                         .setMaterialStart(5000L)
                                         .setLayoutIndex(1000)
                                         .addTransition(270404457990455297L, 1000L)
+                                        .setSpeed(100)
+                                        .setZoom(10000, 10000)
+                                        .setRotate(90)
+                                        .setVisible(true)
+                                        .setHorizontal(true)
+                                        .setVolume(0)
+                                ;
+                            })
+                            .buildNewVideo(535010997887571021L, "https://api.duoec.com/public/video/535010997887571021.mp4", 4000L, 3000L, videoBuilder -> {
+                                videoBuilder
+                                        .buildGreenBackground(535010997887571022L, "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png", backgroundBuilder -> {
+                                            backgroundBuilder.setChroma("#4e8a1fff", 20, 10, 10);
+                                        })
+                                        .setMaterialStart(9000L)
+                                        .setLayoutIndex(1000)
+                                        .addMask(270415264124764161L, maskBuilder -> {
+                                            maskBuilder
+                                                    .setFeather(5)
+                                                    .setRotation(90)
+                                                    .setWidth(0.5)
+                                                    .setHeight(0.28)
+                                                    .setCenterX(0.07)
+                                                    .setCenterY(0.25)
+                                                    .setPointX(400)
+                                                    .setPointY(400)
+                                            ;
+                                        })
                                         .setSpeed(100)
                                         .setZoom(10000, 10000)
                                         .setRotate(90)

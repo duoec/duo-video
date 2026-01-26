@@ -6,8 +6,11 @@ import com.duoec.video.project.VideoPoint;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
 import com.duoec.video.project.material.*;
+import com.google.common.collect.Lists;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, ProjectVideoBuilder> {
@@ -16,6 +19,7 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
     private Integer volume;
     private VideoTimeRange materialTime;
     private TransitionMaterial transitionMaterial;
+    private List<MaskMaterial> masks;
 
     private ProjectVideoBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
@@ -99,7 +103,7 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
     }
 
     public ProjectGreenBackgroundBuilder addGreenBackgroundAndGetBuilder(long backgroundId, String backgroundUrl) {
-        return new ProjectGreenBackgroundBuilder(projectBuilder, scriptBuilder, this).add(backgroundId, backgroundUrl);
+        return new ProjectGreenBackgroundBuilder(projectBuilder, this).add(backgroundId, backgroundUrl);
     }
 
     /**
@@ -109,7 +113,7 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
      * @param greenBackgroundBuilderConsumer 新添加的 ProjectGreenBackgroundBuilder 上下文编辑器
      */
     public ProjectVideoBuilder buildGreenBackground(long backgroundId, String backgroundUrl, Consumer<ProjectGreenBackgroundBuilder> greenBackgroundBuilderConsumer) {
-        ProjectGreenBackgroundBuilder greenBackgroundBuilder = new ProjectGreenBackgroundBuilder(projectBuilder, scriptBuilder, this).add(backgroundId, backgroundUrl);
+        ProjectGreenBackgroundBuilder greenBackgroundBuilder = new ProjectGreenBackgroundBuilder(projectBuilder, this).add(backgroundId, backgroundUrl);
         if (greenBackgroundBuilderConsumer != null) {
             greenBackgroundBuilderConsumer.accept(greenBackgroundBuilder);
         }
@@ -144,10 +148,29 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
         if (transitionMaterial != null) {
             projectBuilder.getProject().getMaterials().add(transitionMaterial);
         }
+        if (!CollectionUtils.isEmpty(masks)) {
+            projectBuilder.getProject().getMaterials().addAll(masks);
+            masks.forEach(mask -> {
+                segment.getRefs().put(mask.getId(), mask.getType());
+            });
+        }
+
         return super.back();
     }
 
     VideoMaterial getVideoMaterial() {
         return material;
+    }
+
+    public ProjectVideoBuilder addMask(long maskResourceId, Consumer<ProjectMaskBuilder> maskBuilderConsumer) {
+        ProjectMaskBuilder maskBuilder = ProjectMaskBuilder.getBuilder(this.projectBuilder, maskResourceId);
+        if (maskBuilderConsumer != null) {
+            maskBuilderConsumer.accept(maskBuilder);
+        }
+        if (masks == null) {
+            masks = Lists.newArrayList();
+        }
+        masks.add(maskBuilder.build());
+        return this;
     }
 }
