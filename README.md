@@ -61,7 +61,7 @@ graph LR
 
 
 
-- **剪映自动导出** - 可通过多机部署支持大批量视频生产（目前支持 [MacOS版](duo-jy-auto/duo-jy-mac/README.md)，Windows版本可以生成中...）
+- **剪映自动导出** - 可通过多机部署支持大批量视频生产（目前支持 [MacOS版](auto-jy/auto-jy-mac/README.md)，Windows版本可以生成中...）
 
 
 
@@ -114,7 +114,7 @@ graph LR
 
 ```
 duo-video/
-├── duo-jy-auto/					# 自动剪映工具（视频任务自动领取、生成、上报）
+├── auto-jy/					    # 自动剪映工具（视频任务自动领取、生成、上报）
 │   └── auto-jy-mac/      # MAC版自动剪映工具（Windows版AI正在疯狂生产中）
 ├── duo-server-base/      # 基础工具库（文件处理、JSON、工具类）
 ├── duo-video-base/       # 核心数据模型（VideoProject、Material、Segment）
