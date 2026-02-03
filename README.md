@@ -4,7 +4,7 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.8-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Maven](https://img.shields.io/badge/Maven-Project-blue.svg)](https://maven.apache.org/)
 
-Duo-Video 是一个强大的 Java 视频编辑 SDK，通过简洁优雅的 API 以编程方式生成专业级视频项目。项目采用分层架构设计，目前通过生成剪映工程文件实现视频创作，**最终目标是实现纯 Linux 环境下的 Headless 视频生成能力**。
+Duo-Video 是一个强大的 Java 视频编辑 SDK，通过简洁优雅的 API 以编程方式生成专业级视频项目。项目采用分层架构设计，通过生成剪映工程文件实现视频创作
 
 ![剪映工程示例](doc/duo-video.png)
 
@@ -12,19 +12,9 @@ Duo-Video 是一个强大的 Java 视频编辑 SDK，通过简洁优雅的 API �
 
 
 
-## 一、项目愿景
+## 一、项目概要
 
 **duo-video-base** 定义了一套简洁而完整的视频数据模型 （参考：duo-video-jy/src/test/resources/001_base_project.json），用最小化的结构描述复杂的完整视频项目。
-
-
-
-当前阶段通过 **duo-video-jy** 模块将这套模型转换为剪映草稿，利用剪映编辑器导出最终视频。未来将直接调用底层渲染引擎，实现无需 剪映 的服务器端视频生成。
-
-
-
-
-
-使用剪映导出，只是过渡...
 
 
 
@@ -51,8 +41,6 @@ graph LR
     style F fill:#f3e5f5
 ```
 
-项目进度：当前项目已开源了 VideoProject 和 生成 剪映草稿 两部分。AutoJY 已经完成，等待API模块完成后继续开源。其它模块仍在开发中
-
 
 
 ## 1.2 项目亮点
@@ -70,6 +58,10 @@ graph LR
 - **LUT 滤镜** - 专业级调色，支持肤色保护（使用自定义CUBE文件，剪映LUT属性展示不出来，等剪映的修复）
 - **花字系统** - 花字文字效果，支持逐字符样式定制 （支持 2000+花字）
 - **文本预设样式** - 文本预设样式，简化配置，支持剪映划词高亮
+
+
+
+- **剪映自动导出** - 可通过多机部署支持大批量视频生产（目前支持 [MacOS版](duo-jy-auto/duo-jy-mac/README.md)，Windows版本可以生成中...）
 
 
 
@@ -122,13 +114,15 @@ graph LR
 
 ```
 duo-video/
+├── duo-jy-auto/					# 自动剪映工具（视频任务自动领取、生成、上报）
+│   └── auto-jy-mac/      # MAC版自动剪映工具（Windows版AI正在疯狂生产中）
 ├── duo-server-base/      # 基础工具库（文件处理、JSON、工具类）
 ├── duo-video-base/       # 核心数据模型（VideoProject、Material、Segment）
 ├── duo-video-jy/         # 剪映集成（将数据模型转换为剪映工程格式）
 │   ├── builder/          # 17 个专业 Builder 类
 │   ├── dto/              # 剪映数据结构映射
 │   └── service/          # 素材下载、FFmpeg、Exiftool 集成
-└── duo-video-api/        # RESTful API 接口（Spring Boot）
+└── duo-video-api/        # RESTful API 接口（视频生产接口、视频任务接口）
     ├── controller/       # HTTP 接口控制器
     ├── dto/              # 请求/响应数据传输对象
     └── server/           # 业务服务层
@@ -198,8 +192,6 @@ X- ←--(0,0)--→ X+
 
 - 正: 顺时针 
 - 负: 逆时针
-
-
 
 
 

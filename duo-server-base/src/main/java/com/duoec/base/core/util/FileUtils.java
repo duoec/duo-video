@@ -9,6 +9,8 @@ import org.springframework.util.StringUtils;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -121,6 +123,14 @@ public class FileUtils {
             Files.copy(srcFile.toPath(), distFile.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);
         } catch (IOException e) {
             throw new DuoServiceException("复制文件失败", e);
+        }
+    }
+
+    public static void mkdirs(Path path) {
+        try {
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            throw new DuoServiceException("创建目录失败：" + path, e);
         }
     }
 

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @chapter 视频
+ * @section 视频创作
+ */
 @RestController
 @RequestMapping("/api/video")
 @RequiredArgsConstructor
@@ -217,5 +221,17 @@ public class VideoApiController {
 
         VideoProject videoProject = videoProjectService.addSound(request);
         return BaseResponse.success(videoProject);
+    }
+
+    /**
+     * 构建视频
+     * 返回视频构建任务ID，可使用此ID通过接口 GET /api/video-task/{taskId} 查询到构建任务的状态及进度
+     * @param project 视频工程
+     * @return 视频构建任务ID
+     */
+    @PostMapping("/build")
+    public BaseResponse<Long> build(@RequestBody VideoProject project) {
+
+        return BaseResponse.success();
     }
 }

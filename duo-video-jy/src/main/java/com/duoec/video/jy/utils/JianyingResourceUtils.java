@@ -164,7 +164,7 @@ public class JianyingResourceUtils {
         if (!resourceConfigFile.exists()) {
             // 从服务端下载
             String url = DuoApiUtils.BASE_JY_RESOURCE_API + resourceId;
-            BaseResponse<JyResource> resourceResp = DuoApiUtils.get(url, new TypeReference<BaseResponse<JyResource>>() {
+            BaseResponse<JyResource> resourceResp = DuoApiUtils.get(url, new TypeReference<>() {
             });
             if (!BaseResponse.responseSuccessWithNonNullData(resourceResp)) {
                 throw new DuoServiceException("加载剪映资源失败：" + resourceResp.getMsg());

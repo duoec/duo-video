@@ -1,0 +1,1752 @@
+{
+  "info": {
+    "title": "duo-video-api"
+  },
+  "paths": {
+    "/api/video/audio": {
+      "post": {
+        "summary": "添加音频素材",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.addAudio",
+        "parameters": [],
+        "requestBody": {
+          "description": "添加音频请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "添加音频请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.AddAudioRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video/video": {
+      "post": {
+        "summary": "添加视频素材",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.addVideo",
+        "parameters": [],
+        "requestBody": {
+          "description": "添加视频请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "添加视频请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.AddVideoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video-task/": {
+      "get": {
+        "summary": "拉取视频任务",
+        "description": "",
+        "operationId": "com.duoec.video.controller.VideoTaskApiController.getTask",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.dto.response.VideoTaskResponse>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频任务"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频任务",
+        "x-apifox-maintainer": "Not Committed Yet"
+      }
+    },
+    "/api/video/": {
+      "post": {
+        "summary": "初始化一个视频工程",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.createProject",
+        "parameters": [],
+        "requestBody": {
+          "description": "创建请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "创建请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.CreateProjectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video/sound": {
+      "post": {
+        "summary": "添加音效",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.addSound",
+        "parameters": [],
+        "requestBody": {
+          "description": "添加音效请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "添加音效请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.AddSoundRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video-task/{id:\\d+}": {
+      "get": {
+        "summary": "获取视频任务详细",
+        "description": "",
+        "operationId": "com.duoec.video.controller.VideoTaskApiController.getTaskDetail",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.dto.response.VideoTaskDetail>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频任务"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频任务",
+        "x-apifox-maintainer": "Not Committed Yet"
+      }
+    },
+    "/api/video/global-style": {
+      "post": {
+        "summary": "设置全局样式",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.setGlobalStyle",
+        "parameters": [],
+        "requestBody": {
+          "description": "设置全局样式请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "设置全局样式请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.SetGlobalStyleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video/text": {
+      "post": {
+        "summary": "添加文本素材",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.addText",
+        "parameters": [],
+        "requestBody": {
+          "description": "添加文本请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "添加文本请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.AddTextRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video/image": {
+      "post": {
+        "summary": "添加图片素材",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.addImage",
+        "parameters": [],
+        "requestBody": {
+          "description": "添加图片请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "添加图片请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.AddImageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video/video-effect": {
+      "post": {
+        "summary": "添加视频特效",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.addVideoEffect",
+        "parameters": [],
+        "requestBody": {
+          "description": "添加视频特效请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "添加视频特效请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.AddVideoEffectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video/sticker": {
+      "post": {
+        "summary": "添加贴纸素材",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.addSticker",
+        "parameters": [],
+        "requestBody": {
+          "description": "添加贴纸请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "添加贴纸请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.AddStickerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video/face-effect": {
+      "post": {
+        "summary": "添加人脸特效",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.addFaceEffect",
+        "parameters": [],
+        "requestBody": {
+          "description": "添加人脸特效请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "添加人脸特效请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.AddFaceEffectRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    },
+    "/api/video/build": {
+      "post": {
+        "summary": "构建视频",
+        "description": "返回视频构建任务ID，可使用此ID通过接口 GET /api/video-task/{taskId} 查询到构建任务的状态及进度",
+        "operationId": "com.duoec.video.controller.VideoApiController.build",
+        "parameters": [],
+        "requestBody": {
+          "description": "视频工程",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "视频工程",
+                "$ref": "#/components/schemas/com.duoec.video.project.VideoProject"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频构建任务ID",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<Long>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "Not Committed Yet"
+      }
+    },
+    "/api/video/text-template": {
+      "post": {
+        "summary": "添加文本模板素材",
+        "description": "\n\n------------------------\n<b>接口定义：</b><span style='color:red;font-size:18px'>徐文振</span>\n<b>接口提交：</b>2026-01-26 15:37:46\n<b>CommitId：</b>085a3b87",
+        "operationId": "com.duoec.video.controller.VideoApiController.addTextTemplate",
+        "parameters": [],
+        "requestBody": {
+          "description": "添加文本模板请求",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "添加文本模板请求",
+                "$ref": "#/components/schemas/com.duoec.video.dto.request.AddTextTemplateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "视频工程",
+                  "$ref": "#/components/schemas/com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "视频",
+          "视频创作"
+        ],
+        "deprecated": false,
+        "x-apifox-folder": "视频/视频创作",
+        "x-apifox-maintainer": "徐文振"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "com.duoec.video.dto.request.AddStickerRequest": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "持续时间（毫秒）"
+          },
+          "positionY": {
+            "type": "integer",
+            "description": "Y轴位置"
+          },
+          "rotate": {
+            "type": "integer",
+            "description": "旋转角度"
+          },
+          "startTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "scriptIndex": {
+            "type": "integer",
+            "description": "分镜索引"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          },
+          "zoomY": {
+            "type": "integer",
+            "description": "缩放比例Y（万分比，10000表示100%）"
+          },
+          "zoomX": {
+            "type": "integer",
+            "description": "缩放比例X（万分比，10000表示100%）"
+          },
+          "stickerId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "贴纸ID"
+          },
+          "positionX": {
+            "type": "integer",
+            "description": "X轴位置"
+          }
+        },
+        "description": "添加贴纸请求"
+      },
+      "com.duoec.video.project.VideoScript": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "object",
+            "description": "",
+            "$ref": "#/components/schemas/com.duoec.video.project.VideoTimeRange"
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "$ref": "#/components/schemas/com.duoec.video.project.VideoSegment"
+            },
+            "description": ""
+          }
+        }
+      },
+      "com.duoec.video.dto.request.AddVideoEffectRequest": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "持续时间（毫秒）"
+          },
+          "effectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "视频特效ID"
+          },
+          "startTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "scriptIndex": {
+            "type": "integer",
+            "description": "分镜索引"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          }
+        },
+        "description": "添加视频特效请求"
+      },
+      "com.duoec.video.dto.response.VideoTaskResponse": {
+        "type": "object",
+        "properties": {
+          "jyZipUrl": {
+            "type": "string",
+            "description": "剪映工程zip地址"
+          },
+          "videoId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "视频ID"
+          },
+          "taskId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "任务ID"
+          }
+        },
+        "description": ""
+      },
+      "com.duoec.video.dto.request.AddVideoRequest": {
+        "type": "object",
+        "properties": {
+          "rotate": {
+            "type": "integer",
+            "description": "旋转角度"
+          },
+          "materialStart": {
+            "type": "integer",
+            "format": "int64",
+            "description": "素材开始时间（毫秒）"
+          },
+          "visible": {
+            "type": "string",
+            "description": "是否可见"
+          },
+          "layoutIndex": {
+            "type": "integer",
+            "description": "布局索引"
+          },
+          "transitionId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "转场特效ID"
+          },
+          "videoId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "视频资源ID"
+          },
+          "zoomY": {
+            "type": "integer",
+            "description": "缩放比例Y（万分比，10000表示100%）"
+          },
+          "speed": {
+            "type": "integer",
+            "description": "播放速度（百分比，100表示正常速度）"
+          },
+          "zoomX": {
+            "type": "integer",
+            "description": "缩放比例X（万分比，10000表示100%）"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "持续时间（毫秒）"
+          },
+          "volume": {
+            "type": "integer",
+            "description": "音量（-100到100，0表示原音量）"
+          },
+          "materialTimeEnd": {
+            "type": "integer",
+            "format": "int64",
+            "description": "素材时间范围结束（毫秒）"
+          },
+          "horizontal": {
+            "type": "string",
+            "description": "是否水平翻转"
+          },
+          "greenBackground": {
+            "type": "object",
+            "description": "绿幕背景参数（如果指定，表示添加绿幕背景）",
+            "$ref": "#/components/schemas/com.duoec.video.dto.request.GreenBackgroundParam"
+          },
+          "videoUrl": {
+            "type": "string",
+            "description": "视频URL"
+          },
+          "materialTimeStart": {
+            "type": "integer",
+            "format": "int64",
+            "description": "素材时间范围开始（毫秒）"
+          },
+          "startTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "scriptIndex": {
+            "type": "integer",
+            "description": "分镜索引"
+          },
+          "transitionDuration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "转场持续时间（毫秒）"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          },
+          "mask": {
+            "type": "object",
+            "description": "蒙版参数（如果指定，表示添加蒙版）",
+            "$ref": "#/components/schemas/com.duoec.video.dto.request.MaskParam"
+          }
+        },
+        "description": "添加视频请求"
+      },
+      "com.duoec.video.dto.request.AddAudioRequest": {
+        "type": "object",
+        "properties": {
+          "materialStart": {
+            "type": "integer",
+            "format": "int64",
+            "description": "素材开始时间（毫秒）"
+          },
+          "visible": {
+            "type": "string",
+            "description": "是否可见"
+          },
+          "layoutIndex": {
+            "type": "integer",
+            "description": "布局索引"
+          },
+          "audioId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "音频资源ID"
+          },
+          "speed": {
+            "type": "integer",
+            "description": "播放速度（百分比，100表示正常速度）"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "持续时间（毫秒）"
+          },
+          "volume": {
+            "type": "integer",
+            "description": "音量（-100到100，0表示原音量）"
+          },
+          "materialTimeEnd": {
+            "type": "integer",
+            "format": "int64",
+            "description": "素材时间范围结束（毫秒）"
+          },
+          "audioUrl": {
+            "type": "string",
+            "description": "音频URL"
+          },
+          "materialTimeStart": {
+            "type": "integer",
+            "format": "int64",
+            "description": "素材时间范围开始（毫秒）"
+          },
+          "startTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "scriptIndex": {
+            "type": "integer",
+            "description": "分镜索引"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          }
+        },
+        "description": "添加音频请求"
+      },
+      "com.duoec.video.project.VideoPoint": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "integer",
+            "description": ""
+          },
+          "y": {
+            "type": "integer",
+            "description": ""
+          }
+        },
+        "description": ""
+      },
+      "com.duoec.video.project.material.BaseMaterial": {
+        "type": "object",
+        "properties": {
+          "localFile": {
+            "type": "string",
+            "description": ""
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": ""
+          },
+          "type": {
+            "type": "string",
+            "description": ""
+          },
+          "url": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "com.duoec.video.dto.request.GreenBackgroundParam": {
+        "type": "object",
+        "properties": {
+          "chromaStrength": {
+            "type": "integer",
+            "description": "色度键强度"
+          },
+          "chromaHighlight": {
+            "type": "integer",
+            "description": "色度键高光"
+          },
+          "chromaShadow": {
+            "type": "integer",
+            "description": "色度键阴影"
+          },
+          "chromaColor": {
+            "type": "string",
+            "description": "色度键颜色（如：#4e8a1fff）"
+          },
+          "greenScreenId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "绿幕资源ID"
+          },
+          "greenScreenUrl": {
+            "type": "string",
+            "description": "绿幕图片URL"
+          }
+        },
+        "description": "绿幕背景参数（如果指定，表示添加绿幕背景）"
+      },
+      "com.duoec.video.project.VideoProject": {
+        "type": "object",
+        "properties": {
+          "test": {
+            "type": "string",
+            "description": ""
+          },
+          "materials": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "$ref": "#/components/schemas/com.duoec.video.project.material.BaseMaterial"
+            },
+            "description": ""
+          },
+          "createTime": {
+            "type": "integer",
+            "description": ""
+          },
+          "width": {
+            "type": "integer",
+            "description": ""
+          },
+          "fps": {
+            "type": "integer",
+            "description": ""
+          },
+          "updateTime": {
+            "type": "integer",
+            "description": ""
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": ""
+          },
+          "projectName": {
+            "type": "string",
+            "description": ""
+          },
+          "scripts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "$ref": "#/components/schemas/com.duoec.video.project.VideoScript"
+            },
+            "description": ""
+          },
+          "height": {
+            "type": "integer",
+            "description": ""
+          }
+        },
+        "description": ""
+      },
+      "com.duoec.video.project.material.TextStyle": {
+        "type": "object",
+        "properties": {
+          "strokeWidth": {
+            "type": "integer",
+            "description": ""
+          },
+          "shineAngleHorizon": {
+            "type": "integer",
+            "description": ""
+          },
+          "underline": {
+            "type": "string",
+            "description": ""
+          },
+          "backgroundOpacity": {
+            "type": "integer",
+            "description": ""
+          },
+          "italic": {
+            "type": "string",
+            "description": ""
+          },
+          "shineStrength": {
+            "type": "integer",
+            "description": ""
+          },
+          "fillColor": {
+            "type": "string",
+            "description": ""
+          },
+          "shadowWidth": {
+            "type": "integer",
+            "description": ""
+          },
+          "textWordWidth": {
+            "type": "integer",
+            "description": ""
+          },
+          "bend": {
+            "type": "integer",
+            "description": ""
+          },
+          "textLineWidth": {
+            "type": "integer",
+            "description": ""
+          },
+          "strokeColor": {
+            "type": "string",
+            "description": ""
+          },
+          "shadowColor": {
+            "type": "string",
+            "description": ""
+          },
+          "backgroundColor": {
+            "type": "string",
+            "description": ""
+          },
+          "textAlign": {
+            "type": "integer",
+            "description": ""
+          },
+          "backgroundOffsetX": {
+            "type": "integer",
+            "description": ""
+          },
+          "shineAngleVertical": {
+            "type": "integer",
+            "description": ""
+          },
+          "backgroundOffsetY": {
+            "type": "integer",
+            "description": ""
+          },
+          "shineColor": {
+            "type": "string",
+            "description": ""
+          },
+          "flowerId": {
+            "type": "integer",
+            "format": "int64",
+            "description": ""
+          },
+          "bold": {
+            "type": "string",
+            "description": ""
+          },
+          "shadowOpacity": {
+            "type": "integer",
+            "description": ""
+          },
+          "shadowVague": {
+            "type": "integer",
+            "description": ""
+          },
+          "fontName": {
+            "type": "string",
+            "description": ""
+          },
+          "shadowAngle": {
+            "type": "integer",
+            "description": ""
+          },
+          "shineWidth": {
+            "type": "integer",
+            "description": ""
+          },
+          "backgroundHeight": {
+            "type": "integer",
+            "description": ""
+          },
+          "backgroundRadius": {
+            "type": "integer",
+            "description": ""
+          },
+          "backgroundWidth": {
+            "type": "integer",
+            "description": ""
+          },
+          "fontSize": {
+            "type": "integer",
+            "description": ""
+          }
+        },
+        "description": "文本样式"
+      },
+      "com.duoec.video.dto.request.MaskParam": {
+        "type": "object",
+        "properties": {
+          "feather": {
+            "type": "integer",
+            "description": "羽化值"
+          },
+          "centerY": {
+            "type": "number",
+            "description": "中心点Y（0-1之间的小数）"
+          },
+          "pointX": {
+            "type": "integer",
+            "description": "点X坐标"
+          },
+          "centerX": {
+            "type": "number",
+            "description": "中心点X（0-1之间的小数）"
+          },
+          "pointY": {
+            "type": "integer",
+            "description": "点Y坐标"
+          },
+          "rotation": {
+            "type": "integer",
+            "description": "旋转角度"
+          },
+          "width": {
+            "type": "number",
+            "description": "宽度（0-1之间的小数）"
+          },
+          "maskId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "蒙版ID"
+          },
+          "height": {
+            "type": "number",
+            "description": "高度（0-1之间的小数）"
+          }
+        },
+        "description": "蒙版参数（如果指定，表示添加蒙版）"
+      },
+      "com.duoec.video.dto.request.AddTextRequest": {
+        "type": "object",
+        "properties": {
+          "strokeWidth": {
+            "type": "integer",
+            "description": "描边宽度"
+          },
+          "rotate": {
+            "type": "integer",
+            "description": "旋转角度"
+          },
+          "layoutIndex": {
+            "type": "integer",
+            "description": "布局索引"
+          },
+          "length": {
+            "type": "integer",
+            "description": "关键词长度"
+          },
+          "flowerId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "花字ID"
+          },
+          "wordStyles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "$ref": "#/components/schemas/com.duoec.video.dto.request.AddTextRequest.WordStyleRequest"
+            },
+            "description": "关键词样式列表"
+          },
+          "positionX": {
+            "type": "integer",
+            "description": "X轴位置"
+          },
+          "fillColor": {
+            "type": "string",
+            "description": "填充颜色"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "持续时间（毫秒）"
+          },
+          "positionY": {
+            "type": "integer",
+            "description": "Y轴位置"
+          },
+          "asSubtitle": {
+            "type": "string",
+            "description": "是否作为字幕"
+          },
+          "startIndex": {
+            "type": "integer",
+            "description": "关键词起始位置"
+          },
+          "styleId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "样式ID（使用全局样式）"
+          },
+          "fontSize": {
+            "type": "integer",
+            "description": "字体大小"
+          },
+          "startTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "style": {
+            "type": "object",
+            "description": "文本样式",
+            "$ref": "#/components/schemas/com.duoec.video.project.material.TextStyle"
+          },
+          "scriptIndex": {
+            "type": "integer",
+            "description": "分镜索引"
+          },
+          "text": {
+            "type": "string",
+            "description": "文本内容"
+          },
+          "strokeColor": {
+            "type": "string",
+            "description": "描边颜色"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          }
+        },
+        "description": "添加文本请求"
+      },
+      "com.duoec.video.dto.request.AddTextTemplateRequest": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "持续时间（毫秒）"
+          },
+          "positionY": {
+            "type": "integer",
+            "description": "Y轴位置"
+          },
+          "texts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "文本内容列表"
+          },
+          "layoutIndex": {
+            "type": "integer",
+            "description": "布局索引"
+          },
+          "startTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "scriptIndex": {
+            "type": "integer",
+            "description": "分镜索引"
+          },
+          "templateId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "文本模板ID"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          },
+          "zoomY": {
+            "type": "integer",
+            "description": "缩放比例Y（万分比，10000表示100%）"
+          },
+          "zoomX": {
+            "type": "integer",
+            "description": "缩放比例X（万分比，10000表示100%）"
+          },
+          "positionX": {
+            "type": "integer",
+            "description": "X轴位置"
+          }
+        },
+        "description": "添加文本模板请求"
+      },
+      "com.duoec.base.dto.response.BaseResponse<com.duoec.video.dto.response.VideoTaskResponse>": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "description": ""
+          },
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "data": {
+            "type": "object",
+            "description": "",
+            "$ref": "#/components/schemas/com.duoec.video.dto.response.VideoTaskResponse"
+          },
+          "tid": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "com.duoec.video.dto.request.AddFaceEffectRequest": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "持续时间（毫秒）"
+          },
+          "effectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "人脸特效ID"
+          },
+          "startTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "scriptIndex": {
+            "type": "integer",
+            "description": "分镜索引"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          }
+        },
+        "description": "添加人脸特效请求"
+      },
+      "com.duoec.base.dto.response.BaseResponse<Long>": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "description": ""
+          },
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "data": {
+            "type": "integer",
+            "format": "int64",
+            "description": ""
+          },
+          "tid": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "description": "视频构建任务ID"
+      },
+      "com.duoec.video.dto.request.AddTextRequest.WordStyleRequest": {
+        "type": "object",
+        "properties": {
+          "fillColor": {
+            "type": "string",
+            "description": "填充颜色"
+          },
+          "strokeWidth": {
+            "type": "integer",
+            "description": "描边宽度"
+          },
+          "startIndex": {
+            "type": "integer",
+            "description": "关键词起始位置"
+          },
+          "styleId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "样式ID"
+          },
+          "length": {
+            "type": "integer",
+            "description": "关键词长度"
+          },
+          "flowerId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "花字ID"
+          },
+          "fontSize": {
+            "type": "integer",
+            "description": "字体大小"
+          },
+          "strokeColor": {
+            "type": "string",
+            "description": "描边颜色"
+          }
+        }
+      },
+      "com.duoec.video.project.VideoTimeRange": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": ""
+          },
+          "start": {
+            "type": "integer",
+            "format": "int64",
+            "description": ""
+          }
+        },
+        "description": ""
+      },
+      "com.duoec.video.dto.response.VideoTaskDetail": {
+        "type": "object",
+        "properties": {
+          "jyZipUrl": {
+            "type": "string",
+            "description": "剪印工程zip地址"
+          },
+          "videoUrl": {
+            "type": "string",
+            "description": "视频URL"
+          },
+          "retryCount": {
+            "type": "integer",
+            "description": "重试次数"
+          },
+          "taskFinishTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "任务完成时间"
+          },
+          "serverName": {
+            "type": "string",
+            "description": "剪映服务器名称"
+          },
+          "videoId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "视频ID"
+          },
+          "taskInfo": {
+            "type": "string",
+            "description": "当前任务信息"
+          },
+          "priority": {
+            "type": "integer",
+            "description": "优先级，越小越优先，默认1000"
+          },
+          "taskFetchTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "任务领取时间"
+          },
+          "taskUpdateTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "任务状态更新时间"
+          },
+          "taskId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "任务ID"
+          },
+          "status": {
+            "type": "integer",
+            "description": "任务状态"
+          }
+        },
+        "description": ""
+      },
+      "com.duoec.video.dto.request.SetGlobalStyleRequest": {
+        "type": "object",
+        "properties": {
+          "globalKeywordStyle": {
+            "type": "string",
+            "description": "是否设置为全局关键词样式"
+          },
+          "styleId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "样式ID"
+          },
+          "textStyle": {
+            "type": "object",
+            "description": "文本样式",
+            "$ref": "#/components/schemas/com.duoec.video.project.material.TextStyle"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          }
+        },
+        "description": "设置全局样式请求"
+      },
+      "com.duoec.base.dto.response.BaseResponse<com.duoec.video.dto.response.VideoTaskDetail>": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "description": ""
+          },
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "data": {
+            "type": "object",
+            "description": "",
+            "$ref": "#/components/schemas/com.duoec.video.dto.response.VideoTaskDetail"
+          },
+          "tid": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "com.duoec.video.dto.request.CreateProjectRequest": {
+        "type": "object",
+        "properties": {
+          "test": {
+            "type": "string",
+            "description": "是否为测试模式"
+          },
+          "width": {
+            "type": "integer",
+            "description": "视频宽度"
+          },
+          "projectName": {
+            "type": "string",
+            "description": "视频名称"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "视频ID"
+          },
+          "height": {
+            "type": "integer",
+            "description": "视频高度"
+          }
+        },
+        "description": "创建请求"
+      },
+      "com.duoec.base.dto.response.BaseResponse<com.duoec.video.project.VideoProject>": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "description": ""
+          },
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "data": {
+            "type": "object",
+            "description": "",
+            "$ref": "#/components/schemas/com.duoec.video.project.VideoProject"
+          },
+          "tid": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "description": "视频工程"
+      },
+      "com.duoec.video.dto.request.AddSoundRequest": {
+        "type": "object",
+        "properties": {
+          "soundId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "音效ID"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "持续时间（毫秒）"
+          },
+          "startTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "scriptIndex": {
+            "type": "integer",
+            "description": "分镜索引"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          }
+        },
+        "description": "添加音效请求"
+      },
+      "com.duoec.video.project.VideoSegment": {
+        "type": "object",
+        "properties": {
+          "rotate": {
+            "type": "integer",
+            "description": ""
+          },
+          "materialStart": {
+            "type": "integer",
+            "format": "int64",
+            "description": ""
+          },
+          "visible": {
+            "type": "string",
+            "description": ""
+          },
+          "layoutIndex": {
+            "type": "integer",
+            "description": ""
+          },
+          "upend": {
+            "type": "string",
+            "description": ""
+          },
+          "zoom": {
+            "type": "object",
+            "description": "",
+            "$ref": "#/components/schemas/com.duoec.video.project.VideoPoint"
+          },
+          "vertical": {
+            "type": "string",
+            "description": ""
+          },
+          "materialId": {
+            "type": "integer",
+            "format": "int64",
+            "description": ""
+          },
+          "type": {
+            "type": "string",
+            "description": ""
+          },
+          "speed": {
+            "type": "integer",
+            "description": ""
+          },
+          "point": {
+            "type": "object",
+            "description": "",
+            "$ref": "#/components/schemas/com.duoec.video.project.VideoPoint"
+          },
+          "volume": {
+            "type": "integer",
+            "description": ""
+          },
+          "horizontal": {
+            "type": "string",
+            "description": ""
+          },
+          "refs": {
+            "type": "object",
+            "description": ""
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": ""
+          },
+          "time": {
+            "type": "object",
+            "description": "",
+            "$ref": "#/components/schemas/com.duoec.video.project.VideoTimeRange"
+          },
+          "opacity": {
+            "type": "integer",
+            "description": ""
+          }
+        }
+      },
+      "com.duoec.video.dto.request.AddImageRequest": {
+        "type": "object",
+        "properties": {
+          "rotate": {
+            "type": "integer",
+            "description": "旋转角度"
+          },
+          "imageId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "图片资源ID"
+          },
+          "visible": {
+            "type": "string",
+            "description": "是否可见"
+          },
+          "layoutIndex": {
+            "type": "integer",
+            "description": "布局索引"
+          },
+          "vertical": {
+            "type": "string",
+            "description": "是否垂直翻转"
+          },
+          "zoomY": {
+            "type": "integer",
+            "description": "缩放比例Y（万分比，10000表示100%）"
+          },
+          "zoomX": {
+            "type": "integer",
+            "description": "缩放比例X（万分比，10000表示100%）"
+          },
+          "positionX": {
+            "type": "integer",
+            "description": "X轴位置"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64",
+            "description": "持续时间（毫秒）"
+          },
+          "positionY": {
+            "type": "integer",
+            "description": "Y轴位置"
+          },
+          "horizontal": {
+            "type": "string",
+            "description": "是否水平翻转"
+          },
+          "imageUrl": {
+            "type": "string",
+            "description": "图片URL"
+          },
+          "startTime": {
+            "type": "integer",
+            "format": "int64",
+            "description": "开始时间（毫秒）"
+          },
+          "scriptIndex": {
+            "type": "integer",
+            "description": "分镜索引"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "项目ID"
+          }
+        },
+        "description": "添加图片请求"
+      }
+    }
+  },
+  "openapi": "3.1.0"
+}
