@@ -23,6 +23,8 @@ Duo-Video 是一个强大的 Java 视频编辑 SDK，通过简洁优雅的 API �
 > 以 VideoProject 视频工程文件为基础。比剪映文件更加简洁、简化了复杂的本地文件引用，一个json文件就组建起整个视频的框架
 >
 > 更方便AI理解，并通过MCP，供AI Agent的调用，满足AI使用场景
+>
+> AutoJY，以单任务的方式拉取视频任务，控制剪映生成视频。可以通过部署多个剪映生成服务，以支持大批量的视频创作
 
 ```mermaid
 graph LR
@@ -32,8 +34,6 @@ graph LR
     C --> E[生成剪映草稿<br/>视频任务]
     E --> F[AutoJY<br/>领取任务、导出视频]
     F --> G[用户下载<br/>成片视频]
-    C --> H[纯血原生视频生成<br/>不依赖剪映]
-    H --> G
 
     style A fill:#e1f5ff
     style C fill:#fff4e1
@@ -61,7 +61,7 @@ graph LR
 
 
 
-- **剪映自动导出** - 可通过多机部署支持大批量视频生产（目前支持 [MacOS版](auto-jy/auto-jy-mac/README.md)，Windows版本可以生成中...）
+- **剪映自动导出** - 可通过多机部署支持大批量视频生产（目前支持 [MacOS版](auto-jy/auto-jy-mac/README.md)，Windows版本正在疯狂生成中...）
 
 
 

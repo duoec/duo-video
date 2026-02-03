@@ -43,3 +43,4 @@ build/
 tmp/
 
 auto-jy/auto-jy-mac/logs/
+auto-jy/auto-jy-mac/__pycache__/
