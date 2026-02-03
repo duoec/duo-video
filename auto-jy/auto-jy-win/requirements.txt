@@ -1,0 +1,11 @@
+pywin32>=227
+pywin32-ctypes>=0.2.0
+pyautogui>=0.9.52
+pygetwindow>=0.0.9
+keyboard>=0.13.5
+psutil>=5.8.0
+requests>=2.25.1
+Pillow>=8.3.2
+configparser>=5.0.0
+oss2>=2.15.0
+qcloud-cos-v5>=2.6.70

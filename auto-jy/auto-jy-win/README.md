@@ -1,7 +1,7 @@
-# 剪映自动导出系统 (Jianying Auto Export System)
+# 剪映自动导出系统 (Jianying Auto Export System) - Windows版本
 
 [![Python Version](https://img.shields.io/badge/python-3.7+-blue.svg)](https://python.org)
-[![Platform](https://img.shields.io/badge/platform-macOS-lightgrey.svg)](https://www.apple.com/macos/)
+[![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://www.microsoft.com/windows/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 一个功能完整的剪映（CapCut/Jianying）自动化视频处理系统，支持从任务拉取到云存储上传的全流程自动化。
@@ -59,9 +59,9 @@
 
 ### 环境要求
 
-- **操作系统**: macOS 10.15+
+- **操作系统**: Windows 10/11
 - **Python**: 3.7 或更高版本
-- **剪映**: VideoFusion-macOS 或 CapCut for Mac
+- **剪映**: VideoFusion 或 CapCut for Windows
 - **权限**: 屏幕录制权限（用于GUI自动化）
 
 ### 安装依赖
@@ -82,11 +82,10 @@ pip install -e .
 
 **重要**: 本工具需要屏幕录制权限才能进行GUI自动化操作。
 
-1. 打开 **系统偏好设置** → **安全性与隐私** → **隐私**
-2. 在左侧列表中选择 **屏幕录制**
-3. 点击锁图标进行解锁
-4. 勾选您的Python应用或终端应用
-5. 重启程序使权限生效
+1. 打开 **Windows设置** → **隐私** → **屏幕捕获**
+2. 允许应用访问您的屏幕录制
+3. 如果需要，允许桌面应用访问您的屏幕
+4. 确保以管理员权限运行程序（如果需要）
 
 
 
@@ -95,7 +94,7 @@ pip install -e .
 复制并编辑配置文件：
 
 ```bash
-cp app_config.ini my_config.ini
+copy app_config.ini my_config.ini
 ```
 
 编辑 `my_config.ini` 文件：
@@ -106,9 +105,9 @@ base_url = http://your-api-server:17026
 interval = 3
 
 [jianying]
-app_path = /Applications/VideoFusion-macOS.app
-drafts_path = /Users/username/Movies/JianyingPro/User Data/Projects/com.lveditor.draft
-exports_path = ~/Downloads/video
+app_path = C:\Program Files\VideoFusion\VideoFusion.exe
+drafts_path = C:\Users\username\Videos\JianyingPro\User Data\Projects\com.lveditor.draft
+exports_path = C:\Users\username\Downloads\video
 
 [upload]
 storage = oss
@@ -133,7 +132,7 @@ region = ap-beijing
 #### 使用启动脚本（推荐）
 
 ```bash
-./run.sh my_config.ini
+run.bat my_config.ini
 ```
 
 #### 直接运行Python程序
@@ -145,16 +144,16 @@ python pipeline_manager.py my_config.ini
 ## 📁 项目结构
 
 ```
-auto-jy-mac/
+auto-jy-win/
 ├── README.md                          # 项目说明文档
 ├── requirements.txt                    # Python依赖列表
 ├── app_config.ini                     # 配置文件示例
-├── run.sh                             # 启动脚本
+├── run.bat                            # 启动脚本 (Windows版本)
 │
 ├── core modules/
 │   ├── pipeline_manager.py            # 流水线管理器
 │   ├── api_client.py                  # API客户端
-│   ├── jianying_exporter.py           # 剪映自动化引擎
+│   ├── jianying_exporter.py           # 剪映自动化引擎 (Windows版本)
 │   ├── upload_handler.py              # 上传处理器
 │   ├── download_extractor.py          # 下载解压模块
 │   └── logger.py                      # 日志系统
@@ -184,9 +183,9 @@ interval = 3                         # 检测间隔（秒）
 
 ```ini
 [jianying]
-app_path = /Applications/VideoFusion-macOS.app    # 剪映应用程序路径
-drafts_path = /path/to/drafts                     # 草稿存储目录
-exports_path = ~/Downloads/video                  # 导出文件目录
+app_path = C:\Program Files\VideoFusion\VideoFusion.exe    # 剪映应用程序路径
+drafts_path = C:\path\to\drafts                              # 草稿存储目录
+exports_path = C:\Users\username\Downloads\video            # 导出文件目录
 ```
 
 ### 上传配置
@@ -225,12 +224,12 @@ region = ap-beijing
 核心依赖：
 
 ```
-pyobjc-framework-Quartz>=7.0    # macOS GUI框架
+pywin32>=227                   # Windows API框架
+pywin32-ctypes>=0.2.0          # Windows API类型库
 pyautogui>=0.9.52              # GUI自动化
 pygetwindow>=0.0.9             # 窗口管理
 keyboard>=0.13.5               # 键盘模拟
 psutil>=5.8.0                  # 进程管理
-appscript>=1.2.2               # AppleScript桥接
 requests>=2.25.1               # HTTP客户端
 Pillow>=8.3.2                  # 图像处理
 oss2>=2.15.0                   # 阿里云OSS SDK
@@ -295,11 +294,11 @@ qcloud-cos-v5>=2.6.70          # 腾讯云COS SDK
 
 **Q: 无法激活剪映窗口**
 
-A: 检查剪映应用程序路径配置是否正确，确保应用程序已安装。
+A: 检查剪映应用程序路径配置是否正确，确保应用程序已安装。以管理员权限运行程序。
 
 **Q: 图像识别失败**
 
-A: 确保 `images/` 目录中有正确的图像文件，检查屏幕分辨率是否匹配。
+A: 确保 `images/` 目录中有正确的图像文件，检查屏幕分辨率和DPI缩放设置是否匹配。
 
 **Q: 导出超时**
 
@@ -309,12 +308,16 @@ A: 检查导出目录路径是否正确，确保有足够磁盘空间。
 
 A: 验证OSS/COS配置是否正确，检查网络连接和权限。
 
+**Q: pywin32模块导入失败**
+
+A: 运行 `python -m pip install --upgrade pywin32`，然后运行 `python Scripts/pywin32_postinstall.py -install`
+
 ### 日志调试
 
 查看详细日志：
 
 ```bash
-tail -f logs/$(date +%Y%m%d).log
+type logs\%date:~0,4%%date:~5,2%%date:~8,2%.log
 ```
 
 启用调试模式：
@@ -325,7 +328,10 @@ tail -f logs/$(date +%Y%m%d).log
 
 本项目采用 MIT 许可证。
 
+## 🔄 版本历史
 
+- **Windows版本**: 从Mac版本迁移，支持Windows 10/11平台
+- **Mac版本**: 原始版本，支持macOS 10.15+
 
 ---
 
