@@ -44,6 +44,8 @@ tmp/
 
 auto-jy/auto-jy-mac/logs/
 auto-jy/auto-jy-mac/__pycache__/
+auto-jy/auto-jy-mac/release/
+auto-jy/auto-jy-mac/dist/
 
 auto-jy/auto-jy-win/logs/
 auto-jy/auto-jy-win/__pycache__/
