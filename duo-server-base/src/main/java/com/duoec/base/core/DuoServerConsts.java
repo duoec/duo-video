@@ -51,6 +51,7 @@ public class DuoServerConsts {
     public static final String STR_SECRET_ID = "x-secret-id";
     public static final String STR_TIMESTAMP = "x-timestamp";
     public static final String STR_SIGNATURE = "x-signature";
+    public static final String STR_APP_ID = "app-id";
 
     /**
      * 以下为char常量

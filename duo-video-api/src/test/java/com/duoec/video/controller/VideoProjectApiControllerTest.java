@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest(classes = com.duoec.video.TestConfiguration.class)
 @AutoConfigureMockMvc
-class VideoApiControllerTest {
+class VideoProjectApiControllerTest {
     static {
         JianyingBuilder.storageService = new StorageServiceImpl();
         JianyingProjectBuildState.DEBUG_JY_DRAFT_DIR = "/Users/xuwenzhen/Movies/JianyingPro/User Data/Projects/com.lveditor.draft/";
@@ -84,7 +84,7 @@ class VideoApiControllerTest {
         globalStyleRequest.setTextStyle(textStyle);
         globalStyleRequest.setGlobalKeywordStyle(true);
 
-        MvcResult styleResult = mockMvc.perform(post("/api/video/global-style")
+        MvcResult styleResult = mockMvc.perform(post("/api/project/global-style")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(globalStyleRequest)))
                 .andExpect(status().isOk())
@@ -115,7 +115,7 @@ class VideoApiControllerTest {
         imageRequest.setHorizontal(true);
         imageRequest.setVertical(true);
 
-        MvcResult imageResult = mockMvc.perform(post("/api/video/image")
+        MvcResult imageResult = mockMvc.perform(post("/api/project/image")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(imageRequest)))
                 .andExpect(status().isOk())
@@ -158,7 +158,7 @@ class VideoApiControllerTest {
         greenBackground1.setChromaHighlight(10);
         video1Request.setGreenBackground(greenBackground1);
 
-        MvcResult video1Result = mockMvc.perform(post("/api/video/video")
+        MvcResult video1Result = mockMvc.perform(post("/api/project/video")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(video1Request)))
                 .andExpect(status().isOk())
@@ -212,7 +212,7 @@ class VideoApiControllerTest {
         mask.setPointY(400);
         video2Request.setMask(mask);
 
-        MvcResult video2Result = mockMvc.perform(post("/api/video/video")
+        MvcResult video2Result = mockMvc.perform(post("/api/project/video")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(video2Request)))
                 .andExpect(status().isOk())
@@ -241,7 +241,7 @@ class VideoApiControllerTest {
         audioRequest.setVisible(true);
         audioRequest.setVolume(-50);
 
-        MvcResult audioResult = mockMvc.perform(post("/api/video/audio")
+        MvcResult audioResult = mockMvc.perform(post("/api/project/audio")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(audioRequest)))
                 .andExpect(status().isOk())
@@ -262,7 +262,7 @@ class VideoApiControllerTest {
         videoEffectRequest.setStartTime(5000L);
         videoEffectRequest.setDuration(3000L);
 
-        MvcResult videoEffectResult = mockMvc.perform(post("/api/video/video-effect")
+        MvcResult videoEffectResult = mockMvc.perform(post("/api/project/video-effect")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(videoEffectRequest)))
                 .andExpect(status().isOk())
@@ -283,7 +283,7 @@ class VideoApiControllerTest {
         faceEffectRequest.setStartTime(1500L);
         faceEffectRequest.setDuration(1000L);
 
-        MvcResult faceEffectResult = mockMvc.perform(post("/api/video/face-effect")
+        MvcResult faceEffectResult = mockMvc.perform(post("/api/project/face-effect")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(faceEffectRequest)))
                 .andExpect(status().isOk())
@@ -318,7 +318,7 @@ class VideoApiControllerTest {
         video3Request.setTransitionId(270404457990455297L);
         video3Request.setTransitionDuration(1000L);
 
-        MvcResult video3Result = mockMvc.perform(post("/api/video/video")
+        MvcResult video3Result = mockMvc.perform(post("/api/project/video")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(video3Request)))
                 .andExpect(status().isOk())
@@ -372,7 +372,7 @@ class VideoApiControllerTest {
 
         text1Request.setWordStyles(List.of(word1, word2));
 
-        MvcResult text1Result = mockMvc.perform(post("/api/video/text")
+        MvcResult text1Result = mockMvc.perform(post("/api/project/text")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(text1Request)))
                 .andExpect(status().isOk())
@@ -406,7 +406,7 @@ class VideoApiControllerTest {
         word3.setFlowerId(270413717936603137L);
         text2Request.setWordStyles(List.of(word3));
 
-        MvcResult text2Result = mockMvc.perform(post("/api/video/text")
+        MvcResult text2Result = mockMvc.perform(post("/api/project/text")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(text2Request)))
                 .andExpect(status().isOk())
@@ -433,7 +433,7 @@ class VideoApiControllerTest {
         textTemplateRequest.setPositionX(0);
         textTemplateRequest.setPositionY(1400);
 
-        MvcResult textTemplateResult = mockMvc.perform(post("/api/video/text-template")
+        MvcResult textTemplateResult = mockMvc.perform(post("/api/project/text-template")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(textTemplateRequest)))
                 .andExpect(status().isOk())
@@ -454,7 +454,7 @@ class VideoApiControllerTest {
         soundRequest.setStartTime(1000L);
         soundRequest.setDuration(3000L);
 
-        MvcResult soundResult = mockMvc.perform(post("/api/video/sound")
+        MvcResult soundResult = mockMvc.perform(post("/api/project/sound")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(soundRequest)))
                 .andExpect(status().isOk())
@@ -480,7 +480,7 @@ class VideoApiControllerTest {
         stickerRequest.setPositionY(0);
         stickerRequest.setRotate(-45);
 
-        MvcResult stickerResult = mockMvc.perform(post("/api/video/sticker")
+        MvcResult stickerResult = mockMvc.perform(post("/api/project/sticker")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtils.toJsonString(stickerRequest)))
                 .andExpect(status().isOk())

@@ -240,6 +240,7 @@ X- ←--(0,0)--→ X+
         {
             "id": 535010997887571046, // 全局唯一。生成剪映工程时会将它作为临时文件名，如果重复，视频引用会乱掉！
             "url": "https://api.duoec.com/public/video/535010997887571046.mov",
+          	//"url": "file:///Users/xuwenzhen/Downloads/535010997887571046.mov", # 支持本地文件
             "type": "video"
         }
     ]
@@ -582,11 +583,11 @@ JianyingProjectBuildState.DEBUG_JY_DRAFT_DIR = "/Users/xuwenzhen/Movies/Jianying
 
 如果你已经注册且分配了 secretKey，请在环境变量里配置。如果没有配置，只能使用公开的资源
 
-| 环境变量       | 说明                    | 备注         |
-| -------------- | ----------------------- | ------------ |
-| DUO_SECRET_ID  | 接口签名加密 SECRET_ID  |              |
-| DUO_SECRET_KEY | 接口签名加密 SECRET_KEY |              |
-| DUO_SERVER     | 资源服务器地址          | 默认无需设置 |
+| 环境变量       | 说明                    | 默认值                                 | 备注         |
+| -------------- | ----------------------- | -------------------------------------- | ------------ |
+| DUO_SECRET_ID  | 接口签名加密 SECRET_ID  | https://api.duoec.com/api/jy/resource/ |              |
+| DUO_SECRET_KEY | 接口签名加密 SECRET_KEY | 19VqabFma6s39M3Y                       |              |
+| DUO_SERVER     | 资源服务器地址          | b2c3d4e55f2f6g7h8i9j0k1l2m3n4o5p       | 默认无需设置 |
 
 
 
@@ -752,7 +753,7 @@ Content-Type: application/json
 ##### 2. 设置全局文本样式
 
 ```bash
-POST /api/video/global-style
+POST /api/project/global-style
 Content-Type: application/json
 
 {
@@ -775,7 +776,7 @@ Content-Type: application/json
 ##### 3. 添加图片素材
 
 ```bash
-POST /api/video/image
+POST /api/project/image
 Content-Type: application/json
 
 {
@@ -800,7 +801,7 @@ Content-Type: application/json
 ##### 4. 添加视频素材（支持绿幕和蒙版）
 
 ```bash
-POST /api/video/video
+POST /api/project/video
 Content-Type: application/json
 
 {
@@ -848,7 +849,7 @@ Content-Type: application/json
 ##### 5. 添加音频素材
 
 ```bash
-POST /api/video/audio
+POST /api/project/audio
 Content-Type: application/json
 
 {
@@ -871,7 +872,7 @@ Content-Type: application/json
 ##### 6. 添加文本/字幕
 
 ```bash
-POST /api/video/text
+POST /api/project/text
 Content-Type: application/json
 
 {
@@ -919,7 +920,7 @@ Content-Type: application/json
 ##### 7. 添加文本模板
 
 ```bash
-POST /api/video/text-template
+POST /api/project/text-template
 Content-Type: application/json
 
 {
@@ -940,7 +941,7 @@ Content-Type: application/json
 ##### 8. 添加贴纸
 
 ```bash
-POST /api/video/sticker
+POST /api/project/sticker
 Content-Type: application/json
 
 {
@@ -960,7 +961,7 @@ Content-Type: application/json
 ##### 9. 添加画面特效
 
 ```bash
-POST /api/video/video-effect
+POST /api/project/video-effect
 Content-Type: application/json
 
 {
@@ -975,7 +976,7 @@ Content-Type: application/json
 ##### 10. 添加人脸特效
 
 ```bash
-POST /api/video/face-effect
+POST /api/project/face-effect
 Content-Type: application/json
 
 {
@@ -990,7 +991,7 @@ Content-Type: application/json
 ##### 11. 添加音效
 
 ```bash
-POST /api/video/sound
+POST /api/project/sound
 Content-Type: application/json
 
 {
@@ -1019,7 +1020,7 @@ curl -X POST http://localhost:8080/api/video \
   }'
 
 # 2. 添加视频素材
-curl -X POST http://localhost:8080/api/video/video \
+curl -X POST http://localhost:8080/api/project/video \
   -H "Content-Type: application/json" \
   -d '{
     "projectId": 123456789,
@@ -1032,7 +1033,7 @@ curl -X POST http://localhost:8080/api/video/video \
   }'
 
 # 3. 添加文本
-curl -X POST http://localhost:8080/api/video/text \
+curl -X POST http://localhost:8080/api/project/text \
   -H "Content-Type: application/json" \
   -d '{
     "projectId": 123456789,

@@ -20,13 +20,14 @@ import java.util.Map;
 import java.util.Optional;
 
 public class DuoApiUtils {
-    public static String BASE_JY_RESOURCE_API = "https://api.duoec.com/api/jy/resource/";
+    public static String BASE_JY_RESOURCE_API;
     private static final String SECRET_ID;
     private static final String SECRET_KEY;
 
     static {
-        SECRET_ID = Optional.ofNullable(System.getenv("DUO_API_KEY")).orElse(DuoServerConsts.EMPTY_STR);
-        SECRET_KEY = Optional.ofNullable(System.getenv("DUO_SECRET_KEY")).orElse(DuoServerConsts.EMPTY_STR);
+        BASE_JY_RESOURCE_API = Optional.ofNullable(System.getenv("DUO_SERVER")).orElse("https://api.duoec.com/api/jy/resource/");
+        SECRET_ID = Optional.ofNullable(System.getenv("DUO_API_KEY")).orElse("19VqabFma6s39M3Y");
+        SECRET_KEY = Optional.ofNullable(System.getenv("DUO_SECRET_KEY")).orElse("b2c3d4e55f2f6g7h8i9j0k1l2m3n4o5p");
     }
 
     /**
@@ -96,6 +97,7 @@ public class DuoApiUtils {
 
             // 构建HTTP请求
             HttpRequest.Builder urlBuilder = HttpRequest.newBuilder()
+                    .header(DuoServerConsts.STR_APP_ID, "duo-video")
                     .timeout(Duration.ofSeconds(30))
                     .uri(URI.create(url));
             if (StringUtils.hasLength(SECRET_ID)) {

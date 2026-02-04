@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @section 视频创作
  */
 @RestController
-@RequestMapping("/api/video")
+@RequestMapping("/api/project")
 @RequiredArgsConstructor
-public class VideoApiController {
+public class VideoProjectApiController {
     private final VideoProjectService videoProjectService;
 
     /**
