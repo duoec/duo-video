@@ -8,9 +8,6 @@
 
 ### 环境准备
 ```bash
-# 激活Python环境
-conda activate python3_12
-
 # 安装依赖
 pip install -r requirements.txt
 ```
