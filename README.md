@@ -583,11 +583,11 @@ JianyingProjectBuildState.DEBUG_JY_DRAFT_DIR = "/Users/xuwenzhen/Movies/Jianying
 
 如果你已经注册且分配了 secretKey，请在环境变量里配置。如果没有配置，只能使用公开的资源
 
-| 环境变量       | 说明                    | 默认值                                 | 备注         |
-| -------------- | ----------------------- | -------------------------------------- | ------------ |
-| DUO_SECRET_ID  | 接口签名加密 SECRET_ID  | https://api.duoec.com/api/jy/resource/ |              |
-| DUO_SECRET_KEY | 接口签名加密 SECRET_KEY | 19VqabFma6s39M3Y                       |              |
-| DUO_SERVER     | 资源服务器地址          | b2c3d4e55f2f6g7h8i9j0k1l2m3n4o5p       | 默认无需设置 |
+| 环境变量       | 说明                    | 默认值                                 |
+| -------------- | ----------------------- | -------------------------------------- |
+| DUO_SECRET_ID  | 接口签名加密 SECRET_ID  | https://api.duoec.com/api/jy/resource/ |
+| DUO_SECRET_KEY | 接口签名加密 SECRET_KEY | 19VqabFma6s39M3Y                       |
+| DUO_SERVER     | 资源服务器地址          | b2c3d4e55f2f6g7h8i9j0k1l2m3n4o5p       |
 
 
 

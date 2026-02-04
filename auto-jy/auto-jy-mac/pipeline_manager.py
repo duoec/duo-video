@@ -34,6 +34,19 @@ class PipelineManager:
         """
         self.config = self.load_config(config_path)
         self.running = True
+        self.paused = False
+
+        # 初始化进度跟踪变量
+        self.last_download_filename = None
+        self.last_download_percent = 0.0
+        self.last_download_speed = 0.0
+        self.last_upload_filename = None
+        self.last_upload_percent = 0.0
+        self.last_upload_speed = 0.0
+
+        # 初始化任务状态跟踪
+        self.current_task_id = None
+        self.current_task_status = 0  # 0=等待处理
         
     def load_config(self, config_path: str) -> dict:
         """
@@ -110,8 +123,13 @@ class PipelineManager:
 
             if success and task_data:
                 self.task_id = task_data.get('taskId', task_data.get('videoId', None))
+                self.current_task_id = self.task_id
+                self.current_task_status = 10  # 任务已领取
                 return task_data
             elif success and not task_data:
+                # 没有任务时，设置为空闲状态
+                self.current_task_id = None
+                self.current_task_status = 0
                 # 推送状态：0=等待处理
                 # 注意：只有当有任务ID时才上报状态，如果没有任务则不报状态
                 time.sleep(interval)
@@ -166,6 +184,9 @@ class PipelineManager:
 
             success = exporter.run_full_process()
             if success:
+                # 更新任务状态
+                self.current_task_status = 14  # 生成视频
+
                 # 构建视频文件路径
                 exports_path = os.path.expanduser(self.config['exports_path'])
 
@@ -173,12 +194,16 @@ class PipelineManager:
                 for ext in ['.mp4', '.mov']:
                     potential_path = os.path.join(exports_path, f"{video_id}{ext}")
                     if os.path.exists(potential_path):
+                        # 更新任务状态为导出完成
+                        self.current_task_status = 100
                         return potential_path
 
                 # 如果找不到视频文件，返回 None
                 error(f"导出成功但未找到视频文件: {video_id}")
+                self.current_task_status = -11  # 任务失败
                 return None
             else:
+                self.current_task_status = -11  # 任务失败
                 return None
         except Exception as e:
             error(f"执行导出流程时发生错误: {e}")
@@ -214,8 +239,14 @@ class PipelineManager:
                 video_key_prefix = video_key_prefix.rstrip('/')
             storage_key = f"{video_key_prefix}/{video_file_name}"
 
+            # 创建上传进度回调函数
+            def upload_progress(filename, percent, speed):
+                self.last_upload_filename = filename
+                self.last_upload_percent = percent
+                self.last_upload_speed = speed
+
             uploader = UploadHandler(self.config)
-            success, file_url, message = uploader.upload_video(video_file_path, storage_key)
+            success, file_url, message = uploader.upload_video(video_file_path, storage_key, upload_progress)
 
             if success and file_url:
                 # 通过API上报任务完成状态
@@ -424,6 +455,11 @@ class PipelineManager:
 
         while self.running:
             try:
+                # 检查是否处于暂停状态
+                if self.paused:
+                    time.sleep(1)
+                    continue
+
                 # Pipeline1: 检测API接口
                 task_data = self.get_video_task()
 
@@ -438,7 +474,13 @@ class PipelineManager:
                     task_id = task_data.get('taskId')
 
                     # Pipeline2: 下载并解压资源
-                    download_success = download_and_extract(self.config, jy_zip_url, task_id)
+                    # 创建全局进度回调函数
+                    def download_progress(filename, percent, speed):
+                        self.last_download_filename = filename
+                        self.last_download_percent = percent
+                        self.last_download_speed = speed
+
+                    download_success = download_and_extract(self.config, jy_zip_url, task_id, download_progress)
 
                     if download_success:
                         # Pipeline3: 执行导出流程

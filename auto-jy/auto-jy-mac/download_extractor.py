@@ -9,6 +9,7 @@ import zipfile
 import tempfile
 import requests
 import shutil
+import time
 from typing import Dict, Any
 
 # 导入日志模块
@@ -16,7 +17,7 @@ from logger import logger, info, error, warning, debug
 from api_client import APIClient
 
 
-def download_and_extract(config: Dict[str, Any], jyZipUrl: str, task_id: str = None) -> bool:
+def download_and_extract(config: Dict[str, Any], jyZipUrl: str, task_id: str = None, progress_callback=None) -> bool:
     """
     下载并解压任务资源
     下载 jyZipUrl 上的zip，并解压到 config[drafts_path]
@@ -24,6 +25,7 @@ def download_and_extract(config: Dict[str, Any], jyZipUrl: str, task_id: str = N
     :param config: 配置字典
     :param jyZipUrl: ZIP文件的下载链接
     :param task_id: 任务ID，用于向服务器报告进度
+    :param progress_callback: 进度回调函数，接收参数 (filename, percent, speed)
     :return: 是否成功下载并解压
     """
     try:
@@ -39,8 +41,8 @@ def download_and_extract(config: Dict[str, Any], jyZipUrl: str, task_id: str = N
             error("jyZipUrl 参数不能为空")
             return False
 
-        # 下载ZIP文件
-        response = requests.get(zip_url)
+        # 下载ZIP文件（流式下载以支持进度追踪）
+        response = requests.get(zip_url, stream=True)
         if response.status_code != 200:
             error(f"下载ZIP文件失败，HTTP状态码: {response.status_code}")
 
@@ -53,10 +55,44 @@ def download_and_extract(config: Dict[str, Any], jyZipUrl: str, task_id: str = N
 
             return False
 
+        # 获取文件总大小
+        total_size = int(response.headers.get('content-length', 0))
+        filename = os.path.basename(zip_url.split('?')[0]) or "resource.zip"
+
         # 创建临时文件保存ZIP
         with tempfile.NamedTemporaryFile(delete=False, suffix='.zip') as temp_zip:
-            temp_zip.write(response.content)
             temp_zip_path = temp_zip.name
+            downloaded_size = 0
+            last_update_time = time.time()
+            last_downloaded_size = 0
+
+            # 流式写入文件
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    temp_zip.write(chunk)
+                    downloaded_size += len(chunk)
+
+                    # 计算进度和速度
+                    if total_size > 0:
+                        percent = (downloaded_size / total_size) * 100
+
+                        # 计算下载速度（每2秒更新一次）
+                        current_time = time.time()
+                        if current_time - last_update_time >= 2:
+                            time_delta = current_time - last_update_time
+                            size_delta = downloaded_size - last_downloaded_size
+                            speed = size_delta / time_delta if time_delta > 0 else 0
+
+                            # 调用进度回调
+                            if progress_callback:
+                                progress_callback(filename, percent, speed)
+
+                            last_update_time = current_time
+                            last_downloaded_size = downloaded_size
+
+            # 最终进度更新到100%
+            if progress_callback:
+                progress_callback(filename, 100.0, 0)
 
         # 推送状态：11=下载完成
         if task_id:

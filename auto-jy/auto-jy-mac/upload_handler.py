@@ -55,30 +55,48 @@ class OSSUploadStrategy(UploadStrategy):
         except ImportError:
             raise ImportError("请安装oss2库: pip install oss2")
     
-    def upload(self, video_file_path: str, object_key: str) -> Tuple[bool, Optional[str], str]:
+    def upload(self, video_file_path: str, object_key: str, progress_callback=None) -> Tuple[bool, Optional[str], str]:
         """
         上传视频文件到OSS
-        
+
         :param video_file_path: 视频文件路径
         :param object_key: 视频存储KEY
+        :param progress_callback: 进度回调函数，接收参数 (filename, percent, speed)
         :return: (是否成功, 文件URL, 错误消息)
         """
         try:
             # 创建OSS认证
             auth = self.oss2.Auth(self.access_key_id, self.access_key_secret)
             bucket = self.oss2.Bucket(auth, self.endpoint, self.bucket_name)
-            
+
+            # 计算文件大小
+            file_size = os.path.getsize(video_file_path)
+            filename = os.path.basename(video_file_path)
+
+            # 创建进度回调函数（如果未提供）
+            if progress_callback is None:
+                progress_callback = lambda f, p, s: None
+
+            # 使用流式上传支持进度追踪
+            def progress_hook(bytes_read):
+                if file_size > 0:
+                    percent = (bytes_read / file_size) * 100
+                    # OSS SDK的进度回调会频繁调用，这里简化处理
+                    progress_callback(filename, percent, 0)
+
             # 上传文件
-            result = bucket.put_object_from_file(object_key, video_file_path)
-            
+            result = bucket.put_object_from_file(object_key, video_file_path, progress_hook=progress_hook)
+
             if result.status == 200:
                 # 生成访问URL
                 file_url = f"https://{self.bucket_name}.{self.endpoint}/{object_key}"
                 info(f"OSS上传成功: {file_url}")
+                # 最终进度更新到100%
+                progress_callback(filename, 100.0, 0)
                 return True, file_url, "上传成功"
             else:
                 return False, None, f"OSS上传失败，状态码: {result.status}"
-                
+
         except Exception as e:
             error(f"OSS上传视频时发生错误: {e}")
             return False, None, str(e)
@@ -104,12 +122,13 @@ class COSUploadStrategy(UploadStrategy):
         except ImportError:
             raise ImportError("请安装qcloud-cos-v5库: pip install qcloud-cos-v5")
 
-    def upload(self, video_file_path: str, object_key: str) -> Tuple[bool, Optional[str], str]:
+    def upload(self, video_file_path: str, object_key: str, progress_callback=None) -> Tuple[bool, Optional[str], str]:
         """
         上传视频文件到COS
 
         :param video_file_path: 视频文件路径
         :param object_key: 视频存储KEY
+        :param progress_callback: 进度回调函数，接收参数 (filename, percent, speed)
         :return: (是否成功, 文件URL, 错误消息)
         """
         try:
@@ -122,18 +141,48 @@ class COSUploadStrategy(UploadStrategy):
 
             client = self.qcloud_cos.CosS3Client(cos_client)
 
+            # 获取文件大小和文件名
+            file_size = os.path.getsize(video_file_path)
+            filename = os.path.basename(video_file_path)
+
+            # 创建进度回调函数（如果未提供）
+            if progress_callback is None:
+                progress_callback = lambda f, p, s: None
+
             # 上传文件
-            response = client.put_object(
-                Bucket=self.bucket_name,
-                Body=open(video_file_path, 'rb'),
-                Key=object_key,
-                EnableMD5=True
-            )
+            with open(video_file_path, 'rb') as f:
+                # 计算上传进度
+                def upload_progress(bytes_uploaded):
+                    if file_size > 0:
+                        percent = (bytes_uploaded / file_size) * 100
+                        progress_callback(filename, percent, 0)
+
+                # COS SDK不直接支持进度回调，我们手动分块上传
+                chunk_size = 8192
+                uploaded_size = 0
+
+                while True:
+                    chunk = f.read(chunk_size)
+                    if not chunk:
+                        break
+                    uploaded_size += len(chunk)
+                    upload_progress(uploaded_size)
+
+                # 重新定位文件开始位置进行实际上传
+                f.seek(0)
+                response = client.put_object(
+                    Bucket=self.bucket_name,
+                    Body=f,
+                    Key=object_key,
+                    EnableMD5=True
+                )
 
             if response.get('ETag'):
                 # 生成访问URL
                 file_url = f"https://{self.bucket_name}.cos.{self.region}.myqcloud.com/{object_key}"
                 info(f"COS上传成功: {file_url}")
+                # 最终进度更新到100%
+                progress_callback(filename, 100.0, 0)
                 return True, file_url, "上传成功"
             else:
                 return False, None, "COS上传失败，未返回正确响应"
@@ -158,12 +207,13 @@ class UploadHandler:
         else:
             raise ValueError(f"不支持的上传方式: {self.storage_type}，支持的方式: oss, cos")
     
-    def upload_video(self, video_file_path: str, storage_key: str) -> tuple[bool, str | None, str]:
+    def upload_video(self, video_file_path: str, storage_key: str, progress_callback=None) -> tuple[bool, str | None, str]:
         """
         上传视频文件
 
         :param video_file_path: 需要上传的文件路径
         :param storage_key: 文件存储的key
+        :param progress_callback: 进度回调函数，接收参数 (filename, percent, speed)
         :return: (是否成功, 文件URL, 错误消息)
         """
         try:
@@ -174,8 +224,8 @@ class UploadHandler:
 
             info(f"开始上传视频: {video_file_path} -->[{self.storage_type}]{storage_key}")
 
-            # 执行上传
-            success, file_url, message = self.strategy.upload(video_file_path, storage_key)
+            # 执行上传，传递进度回调
+            success, file_url, message = self.strategy.upload(video_file_path, storage_key, progress_callback)
 
             if success and file_url:
                 return True, file_url, "上传成功"

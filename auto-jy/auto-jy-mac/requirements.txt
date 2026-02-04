@@ -9,3 +9,6 @@ Pillow>=8.3.2
 configparser>=5.0.0
 oss2>=2.15.0
 qcloud-cos-v5>=2.6.70
+PyQt6>=6.10.0
+PyQt6-Qt6>=6.10.0
+PyQt6-sip>=13.8.0

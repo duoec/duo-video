@@ -99,7 +99,8 @@ class JianyingAutoExporter:
                 break
 
             # 否则等待一段时间后重试
-            debug(f"第 {attempt + 1} 次尝试未找到图像，等待 {retry_delay} 秒后重试...")
+            if debug:
+                info(f"第 {attempt + 1} 次尝试未找到图像，等待 {retry_delay} 秒后重试...")
             time.sleep(retry_delay)
 
         return None, None
@@ -107,38 +108,54 @@ class JianyingAutoExporter:
     def _detect_and_select_draft(self) -> bool:
         """
         检测是否存在项目，如果存在，则点击第一个草稿
+        循环检测多次，直到找到草稿或达到最大尝试次数
 
         :return: 是否成功选择草稿
         """
 
-        # 激活剪映窗口并置顶 - 使用统一的applescript调用方式
-        self._activate_jianying_window()
+        max_attempts = 10  # 增加最大尝试次数
+        attempt_count = 0
 
-        # 尝试通过图像识别查找草稿
-        draft_images = [
-            # "images/draft_3.jpg",
-            "images/draft_1.jpg",
-            "images/draft_2.png"
-        ]
-
-        # 使用通用图像识别方法，在指定区域内搜索
-        center, found_img_path = self._find_image_with_confidence(draft_images, debug=False, retries=3, retry_delay=1)
-
-        if center is not None:
-            # 找到图像，获取中心坐标
-            # 再次激活剪映窗口并置顶 - 使用统一的方法
+        while attempt_count < max_attempts:
+            # 激活剪映窗口并置顶 - 使用统一的applescript调用方式
             self._activate_jianying_window()
 
-            # 对于Retina显示屏，需要转换坐标
-            adjusted_center = self._adjust_coordinates_for_retina(center)
+            # 尝试通过图像识别查找草稿
+            draft_images = [
+                # "images/draft_3.jpg",
+                "images/draft_1.jpg",
+                "images/draft_2.png"
+            ]
 
-            # 点击之前找到的图像中心位置
-            pyautogui.click(adjusted_center)
-            return True
-        else:
-            # 图像识别失败，直接返回失败
-            error("草稿图像识别失败，操作终止")
-            return False
+            # 使用通用图像识别方法，在指定区域内搜索
+            # 减少重试次数和延时，加快检测速度
+            center, found_img_path = self._find_image_with_confidence(
+                draft_images,
+                debug=False,
+                retries=3,  # 减少重试次数
+                retry_delay=1  # 减少延时
+            )
+
+            if center is not None:
+                # 找到图像，获取中心坐标
+                # 再次激活剪映窗口并置顶 - 使用统一的方法
+                self._activate_jianying_window()
+
+                # 对于Retina显示屏，需要转换坐标
+                adjusted_center = self._adjust_coordinates_for_retina(center)
+
+                # 点击之前找到的图像中心位置
+                pyautogui.click(adjusted_center)
+                info(f"成功选择草稿，第 {attempt_count + 1} 次尝试")
+                return True
+            else:
+                attempt_count += 1
+                info(f"草稿检测失败，正在进行第 {attempt_count}/{max_attempts} 次尝试...")
+                time.sleep(1)  # 减少等待时间
+
+        # 所有尝试都失败
+        error(f"经过 {max_attempts} 次尝试后仍未找到草稿，操作终止")
+        return False
 
     def _adjust_coordinates_for_retina(self, point):
         """
@@ -384,77 +401,98 @@ class JianyingAutoExporter:
     def export_video(self) -> bool:
         """
         检测导出按钮图片并点击
-        直接检测 images/exportImg.jpg 图片，发现后点击其中心位置
+        循环检测多次，直到找到导出按钮或达到最大尝试次数
 
         :return: 是否成功点击导出按钮
         """
-        # 激活剪映窗口并置顶
-        self._activate_jianying_window()
+        max_attempts = 10  # 增加最大尝试次数
+        attempt_count = 0
 
-        # 检测导出按钮图片
-        export_img_path = ["images/exportImg.jpg"]
-        location, found_img_path = self._find_image_with_confidence(export_img_path, retries=30, retry_delay=1)
+        while attempt_count < max_attempts:
+            # 激活剪映窗口并置顶
+            self._activate_jianying_window()
 
-        if location is not None:
-            try:
-                # 检查location对象类型，如果是Point类型，直接使用；如果是Box类型，计算中心
-                if hasattr(location, 'left'):  # Box类型 (包含left, top, width, height)
-                    center_x = location.left + location.width // 2
-                    center_y = location.top + location.height // 2
-                    # 创建一个Point对象用于后续处理
-                    center_point = type('Point', (), {'x': center_x, 'y': center_y})()
-                else:  # Point类型 (包含x, y)
-                    center_point = location
+            # 检测导出按钮图片
+            export_img_path = ["images/exportImg.jpg"]
+            location, found_img_path = self._find_image_with_confidence(export_img_path, retries=3, retry_delay=1)
 
-                # 对于Retina显示屏，需要转换坐标
-                adjusted_center = self._adjust_coordinates_for_retina(center_point)
+            if location is not None:
+                try:
+                    # 检查location对象类型，如果是Point类型，直接使用；如果是Box类型，计算中心
+                    if hasattr(location, 'left'):  # Box类型 (包含left, top, width, height)
+                        center_x = location.left + location.width // 2
+                        center_y = location.top + location.height // 2
+                        # 创建一个Point对象用于后续处理
+                        center_point = type('Point', (), {'x': center_x, 'y': center_y})()
+                    else:  # Point类型 (包含x, y)
+                        center_point = location
 
-                pyautogui.click(adjusted_center.x, adjusted_center.y)
+                    # 对于Retina显示屏，需要转换坐标
+                    adjusted_center = self._adjust_coordinates_for_retina(center_point)
 
-                return True
-            except Exception as e:
-                error(f"处理检测到的图像时发生错误: {e}")
-                return False
-        else:
-            error("未检测到导出按钮图像")
-            return False
+                    pyautogui.click(adjusted_center.x, adjusted_center.y)
+
+                    info(f"成功点击导出按钮，第 {attempt_count + 1} 次尝试")
+                    return True
+                except Exception as e:
+                    error(f"处理检测到的图像时发生错误: {e}")
+                    attempt_count += 1
+                    time.sleep(3)
+                    continue
+            else:
+                attempt_count += 1
+                info(f"导出按钮检测失败，正在进行第 {attempt_count}/{max_attempts} 次尝试...")
+                time.sleep(1)  # 减少等待时间
+
+        # 所有尝试都失败
+        error(f"经过 {max_attempts} 次尝试后仍未找到导出按钮，操作终止")
+        return False
     
     def _click_export_button(self) -> bool:
         """
         等待导出窗口打开后，点击"导出"按钮
+        循环检测多次，直到找到导出按钮或达到最大尝试次数
 
         :return: 是否成功点击导出按钮
         """
+        max_attempts = 15  # 增加最大尝试次数
+        attempt_count = 0
 
-        # 激活剪映窗口并置顶
-        self._activate_jianying_window()
-
-        # 尝试通过图像识别导出按钮
-        export_button_images = [
-            "images/export_confirm_btn.jpg",
-            "images/confirmExport.png"
-        ]
-
-        # 使用通用图像识别方法，在指定区域内搜索
-        button_location, found_img_path = self._find_image_with_confidence(export_button_images, retries=30, retry_delay=1)
-
-        if button_location:
-            # 找到图像，获取中心坐标
-            # center = pyautogui.center(button_location)
-            # 对于Retina显示屏，需要转换坐标
-            adjusted_center = self._adjust_coordinates_for_retina(button_location)
-
-            # 再次激活剪映窗口并置顶
+        while attempt_count < max_attempts:
+            # 激活剪映窗口并置顶
             self._activate_jianying_window()
 
-            # 点击之前找到的图像中心位置
-            pyautogui.click(adjusted_center)
+            # 尝试通过图像识别导出按钮
+            export_button_images = [
+                "images/export_confirm_btn.jpg",
+                "images/confirmExport.png"
+            ]
 
-            return True
-        else:
-            # 图像识别失败，直接返回失败
-            error("导出按钮图像识别失败，操作终止")
-            return False
+            # 使用通用图像识别方法，在指定区域内搜索
+            button_location, found_img_path = self._find_image_with_confidence(export_button_images, retries=3, retry_delay=1)
+
+            if button_location:
+                # 找到图像，获取中心坐标
+                # center = pyautogui.center(button_location)
+                # 对于Retina显示屏，需要转换坐标
+                adjusted_center = self._adjust_coordinates_for_retina(button_location)
+
+                # 再次激活剪映窗口并置顶
+                self._activate_jianying_window()
+
+                # 点击之前找到的图像中心位置
+                pyautogui.click(adjusted_center)
+
+                info(f"成功点击导出确认按钮，第 {attempt_count + 1} 次尝试")
+                return True
+            else:
+                attempt_count += 1
+                info(f"导出确认按钮检测失败，正在进行第 {attempt_count}/{max_attempts} 次尝试...")
+                time.sleep(1)  # 减少等待时间
+
+        # 所有尝试都失败
+        error(f"经过 {max_attempts} 次尝试后仍未找到导出确认按钮，操作终止")
+        return False
     
     def _wait_for_export(self) -> bool:
         """
@@ -693,7 +731,7 @@ class JianyingAutoExporter:
                     self.api_client.update_task_status(self.task_id, 13, {"info": "打开工程"})
                 elif step_name == "等待导出完成":
                     # 100=导出完成 - 导出完成后
-                    self.api_client.update_task_status(self.task_id, 14, {"info": "生成视频"})
+                    self.api_client.update_task_status(self.task_id, 100, {"info": "生成视频"})
 
                 info(f"步骤 '{step_name}' 完成")
 
