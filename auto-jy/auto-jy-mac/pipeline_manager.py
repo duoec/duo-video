@@ -47,6 +47,7 @@ class PipelineManager:
         # 初始化任务状态跟踪
         self.current_task_id = None
         self.current_task_status = 0  # 0=等待处理
+        self.last_task_clearance = None  # 用于跟踪上次任务清理状态
         
     def load_config(self, config_path: str) -> dict:
         """
@@ -480,9 +481,17 @@ class PipelineManager:
                         self.last_download_percent = percent
                         self.last_download_speed = speed
 
+                    # 更新任务状态为下载中（实际在download_and_extract中会更新为11）
+                    self.current_task_status = 10  # 任务已领取 (保持当前状态直到下载完成)
                     download_success = download_and_extract(self.config, jy_zip_url, task_id, download_progress)
 
                     if download_success:
+                        # 更新任务状态为解压完成
+                        self.current_task_status = 12  # 解压完成
+
+                        # 更新任务状态为打开工程
+                        self.current_task_status = 13  # 打开工程
+
                         # Pipeline3: 执行导出流程
                         video_file_path = self.export_video(task_data)
 

@@ -322,8 +322,16 @@ class MainWindow:
             # 更新任务状态
             if hasattr(self.pipeline_manager, 'task_id') and self.pipeline_manager.task_id:
                 self.current_task_label.config(text=str(self.pipeline_manager.task_id))
+
+                # 更新任务状态文本
+                if hasattr(self.pipeline_manager, 'current_task_status'):
+                    status_text = StatusMapping.get_status_text(self.pipeline_manager.current_task_status)
+                    self.task_status_label.config(text=status_text)
+                else:
+                    self.task_status_label.config(text="未知状态")
             else:
                 self.current_task_label.config(text="空闲")
+                self.task_status_label.config(text="空闲")
 
             # 更新下载进度
             if hasattr(self.pipeline_manager, 'last_download_filename'):
@@ -334,6 +342,11 @@ class MainWindow:
                     # 格式化速度
                     speed = self.format_speed(self.pipeline_manager.last_download_speed)
                     self.download_speed_label.config(text=speed)
+                else:
+                    # 如果没有下载任务，清空下载信息
+                    self.download_filename_label.config(text="无")
+                    self.download_progress['value'] = 0
+                    self.download_speed_label.config(text="0 B/s")
 
             # 更新上传进度
             if hasattr(self.pipeline_manager, 'last_upload_filename'):
@@ -344,6 +357,44 @@ class MainWindow:
                     # 格式化速度
                     speed = self.format_speed(self.pipeline_manager.last_upload_speed)
                     self.upload_speed_label.config(text=speed)
+                else:
+                    # 如果没有上传任务，清空上传信息
+                    self.upload_filename_label.config(text="无")
+                    self.upload_progress['value'] = 0
+                    self.upload_speed_label.config(text="0 B/s")
+
+            # 检查任务是否已完成（状态为100）或失败（状态为-11），如果是则清空相关信息
+            if (hasattr(self.pipeline_manager, 'current_task_status') and
+                self.pipeline_manager.current_task_status in [-11, 100] and
+                hasattr(self.pipeline_manager, 'last_task_clearance') and
+                self.pipeline_manager.last_task_clearance != self.pipeline_manager.current_task_status):
+
+                # 记录已处理过此状态，避免重复清理
+                self.pipeline_manager.last_task_clearance = self.pipeline_manager.current_task_status
+
+                # 清空任务相关信息
+                self.current_task_label.config(text="空闲")
+                self.task_status_label.config(text="空闲")
+
+                # 清空下载信息
+                self.download_filename_label.config(text="无")
+                self.download_progress['value'] = 0
+                self.download_speed_label.config(text="0 B/s")
+
+                # 清空上传信息
+                self.upload_filename_label.config(text="无")
+                self.upload_progress['value'] = 0
+                self.upload_speed_label.config(text="0 B/s")
+
+                # 重置pipeline_manager中的相关变量
+                if hasattr(self.pipeline_manager, 'task_id'):
+                    self.pipeline_manager.task_id = None
+                if hasattr(self.pipeline_manager, 'current_task_status'):
+                    self.pipeline_manager.current_task_status = 0  # 等待处理状态
+                if hasattr(self.pipeline_manager, 'last_download_filename'):
+                    self.pipeline_manager.last_download_filename = None
+                if hasattr(self.pipeline_manager, 'last_upload_filename'):
+                    self.pipeline_manager.last_upload_filename = None
 
         except Exception as e:
             # 静默更新UI错误
@@ -384,7 +435,7 @@ def show_restart_dialog():
     import time
 
     result = messagebox.askyesno("程序已在运行", "检测到程序已在运行中！\n是否要关闭原有程序并重新启动？")
-    
+
     if result:
         print("正在关闭原有程序...")
 
@@ -394,8 +445,8 @@ def show_restart_dialog():
             instance = PortBasedSingleton()
             if instance.terminate_existing():
                 print("原有程序已关闭")
-                # 等待一下确保进程完全关闭
-                time.sleep(3)
+                # 等待一下确保进程完全关闭和端口释放
+                time.sleep(5)
                 return True
             else:
                 print("无法关闭原有程序")

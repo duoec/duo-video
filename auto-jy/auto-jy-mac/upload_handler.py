@@ -77,17 +77,37 @@ class OSSUploadStrategy(UploadStrategy):
             if progress_callback is None:
                 progress_callback = lambda f, p, s: None
 
-            # 使用流式上传支持进度追踪
-            def progress_hook(bytes_read):
-                if file_size > 0:
-                    percent = (bytes_read / file_size) * 100
-                    # OSS SDK的进度回调会频繁调用，这里简化处理
-                    progress_callback(filename, percent, 0)
+            # 使用oss2的resumable_upload方法，它支持进度回调
+            import oss2
+            from oss2 import determine_part_size
+            from oss2.models import PartInfo
+            import threading
 
-            # 上传文件
-            result = bucket.put_object_from_file(object_key, video_file_path, progress_hook=progress_hook)
+            # 创建一个简单的进度追踪器
+            class ProgressPercentage:
+                def __init__(self, filename, total_size, progress_callback):
+                    self._filename = filename
+                    self._total_size = total_size
+                    self._seen_so_far = 0
+                    self._lock = threading.Lock()
+                    self._progress_callback = progress_callback
 
-            if result.status == 200:
+                def __call__(self, consumed_bytes, total_bytes):
+                    with self._lock:
+                        if total_bytes > 0:
+                            percent = (consumed_bytes / total_bytes) * 100
+                            self._progress_callback(self._filename, percent, 0)
+
+            # 使用断点续传上传，支持进度回调
+            result = oss2.resumable_upload(
+                bucket,
+                object_key,
+                video_file_path,
+                progress_callback=ProgressPercentage(filename, file_size, progress_callback),
+                num_threads=1  # 使用单线程以更好地控制进度
+            )
+
+            if hasattr(result, 'status') and result.status == 200:
                 # 生成访问URL
                 file_url = f"https://{self.bucket_name}.{self.endpoint}/{object_key}"
                 info(f"OSS上传成功: {file_url}")
@@ -95,7 +115,8 @@ class OSSUploadStrategy(UploadStrategy):
                 progress_callback(filename, 100.0, 0)
                 return True, file_url, "上传成功"
             else:
-                return False, None, f"OSS上传失败，状态码: {result.status}"
+                return False, None, f"OSS上传失败，状态码: {getattr(result, 'status', 'Unknown')}"
+
 
         except Exception as e:
             error(f"OSS上传视频时发生错误: {e}")
