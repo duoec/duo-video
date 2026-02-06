@@ -1,4 +1,5 @@
 import os
+import sys
 import threading
 from datetime import datetime
 from pathlib import Path
@@ -9,8 +10,15 @@ class Logger:
     日志管理类，支持按天生成日志文件和GUI日志输出
     """
     def __init__(self):
-        self.log_dir = Path("logs")
-        self.log_dir.mkdir(exist_ok=True)
+        # 在macOS应用沙盒环境中，使用用户库目录存储日志
+        if getattr(sys, 'frozen', False):  # 检查是否是打包后的可执行文件
+            # 当作为PyInstaller打包的应用运行时，使用用户库目录
+            self.log_dir = Path.home() / "Library" / "Application Support" / "duo-video" / "logs"
+        else:
+            # 开发模式下仍使用本地logs目录
+            self.log_dir = Path("logs")
+
+        self.log_dir.mkdir(parents=True, exist_ok=True)
         
         # GUI日志回调函数，用于将日志输出到GUI界面
         self.gui_log_callback = None

@@ -457,8 +457,49 @@ def show_restart_dialog():
     return False
 
 
+def find_config_file(default_config_path: str = "app_config.ini"):
+    """查找配置文件，尝试多个可能的位置"""
+    import os
+
+    # 首先尝试默认路径
+    if os.path.exists(default_config_path):
+        return default_config_path
+
+    # 尝试在当前工作目录的父目录中查找
+    parent_dir_config = os.path.join("..", default_config_path)
+    if os.path.exists(parent_dir_config):
+        return parent_dir_config
+
+    # 尝试在脚本所在目录查找
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    script_dir_config = os.path.join(script_dir, default_config_path)
+    if os.path.exists(script_dir_config):
+        return script_dir_config
+
+    # 尝试在脚本所在目录的父目录查找
+    script_parent_config = os.path.join(script_dir, "..", default_config_path)
+    if os.path.exists(script_parent_config):
+        return script_parent_config
+
+    # 如果在.app包中运行，尝试在.app包同级目录查找
+    import sys
+    if getattr(sys, 'frozen', False):
+        # 运行在打包环境中
+        app_dir = os.path.dirname(sys.executable)
+        app_parent_dir = os.path.dirname(app_dir)
+        app_sibling_config = os.path.join(app_parent_dir, default_config_path)
+        if os.path.exists(app_sibling_config):
+            return app_sibling_config
+
+    # 如果都找不到，返回默认路径，让后续代码处理
+    return default_config_path
+
+
 def main(config_path: str = "app_config.ini"):
     """主函数"""
+    # 查找配置文件的实际位置
+    actual_config_path = find_config_file(config_path)
+
     # 检查是否已有实例运行
     if is_instance_running():
         # 显示重新启动对话框
@@ -482,7 +523,7 @@ def main(config_path: str = "app_config.ini"):
                         gui_logger.start_processing()
 
                         # 创建主窗口
-                        window = MainWindow(config_path)
+                        window = MainWindow(actual_config_path)
 
                         # 确保在退出时释放锁
                         def on_closing():
@@ -515,7 +556,7 @@ def main(config_path: str = "app_config.ini"):
         gui_logger.start_processing()
 
         # 创建主窗口
-        window = MainWindow(config_path)
+        window = MainWindow(actual_config_path)
 
         # 确保在退出时释放锁
         from port_singleton import check_single_instance

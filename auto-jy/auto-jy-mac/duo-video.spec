@@ -5,12 +5,12 @@ a = Analysis(
     ['main_gui.py'],
     pathex=[],
     binaries=[],
-    datas=[('app_config.ini', '.'), ('README.md', '.')],
-    hiddenimports=['PIL', 'keyboard', 'appscript', 'pyobjc_framework_Quartz'],
+    datas=[('app_config.ini', '.'), ('README.md', '.'), ('logo_192.png', '.')],
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['PyQt5', 'PySide2', 'PySide6'],
+    excludes=[],
     noarchive=False,
     optimize=0,
 )
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='main_gui',
+    name='duo-video',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -35,10 +35,11 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['logo_192.png'],
 )
 app = BUNDLE(
     exe,
-    name='main_gui.app',
-    icon=None,
+    name='duo-video.app',
+    icon='logo_192.png',
     bundle_identifier=None,
 )
