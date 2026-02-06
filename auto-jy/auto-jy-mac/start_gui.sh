@@ -8,25 +8,21 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 cd "$DIR"
 
 # Conda环境的Python路径
-CONDA_PYTHON="/opt/anaconda3/envs/python3_12/bin/python"
-PIP_PATH="/opt/anaconda3/envs/python3_12/bin/pip"
+CONDA_PYTHON="/opt/anaconda3/bin/python3"
 
 # 检查conda Python是否可用
 if [ ! -f "$CONDA_PYTHON" ]; then
-    echo "错误：未找到conda Python3.12环境"
-    echo "请确保已创建conda环境：conda create -n python3_12 python=3.12"
+    echo "错误：未找到conda Python3环境"
+    echo "请确保已安装anaconda并配置了Python环境"
     exit 1
 fi
 
-# 检查PyQt6是否安装
-$CONDA_PYTHON -c "from PyQt6.QtWidgets import QApplication" 2>/dev/null
+# 检查依赖是否安装
+echo "检查依赖包..."
+$CONDA_PYTHON -c "import tkinter" 2>/dev/null
 if [ $? -ne 0 ]; then
-    echo "正在安装PyQt6..."
-    $PIP_PATH install PyQt6
-    if [ $? -ne 0 ]; then
-        echo "错误：PyQt6安装失败"
-        exit 1
-    fi
+    echo "错误：tkinter未安装或不可用"
+    exit 1
 fi
 
 # 启动GUI程序

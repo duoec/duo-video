@@ -10,7 +10,7 @@ import os
 # 添加当前目录到Python路径
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from gui_main_window import main
+from tkinter_gui_main_window import main
 from port_singleton import check_single_instance
 
 

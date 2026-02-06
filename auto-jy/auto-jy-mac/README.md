@@ -1,179 +1,152 @@
-# 自动化视频处理系统 - 独立应用版
+# duo-video - 自动化视频处理系统
 
-## 项目概述
-
-这是一个独立的 macOS 应用程序，无需安装 Python 或任何依赖项即可运行。该应用实现了自动化视频处理功能，支持自动下载、处理和上传视频文件，具备智能图像识别、单实例控制、实时进度监控等功能。
-
-## 快速开始
-
-### 直接运行（推荐）
-1. 双击 `自动化视频处理系统.app` 文件运行应用
-2. 首次运行时可能需要在「系统偏好设置」>「安全性与隐私」中允许运行
-
-### 从源码运行（开发用途）
-```bash
-# 安装依赖
-pip install -r requirements.txt
-
-# 启动程序
-./start_gui.sh
-```
-
-或直接运行：
-```bash
-python main_gui.py
-```
-
-## 打包说明
-
-### 构建独立应用
-使用项目中的构建脚本可以将Python项目打包为独立的macOS应用：
-
-```bash
-# 运行前，请先修改 python 环境路径，改为你自己的环境
-# PYTHON_PATH="/opt/anaconda3/envs/python3_12/bin/python"
-
-# 运行构建脚本
-./build.sh
-```
-
-构建完成后，可在 `release/` 目录中找到打包好的应用。
-
-### 构建脚本功能
-- 自动清理旧的构建文件
-- 使用正确的Python环境进行打包
-- 包含所有必要的依赖项
-- 创建发布目录并整理文件
+一个基于Python的自动化视频处理系统，能够自动检测API任务、下载资源、导出视频并上传至云端。
 
 ## 功能特性
 
-✅ **自动启动服务** - GUI启动后服务默认运行，无需手动启动
-
-✅ **双栏界面** - 左侧操作面板，右侧日志显示
-
-✅ **实时监控** - 显示服务器地址、任务状态、下载/上传进度
-
-✅ **智能图像识别** - 自动检测剪映界面元素并操作
-
-✅ **单实例控制** - 基于端口的单实例机制，防止重复启动
-
-✅ **优雅重启** - 支持一键关闭旧实例并启动新实例
-
-✅ **循环检测** - 图像检测失败时自动重试，提高成功率
-
-✅ **日志记录** - 实时显示系统日志和操作状态
-
-✅ **暂停/恢复** - 灵活的任务控制
-
-✅ **进度跟踪** - 实时显示下载和上传进度及速度
-
-## 界面说明
-
-### 左侧操作面板
-- **服务器信息** - 显示当前配置的服务器地址
-- **启动/暂停按钮** - 控制服务运行状态
-- **任务状态** - 显示当前处理任务和状态
-- **下载进度** - 显示下载文件、进度条和速度
-- **上传进度** - 显示上传文件、进度条和速度
-
-### 右侧日志面板
-- **系统日志** - 实时显示操作日志和状态变化
+- **自动化管道管理**：自动检测API接口任务，执行完整的视频处理流程
+- **多阶段处理**：支持下载、解压、导出、上传等多个处理阶段
+- **实时监控**：提供图形界面，实时显示任务状态、下载/上传进度
+- **跨平台支持**：基于Python开发，支持macOS系统
+- **单实例控制**：防止重复启动，确保系统稳定运行
 
 ## 技术架构
 
-### 核心模块
-- `main_gui.py` - GUI程序入口
-- `gui_main_window.py` - 主窗口界面
-- `port_singleton.py` - 基于端口的单实例控制
-- `pipeline_manager.py` - 管道管理器
-- `jianying_exporter.py` - 剪映自动化操作
-- `api_client.py` - API客户端
-- `gui_logger.py` - GUI日志系统
-- `logger.py` - 日志管理
+- **GUI框架**：tkinter（轻量级Python GUI库）
+- **核心语言**：Python 3.12+
+- **系统交互**：AppleScript（macOS应用控制）、psutil（进程管理）
+- **网络通信**：requests（HTTP客户端）
+- **云存储**：阿里云OSS、腾讯云COS
 
-### 自动化功能
-- **图像识别** - 使用pyautogui进行屏幕图像匹配
-- **窗口控制** - 自动激活和操作剪映窗口
-- **坐标转换** - 支持Retina显示屏坐标适配
-- **循环检测** - 失败时自动重试，提高成功率
+## 安装依赖
 
-## 系统要求
-
-- **操作系统**：macOS 10.13 或更高版本
-- **架构**：ARM64 或 x86_64
-- **内存**：至少4GB RAM
-- **磁盘空间**：至少1GB可用空间（用于缓存和临时文件）
-- **权限**：屏幕录制权限（用于图像识别）
+```bash
+pip install -r requirements.txt
+```
 
 ## 配置说明
 
-### app_config.ini
-主要配置文件，包含：
-- API服务器地址
-- 应用程序路径
-- 草稿和导出目录
-- API认证信息
+系统使用 `app_config.ini` 配置文件，包含以下配置项：
 
-## 故障排除
+### API配置
+```ini
+[api]
+base_url = https://your-api-endpoint.com/api/task
+interval = 30
+```
 
-### 首次运行被阻止
-如果遇到 "无法打开，因为 Apple 无法检查其是否包含恶意软件" 的提示：
-1. 打开「系统偏好设置」>「安全性与隐私」
-2. 在「通用」标签页中点击「仍要打开」
-3. 或者在终端中运行以下命令：
-   ```bash
-   xattr -d com.apple.quarantine "/path/to/自动化视频处理系统.app"
-   ```
+### 剪映配置
+```ini
+[jianying]
+app_path = /Applications/JianyingPro.app
+drafts_path = ~/Movies/JianyingPro/Drafts
+exports_path = ~/Downloads
+```
 
-### 图像识别失败
-**原因：** 界面元素位置变化或分辨率问题
-**解决方案：** 检查images目录下的图像模板是否匹配当前界面
+### 上传配置
+```ini
+[upload]
+storage = oss
+video_key_prefix = videos
+```
 
-### 权限不足
-**原因：** macOS屏幕录制权限
-**解决方案：** 在系统偏好设置中授予屏幕录制权限
+### 云存储配置（根据选择的存储类型配置）
+```ini
+# 阿里云OSS
+[oss]
+bucket_name = your-bucket-name
+access_key_id = your-access-key-id
+access_key_secret = your-access-key-secret
+endpoint = https://oss-cn-hangzhou.aliyuncs.com
+region = cn-hangzhou
 
-### 服务无法启动
-**原因：** 配置文件错误或网络问题
-**解决方案：** 检查app_config.ini配置文件
+# 或者腾讯云COS
+[cos]
+bucket_name = your-bucket-name.cos.ap-shanghai.myqcloud.com
+secret_id = your-secret-id
+secret_key = your-secret-key
+region = ap-shanghai
+```
+
+## 使用方法
+
+### 启动GUI界面
+```bash
+python main_gui.py [config_path]
+```
+
+### 直接运行（无界面）
+```bash
+python pipeline_manager.py [config_path]
+```
+
+## 系统流程
+
+1. **任务检测**：定时轮询API接口，获取待处理任务
+2. **资源下载**：下载任务相关的剪映工程压缩包
+3. **工程处理**：解压并使用剪映软件导出视频
+4. **视频上传**：将导出的视频上传至指定云存储
+5. **状态上报**：向API接口上报任务处理结果
+6. **资源清理**：清理临时文件和剪映草稿
+
+## 界面说明
+
+- **服务器地址**：显示当前连接的API服务器地址
+- **启动/暂停按钮**：控制自动化流程的启停
+- **当前任务**：显示当前正在处理的任务ID
+- **任务状态**：显示当前任务的处理状态
+- **下载进度**：显示资源下载的进度和速度
+- **上传进度**：显示视频上传的进度和速度
+- **系统日志**：实时显示系统运行日志
+
+## 状态码说明
+
+| 状态码 | 说明 |
+|--------|------|
+| -11 | 任务失败 |
+| -10 | 主动取消 |
+| 0 | 等待处理 |
+| 10 | 任务已领取 |
+| 11 | 下载完成 |
+| 12 | 解压完成 |
+| 13 | 打开工程 |
+| 14 | 生成视频 |
+| 100 | 导出完成 |
 
 ## 开发说明
 
-### 代码结构
+### 项目结构
 ```
-├── main_gui.py          # GUI入口
-├── gui_main_window.py   # 主界面
-├── port_singleton.py    # 单实例控制
-├── pipeline_manager.py  # 管道管理
-├── jianying_exporter.py # 剪映自动化
-├── api_client.py       # API客户端
-├── logger.py           # 日志系统
-├── gui_logger.py       # GUI日志
-├── images/             # 图像模板
-├── build.sh            # 构建脚本
-├── requirements.txt    # 依赖列表
+auto-jy-mac/
+├── main_gui.py          # GUI主入口
+├── tkinter_gui_main_window.py  # GUI界面实现
+├── pipeline_manager.py  # 核心管道管理器
+├── api_client.py        # API客户端
+├── jianying_exporter.py # 剪映导出器
+├── download_extractor.py # 下载解压器
+├── upload_handler.py    # 上传处理器
+├── gui_logger.py        # GUI日志系统
+├── logger.py            # 日志记录器
+├── port_singleton.py    # 单实例控制器
+├── app_config.ini       # 配置文件模板
+├── requirements.txt     # 依赖包列表
 └── README.md           # 项目说明
 ```
 
-### 扩展功能
-系统设计为模块化架构，可轻松扩展：
-- 添加新的图像识别模板
-- 集成其他视频编辑软件
-- 扩展API接口功能
+### 扩展开发
 
-## 维护说明
+如需扩展功能，请参考以下模块：
+- `pipeline_manager.py`：核心业务逻辑
+- `api_client.py`：API接口交互
+- `upload_handler.py`：上传逻辑扩展
 
-### 日志管理
-- 系统日志自动按日期生成
-- 日志文件位于logs目录
-- 自动清理过期日志
+## 故障排除
 
-### 单实例机制
-- 基于TCP端口54321的单实例控制
-- 自动处理进程终止和端口释放
-- 支持优雅重启功能
+1. **无法启动剪映**：检查 `app_path` 配置是否正确
+2. **下载失败**：检查网络连接和API配置
+3. **上传失败**：验证云存储配置信息
+4. **权限问题**：确保应用有辅助功能权限
 
-### 打包维护
-- 使用PyInstaller进行打包
-- 包含完整的Python解释器和所有依赖项
-- 应用大小较大是因为包含了所有必需的库
+## 许可证
+
+本项目仅供学习和内部使用。
