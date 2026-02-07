@@ -8,7 +8,6 @@ import com.duoec.base.dto.response.BaseResponse;
 import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.jy.JianyingBuilder;
 import com.duoec.video.jy.JianyingProjectBuildState;
-import com.duoec.video.jy.dto.BaseResource;
 import com.duoec.video.jy.dto.JyResource;
 import com.duoec.video.utils.ZipUtils;
 import com.fasterxml.jackson.core.type.TypeReference;

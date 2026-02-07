@@ -73,7 +73,10 @@
     <build>
         <plugins>
 
-            <!-- 重要！Duo-Doc，通过解析源码、注释自动生成接口信息 -->
+            <!--
+            Duo-Doc，通过解析源码、注释自动生成接口信息。当前配置为导出成 open-api.json文件，可用于接入 扣子、DIFY 等
+            更多能力，请查看官网：https://www.duoec.com/doc
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>

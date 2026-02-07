@@ -1066,7 +1066,50 @@ curl -X POST http://localhost:8080/api/project/text \
 
 
 
-## 六、联系我们
+## 六、AI Skills 集成
+
+duo-video 项目集成了 AI Skills，为 AI 代理提供了完整的视频创作能力。
+
+### Skills 目录结构
+
+```
+skills/
+├── video-project-creator/     # 视频工程创建器
+│   └── SKILL.md              # 创建 VideoProject 的详细说明
+├── video-exporter/           # 视频导出器
+│   └── SKILL.md              # 导出视频文件的详细说明
+└── video-api/                # API 接口管理器
+    └── SKILL.md              # HTTP 接口操作的详细说明
+```
+
+### Skills 功能说明
+
+#### 1. 视频工程创建器 (video-project-creator)
+- 使用 duo-video-base 模块创建视频工程
+- 支持添加各种类型的素材 (视频、图片、文本、音频等)
+- 配置视频参数 (分辨率、帧率、时长等)
+- 构建完整的视频项目结构
+
+#### 2. 视频导出器 (video-exporter)
+- 使用 duo-video-jy 模块将视频工程转换为剪映工程
+- 集成 auto-jy 工具自动导出视频
+- 支持批量视频处理和进度跟踪
+- 管理导出任务和状态上报
+
+#### 3. API 接口管理器 (video-api)
+- 通过 HTTP 接口创建和管理视频项目
+- 支持添加各种素材到视频项目
+- 管理视频创作任务和状态查询
+- 构建视频并获取任务ID
+
+### 使用方法
+
+AI 代理可以通过调用这些 Skills 来实现完整的视频创作流程：
+1. 使用 `video-project-creator` 创建视频工程
+2. 使用 `video-api` 通过 HTTP 接口管理项目和素材
+3. 使用 `video-exporter` 将项目导出为最终视频文件
+
+## 七、联系我们
 
 
 
