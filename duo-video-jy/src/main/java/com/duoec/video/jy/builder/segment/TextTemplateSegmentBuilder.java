@@ -47,6 +47,7 @@ public class TextTemplateSegmentBuilder extends BaseSegmentBuilder<TextTemplateM
             return null;
         }
         TextTemplate textTemplate = dto.getTextTemplate();
+//        textTemplate.setResourceId("");
         List<Text> texts = dto.getTexts();
         List<Effect> effects = dto.getEffects();
 
