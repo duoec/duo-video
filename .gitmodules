@@ -1,0 +1,6 @@
+[submodule "auto-jy/auto-jy-win"]
+	path = auto-jy/auto-jy-win
+	url = git@github.com:duoec/auto-jy-win.git
+[submodule "auto-jy/auto-jy-mac"]
+	path = auto-jy/auto-jy-mac
+	url = git@github.com:duoec/auto-jy-mac.git
