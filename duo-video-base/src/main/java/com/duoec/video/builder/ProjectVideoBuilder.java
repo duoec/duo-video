@@ -102,8 +102,8 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
         return this;
     }
 
-    public ProjectGreenBackgroundBuilder addGreenBackgroundAndGetBuilder(long backgroundId, String backgroundUrl) {
-        return new ProjectGreenBackgroundBuilder(projectBuilder, this).add(backgroundId, backgroundUrl);
+    public ProjectGreenScreenBuilder addGreenBackgroundAndGetBuilder(long backgroundId, String backgroundUrl) {
+        return new ProjectGreenScreenBuilder(projectBuilder, this).add(backgroundId, backgroundUrl);
     }
 
     /**
@@ -112,8 +112,9 @@ public class ProjectVideoBuilder extends BaseSegmentBuilder<VideoMaterial, Proje
      * @param backgroundUrl 背景素材链接
      * @param greenBackgroundBuilderConsumer 新添加的 ProjectGreenBackgroundBuilder 上下文编辑器
      */
-    public ProjectVideoBuilder buildGreenBackground(long backgroundId, String backgroundUrl, Consumer<ProjectGreenBackgroundBuilder> greenBackgroundBuilderConsumer) {
-        ProjectGreenBackgroundBuilder greenBackgroundBuilder = new ProjectGreenBackgroundBuilder(projectBuilder, this).add(backgroundId, backgroundUrl);
+    public ProjectVideoBuilder buildGreenScreen(long backgroundId, String backgroundUrl, Consumer<ProjectGreenScreenBuilder> greenBackgroundBuilderConsumer) {
+        ProjectGreenScreenBuilder greenBackgroundBuilder = new ProjectGreenScreenBuilder(projectBuilder, this)
+                .add(backgroundId, backgroundUrl);
         if (greenBackgroundBuilderConsumer != null) {
             greenBackgroundBuilderConsumer.accept(greenBackgroundBuilder);
         }

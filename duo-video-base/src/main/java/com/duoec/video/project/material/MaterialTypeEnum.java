@@ -1,7 +1,6 @@
 package com.duoec.video.project.material;
 
 public enum MaterialTypeEnum {
-
     /**
      * 视频素材
      */
@@ -70,6 +69,7 @@ public enum MaterialTypeEnum {
 
     public static final String MATERIAL_TYPE_VIDEO = "video";
     public static final String MATERIAL_TYPE_IMAGE = "image";
+
     public static final String MATERIAL_TYPE_STICKER = "sticker";
     public static final String MATERIAL_TYPE_AUDIO = "audio";
     public static final String MATERIAL_TYPE_MASK = "mask";

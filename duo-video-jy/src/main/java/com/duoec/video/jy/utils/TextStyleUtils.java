@@ -3,8 +3,8 @@ package com.duoec.video.jy.utils;
 import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.jy.JianyingProjectBuildState;
 import com.duoec.video.project.material.StyleMaterial;
-import com.duoec.video.project.material.TextStyle;
-import com.duoec.video.project.material.TextWord;
+import com.duoec.video.project.material.BaseTextMaterial.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial.TextWord;
 import com.google.common.collect.Sets;
 
 import java.lang.reflect.Field;

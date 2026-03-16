@@ -32,7 +32,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
     private static final String STR_TEXT = "text";
     private static final String TRACK_NAME_SUBTITLE = "字幕";
     private static final String TRACK_NAME_TEXT = "文本";
-    private static final TextStyle DEFAULT_STYLE = new TextStyle()
+    private static final BaseTextMaterial.TextStyle DEFAULT_STYLE = new BaseTextMaterial.TextStyle()
             .setFontName(JianyingResourceUtils.DEFAULT_FONT_NAME)
             .setFontSize(JianyingResourceUtils.DEFAULT_FONT_SIZE)
             .setFillColor(JianyingResourceUtils.DEFAULT_FILL_COLOR);
@@ -49,22 +49,22 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
                 .setId(UuidUtils.next())
                 .setType(isSubtitle ? STR_SUBTITLE : STR_TEXT);
 
-        List<TextWord> words = Optional.ofNullable(material.getWords()).orElse(List.of());
+        List<BaseTextMaterial.TextWord> words = Optional.ofNullable(material.getWords()).orElse(List.of());
 
         List<Style> styles = new ArrayList<>();
         FontConfig content = JianyingUtils.getDefaultFontConfig()
                 .setText(material.getText())
                 .setStyles(styles);
 
-        TextStyle globalStyle = getGlobalStyle(state, material);
+        BaseTextMaterial.TextStyle globalStyle = getGlobalStyle(state, material);
         if (CollectionUtils.isEmpty(words)) {
-            TextWord word = TextStyleUtils.toTextWidgetWord(globalStyle, 0, material.getText().length());
+            BaseTextMaterial.TextWord word = TextStyleUtils.toTextWidgetWord(globalStyle, 0, material.getText().length());
             Style style = addText(state, material, word);
             if (style != null) {
                 styles.add(style);
             }
         } else {
-            List<TextWord> mergedWords = mergeWords(state, material);
+            List<BaseTextMaterial.TextWord> mergedWords = mergeWords(state, material);
             mergedWords.forEach(word -> {
                 Style style = addText(state, material, word);
                 if (style != null) {
@@ -136,10 +136,10 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         return segment;
     }
 
-    private static TextStyle getGlobalStyle(JianyingProjectBuildState state, TextMaterial material) {
+    private static BaseTextMaterial.TextStyle getGlobalStyle(JianyingProjectBuildState state, TextMaterial material) {
         Long styleId = material.getStyleId();
 
-        TextStyle style = null;
+        BaseTextMaterial.TextStyle style = null;
         if (styleId != null) {
             StyleMaterial styleMaterial = state.getMaterial(styleId);
             if (styleMaterial != null && styleMaterial.getStyle() != null) {
@@ -147,7 +147,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
             }
         }
 
-        TextStyle wordTextStyle = material.getStyle();
+        BaseTextMaterial.TextStyle wordTextStyle = material.getStyle();
         if (wordTextStyle != null) {
             if (style == null) {
                 return wordTextStyle;
@@ -160,15 +160,15 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         }
     }
 
-    private List<TextWord> mergeWords(JianyingProjectBuildState state, TextMaterial widget) {
+    private List<BaseTextMaterial.TextWord> mergeWords(JianyingProjectBuildState state, TextMaterial widget) {
         //全局样式
-        TextStyle globalStyle = getGlobalStyle(state, widget);
+        BaseTextMaterial.TextStyle globalStyle = getGlobalStyle(state, widget);
 
         String text = widget.getText();
 
         // 重新排序
-        List<TextWord> words = widget.getWords();
-        words.sort(Comparator.comparingInt(TextWord::getIndex));
+        List<BaseTextMaterial.TextWord> words = widget.getWords();
+        words.sort(Comparator.comparingInt(BaseTextMaterial.TextWord::getIndex));
 
         Set<Integer> indexSet = new HashSet<>();
         words.forEach(textWidgetWord -> {
@@ -183,10 +183,10 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         indexList.sort(Integer::compare);
 
         int indexStart = 0;
-        List<TextWord> wordList = Lists.newArrayList();
+        List<BaseTextMaterial.TextWord> wordList = Lists.newArrayList();
         for (Integer start : indexList) {
             if (start > indexStart) {
-                TextWord word = TextStyleUtils.toTextWidgetWord(globalStyle, indexStart, start - indexStart);
+                BaseTextMaterial.TextWord word = TextStyleUtils.toTextWidgetWord(globalStyle, indexStart, start - indexStart);
                 wordList.add(word);
                 indexStart = start;
             }
@@ -202,7 +202,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         return wordList;
     }
 
-    private Style addText(JianyingProjectBuildState state, TextMaterial material, TextWord word) {
+    private Style addText(JianyingProjectBuildState state, TextMaterial material, BaseTextMaterial.TextWord word) {
         WordStyleResult result = getStyle(state, word);
         Style style = result.style;
 
@@ -255,7 +255,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         return style;
     }
 
-    private static WordStyleResult getStyle(JianyingProjectBuildState state, TextWord word) {
+    private static WordStyleResult getStyle(JianyingProjectBuildState state, BaseTextMaterial.TextWord word) {
         long flowerId = Optional.ofNullable(word.getFlowerId()).orElse(0L);
         Style style;
         if (flowerId > 0) {
@@ -299,7 +299,7 @@ public class TextSegmentBuilder extends BaseSegmentBuilder<TextMaterial> {
         return new WordStyleResult(false, style);
     }
 
-    private static Style getFlowerStyle(JianyingProjectBuildState state, TextWord word, JyResource resource) {
+    private static Style getFlowerStyle(JianyingProjectBuildState state, BaseTextMaterial.TextWord word, JyResource resource) {
         if (resource == null) {
             logger.warn("花字资源[{}]不存在", word.getFlowerId());
             return null;

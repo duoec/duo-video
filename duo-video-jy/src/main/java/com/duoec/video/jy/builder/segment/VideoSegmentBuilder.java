@@ -83,8 +83,8 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
     }
 
     private MaterialData getMaterialVideo(JianyingProjectBuildState state, VideoScript videoScript, VideoSegment videoSegment, VideoMaterial material) {
-        BaseVisibleMediaMaterial.GreenBackground background = material.getGreenBackground();
-        String cachedMaterialId = material.getId() + DuoServerConsts.UNDERLINE_STR + (background == null ? DuoServerConsts.EMPTY_STR : background.getMaterialId());
+        BaseVisibleMediaMaterial.GreenScreen background = material.getGreenScreen();
+        String cachedMaterialId = material.getId() + DuoServerConsts.UNDERLINE_STR + (background == null ? DuoServerConsts.EMPTY_STR : background.getMediaId());
 
         AtomicBoolean fromCache = new AtomicBoolean(true);
         MaterialData data = state.getCachedJyVideoMap().computeIfAbsent(cachedMaterialId, id -> {
@@ -128,6 +128,10 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
 
                 return materialData;
             }
+
+            // 处理outsideFuzzy
+//            outsideFuzzy = buildOutsideFuzzy(state, videoScript, videoSegment, material);
+
             return new MaterialData(segment, video, false, null);
         });
 
@@ -160,7 +164,7 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
 
     private GreenBackgroundDto getGreenBackgroundSegment(JianyingProjectBuildState state, VideoScript videoScript, VideoSegment videoSegment, VideoMaterial material, Segment segment) {
         // 绿幕资源 resourceId=267417011880001538
-        BaseVisibleMediaMaterial.GreenBackground greenBackground = material.getGreenBackground();
+        BaseVisibleMediaMaterial.GreenScreen greenBackground = material.getGreenScreen();
         if (greenBackground == null) {
             // 没有绿幕
             return null;
@@ -172,7 +176,7 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
         // 下载剪映资源
         JianyingResourceUtils.downloadResources(state.getProjectLocalResourceDir(), greenBackgroundResource.getResources());
 
-        BaseVisibleMediaMaterial backgroundMaterial = state.getMaterial(greenBackground.getMaterialId());
+        BaseVisibleMediaMaterial backgroundMaterial = state.getMaterial(greenBackground.getMediaId());
 
         // 复制到本地目录
         File backgroundFile = backgroundMaterial.getLocalFile();
@@ -195,7 +199,7 @@ public class VideoSegmentBuilder extends BaseVisibleMediaMaterialBuilder<VideoMa
 
         // 取色
         Chroma chroma = JsonUtils.toObject(greenBackgroundResource.getMainConfig(), Chroma.class)
-                .setColor(greenBackground.getBaseBackgroundColor())
+                .setColor(greenBackground.getColor())
                 .setEdgeSmoothValue(greenBackground.getEdgeFeather() / 100.0)
                 .setId(UuidUtils.next())
                 .setIntensityValue(greenBackground.getStrength() / 100.0)

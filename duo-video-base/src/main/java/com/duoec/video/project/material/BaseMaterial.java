@@ -15,58 +15,20 @@ import java.io.Serializable;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(
-                value = VideoMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_VIDEO
-        ),
-        @JsonSubTypes.Type(
-                value = ImageMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_IMAGE
-        ),
-        @JsonSubTypes.Type(
-                value = TextMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_TEXT
-        ),
-        @JsonSubTypes.Type(
-                value = TextTemplateMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_TEXT_TEMPLATE
-        ),
-        @JsonSubTypes.Type(
-                value = LutMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_LUT
-        ),
-        @JsonSubTypes.Type(
-                value = AudioMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_AUDIO
-        ),
-        @JsonSubTypes.Type(
-                value = SoundMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_SOUND
-        ),
-        @JsonSubTypes.Type(
-                value = StickerMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_STICKER
-        ),
-        @JsonSubTypes.Type(
-                value = TransitionMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_TRANSITION
-        ),
-        @JsonSubTypes.Type(
-                value = VideoEffectMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_VIDEO_EFFECT
-        ),
-        @JsonSubTypes.Type(
-                value = FaceEffectMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_FACE_EFFECT
-        ),
-        @JsonSubTypes.Type(
-                value = MaskMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_MASK
-        ),
-        @JsonSubTypes.Type(
-                value = StyleMaterial.class,
-                name = MaterialTypeEnum.MATERIAL_TYPE_STYLE
-        )
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_VIDEO, value = VideoMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_IMAGE, value = ImageMaterial.class),
+
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_TEXT, value = TextMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_TEXT_TEMPLATE, value = TextTemplateMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_LUT, value = LutMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_AUDIO, value = AudioMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_SOUND, value = SoundMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_STICKER, value = StickerMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_TRANSITION, value = TransitionMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_VIDEO_EFFECT, value = VideoEffectMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_FACE_EFFECT, value = FaceEffectMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_MASK, value = MaskMaterial.class),
+        @JsonSubTypes.Type(name = MaterialTypeEnum.MATERIAL_TYPE_STYLE, value = StyleMaterial.class)
 })
 public class BaseMaterial implements Serializable {
     public BaseMaterial() {

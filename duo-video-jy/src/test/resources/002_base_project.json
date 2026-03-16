@@ -1,0 +1,54 @@
+{
+  "id": 296653948753219560,
+  "projectName": "002_duo_video",
+  "scripts": [
+    {
+      "segments": [
+        {
+          "id": 296653948753219560,
+          "time": {
+            "start": 0,
+            "duration": 3000
+          },
+          "materialId": 535010997887571096,
+          "materialStart": 0,
+          "type": "video",
+          "layoutIndex": 1000,
+          "refs": {
+            "270464037792645122": "video_effect"
+          },
+          "speed": 100,
+          "zoom": {
+            "x": 10000,
+            "y": 10000
+          },
+          "rotate": 0,
+          "visible": true,
+          "horizontal": false,
+          "vertical": false,
+          "volume": 100
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "id": 535010997887571096,
+      "mediaId": 535010997887571096,
+      "url": "https://api.duoec.com/public/cc00e871ec137861003095f32caf8b53.mp4",
+      "type": "video",
+      "outsideFuzzy": 3
+    },
+    {
+      "id": 270464037792645122,
+      "type": "video_effect",
+      "resourceId": 270464037792645121,
+      "count": 3
+    }
+  ],
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "createTime": 1765260501,
+  "updateTime": 1765260501
+}

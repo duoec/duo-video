@@ -216,11 +216,13 @@
   "materials": [
     {
       "id": 535010997887571096,
+      "mediaId": 535010997887571096,
       "url": "https://api.duoec.com/public/image/535010997887571096.png",
       "type": "image"
     },
     {
       "id": 535010997887571046,
+      "mediaId": 535010997887571046,
       "url": "https://api.duoec.com/public/video/535010997887571046.mov",
       "type": "video",
       "time": {
@@ -235,15 +237,16 @@
     },
     {
       "id": 535010997887571021,
+      "mediaId": 535010997887571021,
       "url": "file:///Users/xuwenzhen/Downloads/535010997887571021.mp4",
       "type": "video",
       "time": {
         "start": 0,
         "duration": 86586
       },
-      "greenBackground": {
-        "materialId": 535010997887571022,
-        "baseBackgroundColor": "#4e8a1fff",
+      "greenScreen": {
+        "mediaId": 535010997887571022,
+        "color": "#4e8a1fff",
         "strength": 20,
         "edgeFeather": 10,
         "edgeCleanup": 10
@@ -251,6 +254,7 @@
     },
     {
       "id": 535010997887571025,
+      "mediaId": 535010997887571025,
       "url": "https://api.duoec.com/public/audio/535010997887571025.mp3",
       "type": "audio",
       "time": {

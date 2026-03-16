@@ -4,9 +4,8 @@ import com.duoec.base.core.util.SnowflakeIdUtils;
 import com.duoec.video.project.VideoPoint;
 import com.duoec.video.project.VideoSegment;
 import com.duoec.video.project.VideoTimeRange;
+import com.duoec.video.project.material.BaseTextMaterial;
 import com.duoec.video.project.material.TextMaterial;
-import com.duoec.video.project.material.TextStyle;
-import com.duoec.video.project.material.TextWord;
 import com.google.common.collect.Lists;
 import org.springframework.util.CollectionUtils;
 
@@ -16,10 +15,10 @@ import java.util.function.Consumer;
 import static com.duoec.video.builder.ProjectGlobalTextStyleBuilder.addAndGetBuilder;
 
 public class ProjectTextBuilder extends BaseSegmentBuilder<TextMaterial, ProjectTextBuilder> {
-    private TextStyle style;
+    private BaseTextMaterial.TextStyle style;
 
     private Long styleId;
-    private List<TextWord> words;
+    private List<BaseTextMaterial.TextWord> words;
 
     private ProjectTextBuilder(ProjectBuilder projectBuilder, ProjectScriptBuilder scriptBuilder) {
         this.projectBuilder = projectBuilder;
@@ -42,7 +41,7 @@ public class ProjectTextBuilder extends BaseSegmentBuilder<TextMaterial, Project
     /**
      * 设置公共样式
      */
-    public ProjectTextBuilder setStyle(TextStyle style) {
+    public ProjectTextBuilder setStyle(BaseTextMaterial.TextStyle style) {
         this.style = style;
         return this;
     }
@@ -84,21 +83,21 @@ public class ProjectTextBuilder extends BaseSegmentBuilder<TextMaterial, Project
     /**
      * 设置文本片段样式，会直接覆盖之前设置的所有 words
      */
-    public ProjectTextBuilder setWords(List<TextWord> words) {
+    public ProjectTextBuilder setWords(List<BaseTextMaterial.TextWord> words) {
         this.words = words;
         return this;
     }
 
-    public ProjectTextBuilder addWord(int index, int length, Consumer<ProjectTextStyleBuilder<TextWord>> textWordBuilderConsumer) {
+    public ProjectTextBuilder addWord(int index, int length, Consumer<ProjectTextStyleBuilder<BaseTextMaterial.TextWord>> textWordBuilderConsumer) {
         if (this.words == null) {
             this.words = Lists.newArrayList();
         }
-        TextWord textWord = new TextWord()
+        BaseTextMaterial.TextWord textWord = new BaseTextMaterial.TextWord()
                 .setIndex(index)
                 .setLength(length);
         words.add(textWord);
 
-        ProjectTextStyleBuilder<TextWord> textWordBuilder = ProjectTextStyleBuilder.build(textWord);
+        ProjectTextStyleBuilder<BaseTextMaterial.TextWord> textWordBuilder = ProjectTextStyleBuilder.build(textWord);
         if (textWordBuilderConsumer != null) {
             textWordBuilderConsumer.accept(textWordBuilder);
         }

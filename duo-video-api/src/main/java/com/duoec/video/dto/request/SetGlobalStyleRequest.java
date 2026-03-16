@@ -1,6 +1,6 @@
 package com.duoec.video.dto.request;
 
-import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -23,7 +23,7 @@ public class SetGlobalStyleRequest implements Serializable {
     /**
      * 文本样式
      */
-    private TextStyle textStyle;
+    private BaseTextMaterial.TextStyle textStyle;
 
     /**
      * 是否设置为全局关键词样式

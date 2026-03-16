@@ -7,7 +7,7 @@ import com.duoec.video.builder.ProjectBuilder;
 import com.duoec.video.jy.dto.info.JianYingProjectInfo;
 import com.duoec.video.jy.utils.JianyingResourceUtils;
 import com.duoec.video.project.VideoProject;
-import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial.TextStyle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -99,7 +99,7 @@ class JianyingBuilderTest extends BaseTest {
                             })
                             .buildNewVideo(535010997887571021L, "https://api.duoec.com/public/video/535010997887571021.mp4", 0L, 3000L, videoBuilder -> {
                                 videoBuilder
-                                        .buildGreenBackground(535010997887571022L, "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png", backgroundBuilder -> {
+                                        .buildGreenScreen(535010997887571022L, "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png", backgroundBuilder -> {
                                             backgroundBuilder.setChroma("#4e8a1fff", 20, 10, 10);
                                         })
                                         .setMaterialStart(5000L)
@@ -115,7 +115,7 @@ class JianyingBuilderTest extends BaseTest {
                             })
                             .buildNewVideo(535010997887571021L, "https://api.duoec.com/public/video/535010997887571021.mp4", 4000L, 3000L, videoBuilder -> {
                                 videoBuilder
-                                        .buildGreenBackground(535010997887571022L, "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png", backgroundBuilder -> {
+                                        .buildGreenScreen(535010997887571022L, "https://api.duoec.com/public/greenScreen/d8a0e31b50166b6219b1df1dbb90e284.png", backgroundBuilder -> {
                                             backgroundBuilder.setChroma("#4e8a1fff", 20, 10, 10);
                                         })
                                         .setMaterialStart(9000L)

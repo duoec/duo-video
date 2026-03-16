@@ -3,12 +3,7 @@ package com.duoec.video.project.material;
 import lombok.Data;
 
 @Data
-public class VideoEffectMaterial extends BaseMaterial {
-    /**
-     * 资源ID
-     */
-    private Long resourceId;
-
+public class VideoEffectMaterial extends BaseEffectMaterial {
     /**
      * 转场时长，未设置时使用此转场资源默认时长，单位：毫秒
      */

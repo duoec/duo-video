@@ -3,11 +3,7 @@ package com.duoec.video.project.material;
 import lombok.Data;
 
 @Data
-public class FaceEffectMaterial extends BaseMaterial {
-    /**
-     * 资源ID
-     */
-    private Long resourceId;
+public class FaceEffectMaterial extends BaseEffectMaterial {
 
     @Override
     public String getType() {

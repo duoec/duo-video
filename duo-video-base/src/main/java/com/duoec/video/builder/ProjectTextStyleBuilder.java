@@ -1,23 +1,22 @@
 package com.duoec.video.builder;
 
 import com.duoec.base.exceptions.DuoServiceException;
-import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
-public class ProjectTextStyleBuilder<D extends TextStyle> {
+public class ProjectTextStyleBuilder<D extends BaseTextMaterial.TextStyle> {
     private final D style;
 
     private ProjectTextStyleBuilder(D style) {
         this.style = style;
     }
 
-    public static <D extends TextStyle> ProjectTextStyleBuilder<D> build(D style) {
+    public static <D extends BaseTextMaterial.TextStyle> ProjectTextStyleBuilder<D> build(D style) {
         return new ProjectTextStyleBuilder<>(style);
     }
 

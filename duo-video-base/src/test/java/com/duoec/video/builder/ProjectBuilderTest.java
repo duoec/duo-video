@@ -3,7 +3,7 @@ package com.duoec.video.builder;
 import com.duoec.base.core.util.JsonUtils;
 import com.duoec.base.core.util.SnowflakeIdUtils;
 import com.duoec.video.project.VideoProject;
-import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -43,7 +43,7 @@ class ProjectBuilderTest {
                     // projectBuilder.setTest(true);
                 })
                 .setTest(true)
-                .buildGlobalStyle(296653948753219540L, new TextStyle(), styleBuilder -> {
+                .buildGlobalStyle(296653948753219540L, new BaseTextMaterial.TextStyle(), styleBuilder -> {
                     // 进入 ProjectTextStyleBuilder 上下文，在这里可以编辑当前预设样式
                 })
                 .buildScript(0, scriptBuilder -> {
@@ -81,7 +81,7 @@ class ProjectBuilderTest {
                                 textBuilder
                                         .setPosition(0, -800)
                                         .setStyle(
-                                                new TextStyle()
+                                                new BaseTextMaterial.TextStyle()
                                                         .setFontSize(14)
                                                         .setFillColor("#FF0000")
                                         )

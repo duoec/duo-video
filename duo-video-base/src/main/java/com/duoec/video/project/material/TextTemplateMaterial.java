@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TextTemplateMaterial extends BaseMaterial {
+public class TextTemplateMaterial extends BaseTextMaterial {
     /**
      * 资源ID
      */

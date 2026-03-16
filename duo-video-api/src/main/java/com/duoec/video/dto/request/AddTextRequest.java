@@ -1,6 +1,6 @@
 package com.duoec.video.dto.request;
 
-import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -64,7 +64,7 @@ public class AddTextRequest implements Serializable {
     /**
      * 文本样式
      */
-    private TextStyle style;
+    private BaseTextMaterial.TextStyle style;
 
     /**
      * 样式ID（使用全局样式）

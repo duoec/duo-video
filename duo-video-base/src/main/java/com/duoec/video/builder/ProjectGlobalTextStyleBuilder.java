@@ -2,21 +2,21 @@ package com.duoec.video.builder;
 
 import com.duoec.base.exceptions.DuoServiceException;
 import com.duoec.video.project.material.BaseMaterial;
+import com.duoec.video.project.material.BaseTextMaterial;
 import com.duoec.video.project.material.MaterialTypeEnum;
 import com.duoec.video.project.material.StyleMaterial;
-import com.duoec.video.project.material.TextStyle;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ProjectGlobalTextStyleBuilder extends BaseMaterialBuilder<StyleMaterial> {
-    private final TextStyle style;
+    private final BaseTextMaterial.TextStyle style;
 
     private final long styleId;
 
     private Boolean globalKeywordStyle = false;
 
-    private ProjectGlobalTextStyleBuilder(ProjectBuilder projectBuilder, long styleId, TextStyle style) {
+    private ProjectGlobalTextStyleBuilder(ProjectBuilder projectBuilder, long styleId, BaseTextMaterial.TextStyle style) {
         if (style == null) {
             throw new DuoServiceException("样式不能为null！");
         }
@@ -26,12 +26,12 @@ public class ProjectGlobalTextStyleBuilder extends BaseMaterialBuilder<StyleMate
         this.material = new StyleMaterial();
     }
 
-    public static ProjectGlobalTextStyleBuilder addAndGetBuilder(ProjectBuilder projectBuilder, long styleId, TextStyle style) {
+    public static ProjectGlobalTextStyleBuilder addAndGetBuilder(ProjectBuilder projectBuilder, long styleId, BaseTextMaterial.TextStyle style) {
         return new ProjectGlobalTextStyleBuilder(projectBuilder, styleId, style);
     }
 
-    public ProjectGlobalTextStyleBuilder getGlobalStyleBuilder(Consumer<ProjectTextStyleBuilder<TextStyle>> textStyleBuilderConsumer) {
-        ProjectTextStyleBuilder<TextStyle> textStyleBuilder = ProjectTextStyleBuilder.build(style);
+    public ProjectGlobalTextStyleBuilder getGlobalStyleBuilder(Consumer<ProjectTextStyleBuilder<BaseTextMaterial.TextStyle>> textStyleBuilderConsumer) {
+        ProjectTextStyleBuilder<BaseTextMaterial.TextStyle> textStyleBuilder = ProjectTextStyleBuilder.build(style);
         if (textStyleBuilderConsumer != null) {
             textStyleBuilderConsumer.accept(textStyleBuilder);
         }

@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class StyleMaterial extends BaseMaterial {
+public class StyleMaterial extends BaseTextMaterial {
     /**
      * 是否设置为全局关键词样式（确保全局只有一个为true，否则可能会错乱！）
      */

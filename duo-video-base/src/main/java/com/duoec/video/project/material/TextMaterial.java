@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TextMaterial extends BaseMaterial {
+public class TextMaterial extends BaseTextMaterial {
     /**
      * 文本
      */

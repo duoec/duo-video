@@ -4,7 +4,7 @@ import com.duoec.base.core.util.SnowflakeIdUtils;
 import com.duoec.video.builder.ProjectBuilder;
 import com.duoec.video.dto.request.*;
 import com.duoec.video.project.VideoProject;
-import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial;
 import com.duoec.video.server.VideoProjectService;
 import com.duoec.video.server.VideoProjectStorageService;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class VideoProjectServiceImpl implements VideoProjectService {
         VideoProject project = getProjectBuilder(request.getProjectId())
                 .buildGlobalStyle(
                         request.getStyleId(),
-                        Optional.ofNullable(request.getTextStyle()).orElse(new TextStyle()),
+                        Optional.ofNullable(request.getTextStyle()).orElse(new BaseTextMaterial.TextStyle()),
                         styleBuilder -> {
                             if (request.getGlobalKeywordStyle() != null) {
                                 styleBuilder.setGlobalKeywordStyle(request.getGlobalKeywordStyle());
@@ -146,7 +146,7 @@ public class VideoProjectServiceImpl implements VideoProjectService {
                                                 && request.getGreenBackground().getGreenScreenId() != null
                                                 && request.getGreenBackground().getGreenScreenUrl() != null) {
                                             GreenBackgroundParam greenBg = request.getGreenBackground();
-                                            videoBuilder.buildGreenBackground(
+                                            videoBuilder.buildGreenScreen(
                                                     greenBg.getGreenScreenId(),
                                                     greenBg.getGreenScreenUrl(),
                                                     backgroundBuilder -> {

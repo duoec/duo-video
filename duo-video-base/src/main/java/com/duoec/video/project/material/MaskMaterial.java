@@ -6,12 +6,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class MaskMaterial extends BaseMaterial {
-    /**
-     * 资源ID
-     */
-    private Long resourceId;
-
+public class MaskMaterial extends BaseEffectMaterial {
     /**
      * 蒙板配置
      */

@@ -3,7 +3,7 @@ package com.duoec.video.builder;
 import com.duoec.video.project.VideoProject;
 import com.duoec.video.project.VideoScript;
 import com.duoec.video.project.VideoTimeRange;
-import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,7 +173,7 @@ public class ProjectBuilder {
      * @param style 样式
      * @param textStyleBuilderConsumer 预设样式上下文编辑器
      */
-    public ProjectBuilder buildGlobalStyle(long styleId, TextStyle style, Consumer<ProjectGlobalTextStyleBuilder> textStyleBuilderConsumer) {
+    public ProjectBuilder buildGlobalStyle(long styleId, BaseTextMaterial.TextStyle style, Consumer<ProjectGlobalTextStyleBuilder> textStyleBuilderConsumer) {
         ProjectGlobalTextStyleBuilder builder = ProjectGlobalTextStyleBuilder.addAndGetBuilder(this, styleId, style);
         if (textStyleBuilderConsumer != null) {
             textStyleBuilderConsumer.accept(builder);

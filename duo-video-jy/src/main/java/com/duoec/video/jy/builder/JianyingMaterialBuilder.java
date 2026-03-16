@@ -133,9 +133,9 @@ public class JianyingMaterialBuilder {
         }
 
         if (material instanceof VideoMaterial videoMaterial) {
-            VideoMaterial.GreenBackground greenBackground = videoMaterial.getGreenBackground();
-            if (greenBackground != null && greenBackground.getMaterialId() != null) {
-                downloadMaterials(state, greenBackground.getMaterialId(), materialFileMap);
+            BaseVisibleMediaMaterial.GreenScreen greenBackground = videoMaterial.getGreenScreen();
+            if (greenBackground != null && greenBackground.getMediaId() != null) {
+                downloadMaterials(state, greenBackground.getMediaId(), materialFileMap);
             }
         }
     }
