@@ -9,7 +9,7 @@ import com.duoec.video.jy.JianyingProjectBuildState;
 import com.duoec.video.jy.dto.info.JianYingProjectInfo;
 import com.duoec.video.jy.service.impl.StorageServiceImpl;
 import com.duoec.video.project.VideoProject;
-import com.duoec.video.project.material.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial.TextStyle;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -26,7 +26,79 @@
           "rotate": -90,
           "visible": true,
           "horizontal": true,
-          "vertical": true
+          "vertical": true,
+          "keyframes": [
+            {
+              "propertyType": "position",
+              "items": [
+                {
+                  "timeOffset": 0,
+                  "curveType": "linear",
+                  "values": [0.0, 0.0]
+                },
+                {
+                  "timeOffset": 2500,
+                  "curveType": "ease_in_out",
+                  "values": [300.0, -300.0]
+                },
+                {
+                  "timeOffset": 5000,
+                  "curveType": "linear",
+                  "values": [0.0, 0.0]
+                }
+              ]
+            },
+            {
+              "propertyType": "scale",
+              "items": [
+                {
+                  "timeOffset": 0,
+                  "curveType": "linear",
+                  "values": [10000.0, 10000.0]
+                },
+                {
+                  "timeOffset": 2500,
+                  "curveType": "ease_in_out",
+                  "values": [15000.0, 15000.0]
+                }
+              ]
+            },
+            {
+              "propertyType": "rotation",
+              "items": [
+                {
+                  "timeOffset": 0,
+                  "curveType": "linear",
+                  "values": [0.0]
+                },
+                {
+                  "timeOffset": 5000,
+                  "curveType": "ease_in_out",
+                  "values": [360.0]
+                }
+              ]
+            },
+            {
+              "propertyType": "opacity",
+              "items": [
+                {
+                  "timeOffset": 0,
+                  "curveType": "linear",
+                  "values": [100.0]
+                },
+                {
+                  "timeOffset": 2500,
+                  "curveType": "linear",
+                  "values": [100.0]
+                },
+                {
+                  "timeOffset": 5000,
+                  "curveType": "linear",
+                  "values": [0.0]
+                }
+              ]
+            }
+          ]
         },
         {
           "id": 296653948753219560,

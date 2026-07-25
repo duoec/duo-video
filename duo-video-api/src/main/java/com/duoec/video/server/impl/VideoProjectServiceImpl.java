@@ -194,6 +194,92 @@ public class VideoProjectServiceImpl implements VideoProjectService {
                                                     }
                                             );
                                         }
+                                        // 处理关键帧
+                                        if (request.getKeyframes() != null && !request.getKeyframes().isEmpty()) {
+                                            var keyframeBuilder = videoBuilder.getKeyframeBuilder();
+                                            for (KeyframeParam keyframeParam : request.getKeyframes()) {
+                                                for (KeyframeParam.KeyframeItemParam item : keyframeParam.getItems()) {
+                                                    switch (keyframeParam.getPropertyType()) {
+                                                        case "position" -> {
+                                                            if (item.getValues() != null && item.getValues().size() >= 2) {
+                                                                keyframeBuilder.addPositionKeyframe(
+                                                                        item.getTimeOffset(),
+                                                                        item.getValues().get(0),
+                                                                        item.getValues().get(1)
+                                                                );
+                                                            }
+                                                        }
+                                                        case "scale" -> {
+                                                            if (item.getValues() != null && item.getValues().size() >= 2) {
+                                                                keyframeBuilder.addScaleKeyframe(
+                                                                        item.getTimeOffset(),
+                                                                        item.getValues().get(0),
+                                                                        item.getValues().get(1)
+                                                                );
+                                                            }
+                                                        }
+                                                        case "rotation" -> {
+                                                            if (item.getValues() != null && !item.getValues().isEmpty()) {
+                                                                keyframeBuilder.addRotationKeyframe(
+                                                                        item.getTimeOffset(),
+                                                                        item.getValues().get(0)
+                                                                );
+                                                            }
+                                                        }
+                                                        case "opacity" -> {
+                                                            if (item.getValues() != null && !item.getValues().isEmpty()) {
+                                                                keyframeBuilder.addOpacityKeyframe(
+                                                                        item.getTimeOffset(),
+                                                                        item.getValues().get(0)
+                                                                );
+                                                            }
+                                                        }
+                                                        case "volume" -> {
+                                                            if (item.getValues() != null && !item.getValues().isEmpty()) {
+                                                                keyframeBuilder.addVolumeKeyframe(
+                                                                        item.getTimeOffset(),
+                                                                        item.getValues().get(0)
+                                                                );
+                                                            }
+                                                        }
+                                                        case "textColor" -> {
+                                                            if (item.getValues() != null && item.getValues().size() >= 4) {
+                                                                keyframeBuilder.addTextColorKeyframe(
+                                                                        item.getTimeOffset(),
+                                                                        item.getValues().get(0),
+                                                                        item.getValues().get(1),
+                                                                        item.getValues().get(2),
+                                                                        item.getValues().get(3)
+                                                                );
+                                                            } else if (item.getValues() != null && item.getValues().size() >= 3) {
+                                                                keyframeBuilder.addTextColorKeyframe(
+                                                                        item.getTimeOffset(),
+                                                                        item.getValues().get(0),
+                                                                        item.getValues().get(1),
+                                                                        item.getValues().get(2),
+                                                                        1.0
+                                                                );
+                                                            }
+                                                        }
+                                                    }
+                                                    // 设置曲线类型
+                                                    if (item.getCurveType() != null) {
+                                                        keyframeBuilder.withCurveType(item.getCurveType());
+                                                    }
+                                                    // 设置贝塞尔控制点
+                                                    if (item.getLeftControlX() != null && item.getLeftControlY() != null
+                                                            && item.getRightControlX() != null && item.getRightControlY() != null) {
+                                                        keyframeBuilder.withBezierControlPoints(
+                                                                item.getLeftControlX(),
+                                                                item.getLeftControlY(),
+                                                                item.getRightControlX(),
+                                                                item.getRightControlY()
+                                                        );
+                                                    }
+                                                }
+                                            }
+                                            keyframeBuilder.apply();
+                                        }
                                     }
                             );
                         }

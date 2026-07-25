@@ -3,6 +3,7 @@ package com.duoec.video.dto.request;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 添加视频请求
@@ -113,4 +114,9 @@ public class AddVideoRequest implements Serializable {
      * 蒙版参数（如果指定，表示添加蒙版）
      */
     private MaskParam mask;
+
+    /**
+     * 关键帧列表（用于动画效果）
+     */
+    private List<KeyframeParam> keyframes;
 }

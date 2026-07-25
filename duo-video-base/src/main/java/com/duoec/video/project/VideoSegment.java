@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -97,6 +98,11 @@ public class VideoSegment implements Serializable {
      * 注意：倒放时，播放时间仍然是以顺放选定的时间片段倒放进行
      */
     private Boolean upend;
+
+    /**
+     * 关键帧列表（用于动画效果）
+     */
+    private List<VideoKeyframe> keyframes;
 
     public long calculateEndTime() {
         return time == null ? 0L : time.calculateEndTime();

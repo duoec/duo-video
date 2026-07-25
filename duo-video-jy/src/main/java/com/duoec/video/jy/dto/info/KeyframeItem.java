@@ -19,7 +19,7 @@ public class KeyframeItem implements Serializable {
     public Point rightControl;
 
     @JsonProperty("time_offset")
-    public Integer timeOffset;
+    public Long timeOffset;
 
     private List<Double> values;
 
@@ -68,11 +68,11 @@ public class KeyframeItem implements Serializable {
         return this;
     }
 
-    public Integer getTimeOffset() {
+    public Long getTimeOffset() {
         return timeOffset;
     }
 
-    public KeyframeItem setTimeOffset(Integer timeOffset) {
+    public KeyframeItem setTimeOffset(Long timeOffset) {
         this.timeOffset = timeOffset;
         return this;
     }

@@ -7,7 +7,7 @@ import com.duoec.video.builder.ProjectBuilder;
 import com.duoec.video.jy.dto.info.JianYingProjectInfo;
 import com.duoec.video.jy.utils.JianyingResourceUtils;
 import com.duoec.video.project.VideoProject;
-import com.duoec.video.project.material.BaseTextMaterial.TextStyle;
+import com.duoec.video.project.material.BaseTextMaterial;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +40,7 @@ class JianyingBuilderTest extends BaseTest {
 
                 .addTextAndGetBuilder(String.valueOf(textTemplateResourceId), 0, 3000)
                 .setStyle(
-                        new TextStyle()
+                        new BaseTextMaterial.TextStyle()
                                 .setFontSize(5)
                                 .setTextAlign(1)
                                 .setFillColor(JianyingResourceUtils.DEFAULT_FILL_COLOR)
@@ -65,7 +65,7 @@ class JianyingBuilderTest extends BaseTest {
 //                    projectBuilder.setTest(true);
                 })
                 .setTest(true)
-                .buildGlobalStyle(296653948753219540L, new TextStyle(), styleBuilder -> {
+                .buildGlobalStyle(296653948753219540L, new BaseTextMaterial.TextStyle(), styleBuilder -> {
                     // 进入 ProjectTextStyleBuilder 上下文，在这里可以编辑当前预设样式
                     styleBuilder
                             .getGlobalStyleBuilder(textStyleBuilder -> {
@@ -176,7 +176,7 @@ class JianyingBuilderTest extends BaseTest {
                                         .setRotate(0)
                                         .setAsSubtitle(true)
                                         .setStyle(
-                                                new TextStyle()
+                                                new BaseTextMaterial.TextStyle()
                                                         .setFontSize(14)
                                                         .setBold(false)
                                                         .setItalic(false)
@@ -236,5 +236,135 @@ class JianyingBuilderTest extends BaseTest {
                 .getProject();
         System.out.println(JsonUtils.toJsonString(videoProject));
         JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject);
+    }
+
+    @Test
+    void buildWithKeyframes() {
+        // 测试关键帧功能
+        long videoId = 535010997887571046L;
+        String videoUrl = "https://api.duoec.com/public/video/535010997887571046.mov";
+
+        VideoProject videoProject = ProjectBuilder.createProject(SnowflakeIdUtils.nextTmpId(), "关键帧测试", 1280, 720)
+                .setTest(true)
+                .buildScript(0, scriptBuilder -> {
+                    scriptBuilder.buildNewVideo(videoId, videoUrl, 0, 5000, videoBuilder -> {
+                        // 添加位置关键帧动画：模拟草稿中的位移效果
+                        videoBuilder.getKeyframeBuilder()
+                                // 733ms 时在初始位置 (0, 0)
+                                .addPositionKeyframe(733, 0.0, 0.0)
+                                // 3133ms 时移动到 (200, -330)
+                                .addPositionKeyframe(3133, 200.0, -330.0)
+                                .apply();
+                    });
+                })
+                .getProject();
+
+        JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject);
+
+        Assertions.assertNotNull(jyProject);
+
+        // 验证关键帧输出格式
+        var videoTrack = jyProject.getTracks().stream()
+                .filter(t -> "video".equals(t.getType()))
+                .findFirst()
+                .orElse(null);
+        Assertions.assertNotNull(videoTrack, "应有视频轨道");
+        Assertions.assertFalse(videoTrack.getSegments().isEmpty(), "应有视频片段");
+
+        var segment = videoTrack.getSegments().get(0);
+        var commonKeyframes = segment.getCommonKeyframes();
+        Assertions.assertNotNull(commonKeyframes, "应有关键帧");
+        // position 应拆分为 X 和 Y 两个轨道
+        Assertions.assertEquals(2, commonKeyframes.size(), "位置关键帧应拆分为 X/Y 两个轨道");
+
+        // 验证 KFTypePositionX
+        var kfX = commonKeyframes.stream()
+                .filter(kf -> "KFTypePositionX".equals(kf.getPropertyType()))
+                .findFirst()
+                .orElse(null);
+        Assertions.assertNotNull(kfX, "应有 KFTypePositionX 轨道");
+        Assertions.assertEquals("", kfX.getMaterialId(), "materialId 应为空字符串");
+        Assertions.assertEquals(2, kfX.getKeyframeList().size());
+
+        // 验证时间偏移（毫秒转微秒）
+        var itemX0 = kfX.getKeyframeList().get(0);
+        Assertions.assertEquals(733000L, itemX0.getTimeOffset(), "timeOffset 应为微秒");
+        // 验证值（像素转归一化：0 / 1280 = 0）
+        Assertions.assertEquals(0.0, itemX0.getValues().get(0), 0.0001);
+        // 验证控制点默认 (0, 0)
+        Assertions.assertEquals(0.0, itemX0.getLeftControl().getX());
+        Assertions.assertEquals(0.0, itemX0.getLeftControl().getY());
+
+        var itemX1 = kfX.getKeyframeList().get(1);
+        Assertions.assertEquals(3133000L, itemX1.getTimeOffset());
+        // 200 / 1280 = 0.15625
+        Assertions.assertEquals(0.15625, itemX1.getValues().get(0), 0.0001);
+
+        // 验证 KFTypePositionY
+        var kfY = commonKeyframes.stream()
+                .filter(kf -> "KFTypePositionY".equals(kf.getPropertyType()))
+                .findFirst()
+                .orElse(null);
+        Assertions.assertNotNull(kfY, "应有 KFTypePositionY 轨道");
+        var itemY1 = kfY.getKeyframeList().get(1);
+        // -330 / 720 = -0.4583333...
+        Assertions.assertEquals(-0.4583333, itemY1.getValues().get(0), 0.0001);
+    }
+
+    @Test
+    void buildWithTextColorKeyframes() {
+        // 测试文字颜色关键帧（模拟草稿中的 KFTypeTextColor）
+        VideoProject videoProject = ProjectBuilder.createProject(SnowflakeIdUtils.nextTmpId(), "文字颜色关键帧测试", 1280, 720)
+                .setTest(true)
+                .buildScript(0, scriptBuilder -> {
+                    scriptBuilder.buildNewText("默认文本", 0, 3333, textBuilder -> {
+                        textBuilder.getKeyframeBuilder()
+                                // 1300ms 黄色
+                                .addTextColorKeyframe(1300, "#FFDE00")
+                                // 1333ms 黄色（保持）
+                                .addTextColorKeyframe(1333, "#FFDE00")
+                                // 2766ms 红色
+                                .addTextColorKeyframe(2766, "#FF0000")
+                                .apply();
+                    });
+                })
+                .getProject();
+
+        JianYingProjectInfo jyProject = jianyingBuilder.build(videoProject);
+
+        Assertions.assertNotNull(jyProject);
+
+        // 验证文字颜色关键帧
+        var textTrack = jyProject.getTracks().stream()
+                .filter(t -> "text".equals(t.getType()))
+                .findFirst()
+                .orElse(null);
+        Assertions.assertNotNull(textTrack, "应有文字轨道");
+
+        var segment = textTrack.getSegments().get(0);
+        var commonKeyframes = segment.getCommonKeyframes();
+        Assertions.assertNotNull(commonKeyframes, "应有关键帧");
+        Assertions.assertEquals(1, commonKeyframes.size(), "文字颜色应为单个轨道");
+
+        var kfColor = commonKeyframes.get(0);
+        Assertions.assertEquals("KFTypeTextColor", kfColor.getPropertyType());
+        Assertions.assertEquals("", kfColor.getMaterialId());
+        Assertions.assertEquals(3, kfColor.getKeyframeList().size());
+
+        // 验证第一个关键帧（黄色 #FFDE00 → [1.0, 0.8706, 0.0, 1.0]）
+        var colorItem0 = kfColor.getKeyframeList().get(0);
+        Assertions.assertEquals(1300000L, colorItem0.getTimeOffset());
+        Assertions.assertEquals(4, colorItem0.getValues().size(), "颜色值应为 RGBA 4个分量");
+        Assertions.assertEquals(1.0, colorItem0.getValues().get(0), 0.001); // R
+        Assertions.assertEquals(0.8706, colorItem0.getValues().get(1), 0.001); // G
+        Assertions.assertEquals(0.0, colorItem0.getValues().get(2), 0.001); // B
+        Assertions.assertEquals(1.0, colorItem0.getValues().get(3), 0.001); // A
+
+        // 验证最后一个关键帧（红色 #FF0000 → [1.0, 0.0, 0.0, 1.0]）
+        var colorItem2 = kfColor.getKeyframeList().get(2);
+        Assertions.assertEquals(2766000L, colorItem2.getTimeOffset());
+        Assertions.assertEquals(1.0, colorItem2.getValues().get(0), 0.001); // R
+        Assertions.assertEquals(0.0, colorItem2.getValues().get(1), 0.001); // G
+        Assertions.assertEquals(0.0, colorItem2.getValues().get(2), 0.001); // B
     }
 }

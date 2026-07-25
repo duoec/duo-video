@@ -58,7 +58,7 @@ graph LR
 - **LUT 滤镜** - 专业级调色，支持肤色保护（使用自定义CUBE文件，剪映LUT属性展示不出来，等剪映的修复）
 - **花字系统** - 花字文字效果，支持逐字符样式定制 （支持 2000+花字）
 - **文本预设样式** - 文本预设样式，简化配置，支持剪映划词高亮
-
+- **关键帧动画** - 支持位置、缩放、旋转、透明度、音量、文字颜色等属性的关键帧动画，支持贝塞尔曲线控制
 
 
 - **剪映自动导出** - 可通过多机部署支持大批量视频生产（支持 [MacOS版](auto-jy/auto-jy-mac/README.md)，[Windows版](auto-jy/auto-jy-win/README.md)）
@@ -551,6 +551,221 @@ X- ←--(0,0)--→ X+
 com.duoec.video.jy.utils.JianyingUtils.combine(JianYingProjectInfo projectInfo, List<Segment> segments);
 ```
 
+
+
+### 5.8 关键帧动画
+
+> 关键帧功能支持位置、缩放、旋转、透明度、音量等属性的动画效果
+
+```json
+{
+    "scripts": [
+        {
+            "segments": [
+                {
+                    "id": 296653948753219565,
+                    "time": {
+                        "start": 0,
+                        "duration": 5000
+                    },
+                    "materialId": 535010997887571046,
+                    "materialStart": 0,
+                    "type": "video",
+                    "keyframes": [
+                        {
+                            "propertyType": "position",
+                            "items": [
+                                {
+                                    "timeOffset": 0,
+                                    "curveType": "linear",
+                                    "values": [0.0, 0.0]
+                                },
+                                {
+                                    "timeOffset": 2500,
+                                    "curveType": "ease_in_out",
+                                    "values": [300.0, -300.0]
+                                },
+                                {
+                                    "timeOffset": 5000,
+                                    "curveType": "linear",
+                                    "values": [0.0, 0.0]
+                                }
+                            ]
+                        },
+                        {
+                            "propertyType": "scale",
+                            "items": [
+                                {
+                                    "timeOffset": 0,
+                                    "curveType": "linear",
+                                    "values": [10000.0, 10000.0]
+                                },
+                                {
+                                    "timeOffset": 2500,
+                                    "curveType": "ease_in_out",
+                                    "values": [15000.0, 15000.0]
+                                }
+                            ]
+                        },
+                        {
+                            "propertyType": "rotation",
+                            "items": [
+                                {
+                                    "timeOffset": 0,
+                                    "curveType": "linear",
+                                    "values": [0.0]
+                                },
+                                {
+                                    "timeOffset": 5000,
+                                    "curveType": "ease_in_out",
+                                    "values": [360.0]
+                                }
+                            ]
+                        },
+                        {
+                            "propertyType": "opacity",
+                            "items": [
+                                {
+                                    "timeOffset": 0,
+                                    "curveType": "linear",
+                                    "values": [0.0]
+                                },
+                                {
+                                    "timeOffset": 2500,
+                                    "curveType": "linear",
+                                    "values": [100.0]
+                                },
+                                {
+                                    "timeOffset": 5000,
+                                    "curveType": "linear",
+                                    "values": [0.0]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "materials": [
+        {
+            "id": 535010997887571046,
+            "url": "https://api.duoec.com/public/video/535010997887571046.mov",
+            "type": "video"
+        }
+    ]
+}
+```
+
+### 5.9 使用 Builder 添加关键帧
+
+```java
+long videoId = 535010997887571046L;
+String videoUrl = "https://api.duoec.com/public/video/535010997887571046.mov";
+
+VideoProject videoProject = ProjectBuilder.createProject(SnowflakeIdUtils.nextTmpId(), "关键帧测试", 1080, 1920)
+    .setTest(true)
+    .buildScript(0, scriptBuilder -> {
+        scriptBuilder.buildNewVideo(videoId, videoUrl, 0, 5000, videoBuilder -> {
+            // 使用 getKeyframeBuilder() 获取关键帧构建器
+            videoBuilder.getKeyframeBuilder()
+                // 添加位置关键帧：从中心 (0,0) 移动到右上角 (400,-400)
+                .addPositionKeyframe(0, 0.0, 0.0)           // 0ms 时在中心
+                .addPositionKeyframe(2500, 300.0, -300.0)  // 2500ms 时移动
+                .addPositionKeyframe(5000, 0.0, 0.0)        // 5000ms 时回到中心
+                
+                // 添加缩放关键帧：从 100% 放大到 150%
+                .addScaleKeyframe(0, 10000.0, 10000.0)      // 100% 大小
+                .addScaleKeyframe(2500, 15000.0, 15000.0)   // 150% 大小
+                
+                // 添加旋转关键帧：旋转 360 度
+                .addRotationKeyframe(0, 0.0)                // 0 度
+                .addRotationKeyframe(5000, 360.0)           // 360 度
+                
+                // 添加透明度关键帧：淡入淡出效果
+                .addOpacityKeyframe(0, 0.0)                 // 全透明
+                .addOpacityKeyframe(1000, 100.0)            // 不透明
+                .addOpacityKeyframe(4000, 100.0)            // 保持不透明
+                .addOpacityKeyframe(5000, 0.0)              // 全透明
+                
+                // 应用关键帧
+                .apply();
+        });
+    })
+    .getProject();
+
+JianYingProjectInfo jyProject = new JianyingBuilder().build(videoProject);
+```
+
+### 5.10 使用 API 添加关键帧
+
+```bash
+POST /api/project/video
+Content-Type: application/json
+
+{
+  "projectId": 123456789,
+  "scriptIndex": 0,
+  "videoId": 535010997887571046,
+  "videoUrl": "https://api.duoec.com/public/video/535010997887571046.mov",
+  "startTime": 0,
+  "duration": 5000,
+  "keyframes": [
+    {
+      "propertyType": "position",
+      "items": [
+        {
+          "timeOffset": 0,
+          "curveType": "linear",
+          "values": [0.0, 0.0]
+        },
+        {
+          "timeOffset": 2500,
+          "curveType": "ease_in_out",
+          "values": [300.0, -300.0]
+        }
+      ]
+    },
+    {
+      "propertyType": "scale",
+      "items": [
+        {
+          "timeOffset": 0,
+          "curveType": "linear",
+          "values": [10000.0, 10000.0]
+        },
+        {
+          "timeOffset": 2500,
+          "curveType": "ease_in_out",
+          "values": [15000.0, 15000.0]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 5.11 关键帧曲线类型
+
+支持以下曲线类型：
+
+| 曲线类型 | 说明 | 应用场景 |
+|---------|------|---------|
+| `linear` | 线性插值 | 匀速运动 |
+| `ease_in` | 缓入 | 从慢到快 |
+| `ease_out` | 缓出 | 从快到慢 |
+| `ease_in_out` | 缓入缓出 | 慢 - 快 - 慢，自然过渡 |
+| `bezier` | 贝塞尔曲线 | 精确控制运动轨迹 |
+
+### 5.12 关键帧属性类型
+
+| 属性类型 | values 含义 | 单位 |
+|---------|------------|------|
+| `position` | [x, y] | 像素 |
+| `scale` | [scaleX, scaleY] | 万分比（10000=100%） |
+| `rotation` | [rotation] | 角度 |
+| `opacity` | [opacity] | 0-100 |
+| `volume` | [volume] | 音量增益 |
 
 
 ## 六、快速上手
