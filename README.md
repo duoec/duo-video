@@ -10,6 +10,7 @@ Duo-Video 是一个强大的 Java 视频编辑 SDK，通过简洁优雅的 API �
 
 ![剪映工程示例](doc/duo_video_mask.png)（本工程由 com.duoec.video.jy.JianyingBuilderTest.buildWithProjectJson 测试用例生成) [下载这个剪映工程](https://api.duoec.com/public/001_duo_video.zip)
 
+[剪映工具箱](https://www.duoec.com/jy-tools) 即将上线，敬请期待...
 
 
 ## 一、项目概要
